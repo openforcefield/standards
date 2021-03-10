@@ -7,9 +7,18 @@ stages of discussion or completion.
 
 ## Standards
 
+* [SMIRNOFF Specification](standards/smirnoff.md) - the SMIRNOFF specification defines the format that molecular 
+  mechanics force fields from the Open Force Field Initiative are store and distributed in.
+  
+* [QM Data Set Submission](standards/qm-data-submission.md) - the standards and data requirements needed for submitting 
+  an OpenFF curated dataset to QCArchive.
+
 ## Enhancement Proposals
 
 ##### Meta-Proposals
+
+* [OFF-EP 0 &mdash; Purpose and Process](enhancement-proposals/off-ep-0000.md)
+* [OFF-EP X &mdash; Template](enhancement-proposals/off-ep-template.md)
 
 ##### Accepted Proposals
 
