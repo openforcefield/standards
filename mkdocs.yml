@@ -1,0 +1,7 @@
+site_name: OpenFF Standards
+theme:
+  name: material
+nav:
+  - Home: 'index.md'
+markdown_extensions:
+  - admonition
