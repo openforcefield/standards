@@ -4,7 +4,9 @@
 
 **Authors:** Simon Boothroyd
 
-**Stakeholders:** ...
+**Acceptance criteria:** Unanimity
+
+**Stakeholders:** David Mobley, John Chodera
 
 **Created:** 2020-04-01
 
@@ -33,70 +35,58 @@ their revision history is the historical record of the standards proposal.
 
 ### Types
 
-[comment]: <> (There are three kinds of OFF-EPs:)
+There are three kinds of OFF-EPs:
 
-[comment]: <> (1.  A **Standards Track** NEP describes a new feature or implementation)
+1. **Standards Track** OFF-EPs describe a new feature or implementation
+1. **Informational** OFF-EPs provide general, non-binding guidance to the community but do not propose a new feature.
+1. **Process** OFF-EPs describe a change that may not be technical in nature but requires community input.
 
-[comment]: <> (    for NumPy.)
+[comment]: <> (The types are copied from PEPs, which are more elaborate. Can we just drop this section? i.e. is it worth the overhead to separate out EPs by these distinctions?)
 
-[comment]: <> (2.  An **Informational** NEP describes a NumPy design issue, or provides)
 
-[comment]: <> (    general guidelines or information to the Python community, but does)
+## Workflow
 
-[comment]: <> (    not propose a new feature. Informational NEPs do not necessarily)
+The OFF-EP process begins with a new idea for Open Force Field infrastructure and/or community.
+It is highly recommended that a single NEP contain a single key proposal or new idea with a concise scope.
+Small changes often do not need to go through the OFF-EP process and can be submitted directly to as either a question to the community or a software patch.
+Each OFF-EP must have a champion -- someone who writes the proposal using the template provded below, shepherds the discussions in the appropriate forums, and attempts to build community consensus around the proposal.
 
-[comment]: <> (    represent a NumPy community consensus or recommendation, so users)
+### Submission
 
-[comment]: <> (    and implementers are free to ignore Informational NEPs or follow)
+Once a proposal is written, this draft should be submitted as a pull request to the [openforcefield/standards](https://github.com/openforcefield/standards) repository with the status set to `Proposed`.
+It shall be merged at the earliest convenience of maintainers (note that this merge does not imply acceptance, as its status shall still be `Proposed`.)
+At this point, members of the Open Force Field community will review the submission.
 
-[comment]: <> (    their advice.)
+### Review
 
-[comment]: <> (3.  A **Process** NEP describes a process surrounding NumPy, or proposes)
+### Resolution
 
-[comment]: <> (    a change to &#40;or an event in&#41; a process. Process NEPs are like)
+All OFF-EPs will be resolved as either *Rejected*, *Accepted* or *Deferred*
 
-[comment]: <> (    Standards Track NEPs but apply to areas other than the NumPy)
+An OFF-EP is accepted upon consensus approval of the stakeholders.
+The authors of a NEP are responsible for defining a consensus threshold.
 
-[comment]: <> (    language itself. They may propose an implementation, but not to)
+[comment]: <> (Potentially tricky; PEP and NEP do not make acceptance guidelines clear)
 
-[comment]: <> (    NumPy's codebase; they require community consensus. Examples include)
+In some cases unanimity may be necessary, in others some strong majority may be sufficient.
+A stakeholder(s) holding genuine reservations about any portion of the EP may block its acceptance, overriding the acceptance criteria laid out by the author(s).
 
-[comment]: <> (    procedures, guidelines, changes to the decision-making process, and)
+In unusual cases, OpenFF PIs may be asked to decide whether a controversial NEP is `Accepted` and may elect to resolve the status to `Accepted` or `Deferred`.
 
-[comment]: <> (    changes to the tools or environment used in NumPy development. Any)
+[comment]: <> (Unclear if this caveat should be in place, and if so, who should weild that power, i.e. an advisory board.)
 
-[comment]: <> (    meta-NEP is also considered a Process NEP.)
+When an OFF-EP is accepted, it status shall be marked `Accepted`.
 
-[comment]: <> (## NEP Workflow)
+If an OFF-EP is not accepted and the community considers it unlikely to be accepted in the future, it can be rejected and its status shall be marked `Rejected`.
+If an OFF-EP is not accepted and the community considers it plausible to be accepted in the future, possibly in a different form, the authors can withdraw it and its status shall be marked `Deferred`.
 
-[comment]: <> (The NEP process begins with a new idea for NumPy. It is highly)
+## Format
 
-[comment]: <> (recommended that a single NEP contain a single key proposal or new idea.)
+OFF-EPs are UTF-8 encoded text files using the Markdown format.
+A template is provided in the file `off-ep-template.md`.
 
-[comment]: <> (Small enhancements or patches often don't need a NEP and can be injected)
+## Copyright
 
-[comment]: <> (into the NumPy development workflow with a pull request to the NumPy)
+This document is based based upon the [`NEP 0`](https://github.com/numpy/numpy/blob/master/doc/neps/nep-0000.rst),  [`CFEP 01`](https://github.com/conda-forge/cfep/blob/master/cfep-01.md), and [`PEP 1`](https://www.python.org/dev/peps/pep-0001/)
 
-[comment]: <> ([repo][]. The more focused the NEP, the more successful it tends to be.)
-
-[comment]: <> (If in doubt, split your NEP into several well-focused ones.)
-
-[comment]: <> (Each NEP must have a champion---someone who writes the NEP using the)
-
-[comment]: <> (style and format described below, shepherds the discussions in the)
-
-[comment]: <> (appropriate forums, and attempts to build community consensus around the)
-
-[comment]: <> (idea. The NEP champion &#40;a.k.a. Author&#41; should first attempt to ascertain)
-
-[comment]: <> (whether the idea is suitable for a NEP. Posting to the numpy-discussion)
-
-[comment]: <> ([mailing list][repo] is the best way to go about doing this.)
-
-[comment]: <> (The proposal should be submitted as a draft NEP via a [GitHub pull)
-
-[comment]: <> (request][repo] to the `doc/neps` directory with the name `nep-<n>.rst`)
-
-[comment]: <> (where \`)
-
-[comment]: <> (  [repo]:)
+This document is explicitly explicitly [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).

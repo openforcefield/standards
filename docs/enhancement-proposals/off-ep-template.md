@@ -6,6 +6,10 @@
 
 **Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
 
+**Acceptance criteria:** <Unanimity | Majority>
+
+[comment]: <> (What other acceptance criteria should be templated? Is this a good idea? See "How" in EP 0000)
+
 **Created:** &lt;date created>
 
 **Discussion:** &lt;link to the PR / issue where proposal is being discussed>
@@ -22,6 +26,7 @@ This section describes the need for the proposed change. It should
 describe the existing problem, who it affects, what it is trying to
 solve, and why. This section should explicitly address the scope of and
 key requirements for the proposed change.
+If the proposal is based around changes to software, this section should clearly indicate which package(s) would be changed.
 
 ## Usage and Impact
 
