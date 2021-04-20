@@ -47,7 +47,7 @@ There are three kinds of OFF-EPs:
 ## Workflow
 
 The OFF-EP process begins with a new idea for Open Force Field infrastructure and/or community.
-It is highly recommended that a single NEP contain a single key proposal or new idea with a concise scope.
+It is highly recommended that a single OFF-EP contain a single key proposal or new idea with a concise scope.
 Small changes often do not need to go through the OFF-EP process and can be submitted directly to as either a question to the community or a software patch.
 Each OFF-EP must have a champion -- someone who writes the proposal using the template provded below, shepherds the discussions in the appropriate forums, and attempts to build community consensus around the proposal.
 
@@ -89,4 +89,4 @@ A template is provided in the file `off-ep-template.md`.
 
 This document is based based upon the [`NEP 0`](https://github.com/numpy/numpy/blob/master/doc/neps/nep-0000.rst),  [`CFEP 01`](https://github.com/conda-forge/cfep/blob/master/cfep-01.md), and [`PEP 1`](https://www.python.org/dev/peps/pep-0001/)
 
-This document is explicitly explicitly [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
+This document is explicitly [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).
