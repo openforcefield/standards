@@ -6,7 +6,7 @@
 
 **Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
 
-**Acceptance criteria:** <Unanimity | Majority>
+**Acceptance criteria:** <Unanimity>
 
 [comment]: <> (What other acceptance criteria should be templated? Is this a good idea? See "How" in EP 0000)
 
