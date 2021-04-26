@@ -63,15 +63,7 @@ At this point, members of the Open Force Field community will review the submiss
 
 All OFF-EPs will be resolved as either *Rejected*, *Accepted* or *Deferred*
 
-An OFF-EP is accepted upon consensus approval of the stakeholders.
-The authors of a NEP are responsible for defining a consensus threshold.
-
-[comment]: <> (Potentially tricky; PEP and NEP do not make acceptance guidelines clear)
-
-In some cases unanimity may be necessary, in others some strong majority may be sufficient.
-A stakeholder(s) holding genuine reservations about any portion of the EP may block its acceptance, overriding the acceptance criteria laid out by the author(s).
-
-In unusual cases, OpenFF PIs may be asked to decide whether a controversial NEP is `Accepted` and may elect to resolve the status to `Accepted` or `Deferred`.
+An OFF-EP is accepted upon unanimous approval of @SimonBoothroyd @j-wags @davidlmobley and @jchodera. 
 
 [comment]: <> (Unclear if this caveat should be in place, and if so, who should weild that power, i.e. an advisory board.)
 
