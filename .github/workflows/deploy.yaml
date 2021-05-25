@@ -1,0 +1,29 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.x
+
+    - name: Install
+      run: |
+        pip install -r requirements.txt
+
+    - name: Build Docs
+      run: mkdocs build
+
+    - name: Deploy
+      if: endsWith(github.ref, '/main')
+      run: mkdocs gh-deploy --force
