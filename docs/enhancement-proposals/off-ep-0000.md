@@ -41,9 +41,6 @@ There are three kinds of OFF-EPs:
 1. **Informational** OFF-EPs provide general, non-binding guidance to the community but do not propose a new feature.
 1. **Process** OFF-EPs describe a change that may not be technical in nature but requires community input.
 
-[comment]: <> (The types are copied from PEPs, which are more elaborate. Can we just drop this section? i.e. is it worth the overhead to separate out EPs by these distinctions?)
-
-
 ## Workflow
 
 The OFF-EP process begins with a new idea for Open Force Field infrastructure and/or community.
@@ -62,8 +59,6 @@ At this point, members of the Open Force Field community will review the submiss
 All OFF-EPs will be resolved as either *Rejected*, *Accepted* or *Deferred*
 
 An OFF-EP is accepted upon unanimous approval of @SimonBoothroyd @j-wags @davidlmobley and @jchodera. 
-
-[comment]: <> (Unclear if this caveat should be in place, and if so, who should weild that power, i.e. an advisory board.)
 
 When an OFF-EP is accepted, it status shall be marked `Accepted`.
 

@@ -8,8 +8,6 @@
 
 **Acceptance criteria:** <Unanimity>
 
-[comment]: <> (What other acceptance criteria should be templated? Is this a good idea? See "How" in EP 0000)
-
 **Created:** &lt;date created>
 
 **Discussion:** &lt;link to the PR / issue where proposal is being discussed>
