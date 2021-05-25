@@ -6,7 +6,7 @@
 
 **Acceptance criteria:** Unanimity
 
-**Stakeholders:** Jeffrey Wagner, David Mobley, John Chodera
+**Stakeholders:** Karmen Condic-Jurkic, Jeffrey Wagner, David Mobley, John Chodera
 
 **Created:** 2020-04-01
 
@@ -51,14 +51,15 @@ Each OFF-EP must have a champion -- someone who writes the proposal using the te
 ### Submission
 
 Once a proposal is written, this draft should be submitted as a pull request to the [openforcefield/standards](https://github.com/openforcefield/standards) repository with the status set to `Proposed`.
-It shall be merged at the earliest convenience of maintainers (note that this merge does not imply acceptance, as its status shall still be `Proposed`.)
+It shall be merged at the earliest convenience of maintainers (note that this merge does not imply acceptance, as its status shall still be `Proposed`).
 At this point, members of the Open Force Field community will review the submission.
 
 ### Review and Resolution
 
 All OFF-EPs will be resolved as either *Rejected*, *Accepted* or *Deferred*
 
-An OFF-EP is accepted upon unanimous approval of @SimonBoothroyd @j-wags @davidlmobley and @jchodera. 
+An OFF-EP is accepted upon approval by at least three of @SimonBoothroyd, @j-wags, @karmencj, @davidlmobley, and 
+@jchodera. 
 
 When an OFF-EP is accepted, it status shall be marked `Accepted`.
 
