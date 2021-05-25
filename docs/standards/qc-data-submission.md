@@ -1,4 +1,4 @@
-# QM Data Set Submission
+# QC Data Set Submission
 
 This file outlines the standards and data requirements needed for submitting a dataset to QCArchive.
 This ensures that we have a consistent data model for downstream processes.

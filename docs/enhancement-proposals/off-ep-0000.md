@@ -1,12 +1,12 @@
 # OFF-EP 0 — Purpose and Process
 
-**Status:** Draft
+**Status:** Accepted
 
 **Authors:** Simon Boothroyd
 
 **Acceptance criteria:** Unanimity
 
-**Stakeholders:** David Mobley, John Chodera
+**Stakeholders:** Jeffrey Wagner, David Mobley, John Chodera
 
 **Created:** 2020-04-01
 
@@ -57,9 +57,7 @@ Once a proposal is written, this draft should be submitted as a pull request to 
 It shall be merged at the earliest convenience of maintainers (note that this merge does not imply acceptance, as its status shall still be `Proposed`.)
 At this point, members of the Open Force Field community will review the submission.
 
-### Review
-
-### Resolution
+### Review and Resolution
 
 All OFF-EPs will be resolved as either *Rejected*, *Accepted* or *Deferred*
 
