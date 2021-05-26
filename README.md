@@ -2,7 +2,7 @@
 
 This repository aims to store and document the various standards employed across the Open Force Field Consortium. These 
 standards encompass both the specification of core data models and formats, such as the SMIRNOFF specification, 
-as well as standard operating procedures such as those detailing how OpenFF curated QM data sets are to be submitted
+as well as standard operating procedures such as those detailing how OpenFF curated QC data sets are to be submitted
 to the QCArchive.
 
 ## Work In Progress

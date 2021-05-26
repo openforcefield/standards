@@ -3,5 +3,11 @@ theme:
   name: material
 nav:
   - Home: 'index.md'
+  - Standards:
+    - 'SMIRNOFF': 'standards/smirnoff.md'
+    - 'QC Data Submission': 'standards/qc-data-submission.md'
+  - Enhancement Proposals:
+    - 'OFF-EP 0 - Purpose and Process': 'enhancement-proposals/off-ep-0000.md'
+    - 'OFF-EP X - Template': 'enhancement-proposals/off-ep-template.md'
 markdown_extensions:
   - admonition
