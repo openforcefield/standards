@@ -4,7 +4,7 @@
 
 **Authors:** Matt Thompson, matt.thompson@openforcefield.org
 
-**Stakeholders:** David Mobley, John Chodera, Jeffery Wagner, Simon Boothroyd
+**Stakeholders:** David Mobley, John Chodera, Jeffrey Wagner, Simon Boothroyd
 
 **Acceptance criteria:** Unanimity
 
@@ -24,14 +24,14 @@ Most sections of the SMIRNOFF specification can be applied independently of othe
 `<Constraints>` section depends on the `<Bonds>` section in many implementations. Specifically, a
 pair of atoms can be subject to a harmonic bond potential via a `<Bond>` parameter and also be
 constrained via a constraint specified by a `<Constraint>` parameter. This leads to two edge cases
-that are not explicitly descibred in the specification.
+that are not explicitly described in the specification.
 
 The first case is in which each section specifies a distance parameter, which are likely not
 numerically identical, and it is not clear which should be applied. The current implementation in
 the OpenFF Toolkit uses the distance specified in the `<Constraint>` record.
 
 The second case is in which a `<Constraint>` record does not specify the distance, in which case the
-`k` value of a corresponding bond parameter is used. The current implementation in the OpenFF
+`length` value of a corresponding bond parameter is used. The current implementation in the OpenFF
 Toolkit uses the distance specified in the `<Constraint>` record.
 
 These each could be minor points of confusion for anybody re-implementing the SMIRNOFF spec. At
