@@ -323,7 +323,7 @@ For standard Lennard-Jones 12-6 potentials (specified via `potential="Lennard-Jo
 The two are related by `r0 = 2^(1/6)*sigma` and conversion is done internally into the `sigma` values used in OpenMM.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
-as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), the cutoff (`cutoff`, default: `"9.0*angstroms"`), and long-range dispersion treatment scheme (`long_range_dispersion`, default: `"isotropic"`).
+as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), the cutoff (`cutoff`, default: `"9.0*angstroms"`), and long-range dispersion treatment scheme (`long_range_dispersion`, default: `"isotropic"`). Interactions can also be truncated with no long-range dispersion correction, reaction-field attenuation, or other modification for long-range interactions (`long_range_dispersion='none'`).
 
 The `potential` attribute (default: `"none"`) specifies the potential energy function to use.
 Currently, only `potential="Lennard-Jones-12-6"` is supported:
@@ -357,7 +357,7 @@ Later revisions will also provide support for special interactions using the `<A
 
 | vdW section tag version | Tag attributes and default values                                                                                                                                                                                 | Required parameter attributes                 | Optional parameter attributes |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
-| 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"`, `long_range_dispersion="isotropic"`| `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
