@@ -638,6 +638,16 @@ To specify the constraint distance, or constrain two atoms that are not directly
   <!-- constrain water H...H, calculating equilibrium length from H-O-H equilibrium angle and H-O equilibrium bond lengths -->
   <Constraint smirks="[#1:1]-[#8X2H2]-[#1:2]" distance="1.8532*angstrom"/>
 </Constraints>
+
+If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and
+the `<Constraint>` parameter specifies a `distance`, the bond is constrained with the `distance`
+value specified by the corresponding `<Constraints>` record, not the `distance` value specified by
+the `<Bonds>` record.
+
+If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and
+the `<Constraint>` parameter does not specify a `distance`, the bond is constrained to a distance of
+the `length` value in the `<Bond>` parameter.
+
 ```
 Typical molecular simulation practice is to constrain all bonds to hydrogen to their equilibrium bond lengths and enforce rigid TIP3P geometry on water molecules:
 ```XML
