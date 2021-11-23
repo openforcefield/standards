@@ -524,6 +524,9 @@ This works even when barrier heights for more than two integer bond orders are s
 In other words, a fractional bond order of 3.2 would yield an interpolated `k#` value determined by the interpolation line between ``k#_bondorder2`` and ``k#_bondorder3``.
 A fractional bond order of .9 would yield an interpolated `k#` value determined by the interpolation line between ``k#_bondorder1`` and ``k#_bondorder2``.
 
+The bond orders used here for interpolation between are all integers, however they do not
+necessarily need to be integers. For example, bond orders 1.0, 1.5, and 2.0 could be to produce a
+different slope between the range 1.0 to 1.5 and 1.5 to 2.0
 
 Some key usage points:
 
