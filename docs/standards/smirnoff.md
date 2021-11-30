@@ -644,6 +644,8 @@ If a constraint is applied across a bond between two atoms, then the length of t
 * the value of the `distance` attribute of the `<Constraint>` parameter _if one is specified_, *otherwise*
 * the value of the `length` attribute of the `<Bond>` parameter that is matched by that bond
 
+If the `<Constraint/>` parameter does not specify a distance and is applied to two atoms that either aren't bonded or which do not have an associated `<Bond/>` parameter, an exception should be raised.
+
 ```
 Typical molecular simulation practice is to constrain all bonds to hydrogen to their equilibrium bond lengths and enforce rigid TIP3P geometry on water molecules:
 ```XML
