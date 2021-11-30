@@ -639,14 +639,10 @@ To specify the constraint distance, or constrain two atoms that are not directly
   <Constraint smirks="[#1:1]-[#8X2H2]-[#1:2]" distance="1.8532*angstrom"/>
 </Constraints>
 
-If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and
-the `<Constraint>` parameter specifies a `distance`, the bond is constrained with the `distance`
-value specified by the corresponding `<Constraints>` record, not the `distance` value specified by
-the `<Bonds>` record.
+If a constraint is applied across a bond between two atoms, then the length of that bond will be constrained to:
 
-If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and
-the `<Constraint>` parameter does not specify a `distance`, the bond is constrained to a distance of
-the `length` value in the `<Bond>` parameter.
+* the value of the `distance` attribute of the `<Constraint>` parameter _if one is specified_, *otherwise*
+* the value of the `length` attribute of the `<Bond>` parameter that is matched by that bond
 
 ```
 Typical molecular simulation practice is to constrain all bonds to hydrogen to their equilibrium bond lengths and enforce rigid TIP3P geometry on water molecules:
