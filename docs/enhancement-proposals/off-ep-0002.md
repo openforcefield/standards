@@ -33,10 +33,10 @@ make it difficult to compare the results of using SMIRNOFF force fields with dif
 actual result depends on more than the functional form of the 12-6 Lennard-Jones potential and the
 parameter values associated with each particle. For testing the application of SMIRNOFF force fields
 in different engines, the most precise way around this complexity is by not introducing tail
-corrections at all. Because of a discontinuiting in the force at the cutoff distance, this is
+corrections at all. Because of a discontinuity in the force at the cutoff distance, this is
 dubious for most scientific applications.
 
-This OFF-EP adds `no` to the list of allowed values for the `long_range_dispersion` tag in the
+This OFF-EP adds `none` to the list of allowed values for the `long_range_dispersion` tag in the
 `<vdW>` section. This option communicates that the vdW interactions should be truncated with no tail
 correction, reaction field attenuation, or other modification for long-range interactions. It does
 not make it the default value, so existing SMIRNOFF force fields and implementations should not be
@@ -56,14 +56,10 @@ more likely due to genuinely different parameters being passed to them, not diff
 each implement tail corrections.
 
 Using hard cut-offs is a non-starter for virtually all of the applications broadly targeted by the
-SMIRNOFF specification. The default value (`long_range_dispersion="isotropic"`) remains unchnaged
+SMIRNOFF specification. The default value (`long_range_dispersion="isotropic"`) remains unchanged
 and `long_range_dispersion="none"` should seldom be used by scientists.
 
 As a non-default value, no implementation should result in this option accidentally being used.
-This section describes how users of the ecosystem will use features described in this NEP. It should
-be comprised mainly of code / file examples that wouldn't  be possible without acceptance and
-implementation of this proposal, as well as the impact the proposed changes would have on the
-ecosystem. 
 
 ## Backward compatibility
 
