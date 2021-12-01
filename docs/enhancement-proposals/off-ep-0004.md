@@ -87,3 +87,14 @@ and also updates some existing sections to clarify handler interedependence acco
 implementation. `<Constraints>` added `<Bonds>` as an optional section and `<LibraryCharges>`
 and `<ChargeIncrementModel>` each added `<Electrostatics>` as a required sections. Each was bumped
 to version 0.4.
+
+## Discussion
+
+- [Issue #2](https://github.com/openforcefield/standards/issues/2)
+- [Toolkit issue #716](https://github.com/openforcefield/openff-toolkit/issues/716) describing the TIP3P case
+- [Review of Toolkit PR #833](https://github.com/openforcefield/openff-toolkit/pull/833#issuecomment-816336358) describing the more fundamental issue
+
+
+## Copyright
+
+*All OFF-EPs are explicitly [CC0 1.0 Universal](https://creativecommons.org/publicdomain/zero/1.0/).*
