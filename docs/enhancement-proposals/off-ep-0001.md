@@ -1,6 +1,6 @@
 # OFF-EP 1 — Clarify that constraint distances override equilibrium bond distances
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Authors:** Matt Thompson, matt.thompson@openforcefield.org
 
