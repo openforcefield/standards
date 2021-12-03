@@ -32,7 +32,7 @@ the OpenFF Toolkit uses the distance specified in the `<Constraint>` record.
 
 The second case is in which a `<Constraint>` record does not specify the distance, in which case the
 `length` value of a corresponding bond parameter is used. The current implementation in the OpenFF
-Toolkit uses the distance specified in the `<Constraint>` record.
+Toolkit uses the distance specified in the `<Bond>` record.
 
 These each could be minor points of confusion for anybody re-implementing the SMIRNOFF spec. At
 worst, these ambiguities could cause behavior differences between implementations.
