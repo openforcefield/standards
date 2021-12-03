@@ -54,9 +54,12 @@ This OFF-EP adds the following clarifications to the `<Constraints>` section of 
 specification:
 
 ```
-If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and the `<Constraint>` parameter specifies a `distance`, the bond is constrained with the `distance` value specified by the corresponding `<Constraints>` record, not the `distance` value specified by the `<Bonds>` record.
+If a constraint is applied across a bond between two atoms, then the length of that bond will be constrained to:
 
-If a pair of atoms is subject to parameters in both the `<Bonds>` and `<Constraints>` sections and the `<Constraint>` parameter does not specify a `distance`, the bond is constrained to a distance of the `length` value in the `<Bond>` parameter.
+* the value of the `distance` attribute of the `<Constraint>` parameter _if one is specified_, *otherwise*
+* the value of the `length` attribute of the `<Bond>` parameter that is matched by that bond
+
+If the `<Constraint/>` parameter does not specify a distance and is applied to two atoms that either aren't bonded or which do not have an associated `<Bond/>` parameter, an exception should be raised.
 ```
 
 ## Discussion
