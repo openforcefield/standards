@@ -9,5 +9,7 @@ nav:
   - Enhancement Proposals:
     - 'OFF-EP 0 - Purpose and Process': 'enhancement-proposals/off-ep-0000.md'
     - 'OFF-EP X - Template': 'enhancement-proposals/off-ep-template.md'
+    - 'OFF-EP 1 - Clarify that constraint distances override equilibrium bond distances': 'enhancement-proposals/off-ep-0001.md'
+
 markdown_extensions:
   - admonition
