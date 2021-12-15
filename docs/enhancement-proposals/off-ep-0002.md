@@ -1,4 +1,4 @@
-# OFF-EP 0002 — Support vdW interactions with a hard cut-off
+# OFF-EP 0002 — Support vdW interactions without long-range disperson corrections
 
 **Status:** Proposed
 
@@ -27,7 +27,10 @@ approximately correct for this, known as long-range dispersion corrections, that
 accuracy and/or speed of simulations. The SMIRNOFF specification currently has an option that
 encodes this: `long_range_dispersion`, with a default value of `"isotropic"`. There are no other
 supported values and no way to bypass adding this correction. While potentially dubious for use in
-scientific applications, users may wish to not include this correction.
+scientific applications, users may wish to not include this correction. This would also make it
+easier to validate implementations of SMIRNOFF-style force fields by making the vdW interactions
+simpler to compute, since the long-range dispersion correction adds complexity not included in
+conventional 12-6 Lennard-Jones potential implied by `potential="Lennard-Jones-12-6"`.
 
 This OFF-EP adds `none` to the list of allowed values for the `long_range_dispersion` tag in the
 `<vdW>` section. This option communicates that there should be no correction term added to the vdW interactions
@@ -62,7 +65,7 @@ interactions no long-range dispersion correction term should be added to the vdW
 The following line is added to the `<vdW>` section:
 
 ```
-The long-range dispersion correction can optionally be turned off (`long_range_dispersion="none"`).
+The long-range dispersion correction can optionally be ommitted (`long_range_dispersion="none"`).
 ```
 
 ## Alternatives
