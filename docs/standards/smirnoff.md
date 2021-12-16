@@ -424,7 +424,15 @@ For example, these parameters:
 can be replaced by a single parameter line by first invoking the `fractional_bondorder_method` attribute to specify a method for computing the fractional bond order and `fractional_bondorder_interpolation` for specifying the procedure for interpolating parameters between specified integral bond orders:
 ```XML
 <Bonds version="0.3" potential="harmonic" fractional_bondorder_method="AM1-Wiberg" fractional_bondorder_interpolation="linear">
-    <Bond smirks="[#6X3:1]!#[#6X3:2]" k_bondorder1="820.0*kilocalories_per_mole/angstrom**2" k_bondorder2="1098*kilocalories_per_mole/angstrom**2" length_bondorder1="1.45*angstrom" length_bondorder2="1.35*angstrom"/>
+    <Bond
+        smirks="[#6X3:1]!#[#6X3:2]"
+        k1="820.0*kilocalories_per_mole/angstrom**2"
+        k2="1098*kilocalories_per_mole/angstrom**2"
+        length1="1.45*angstrom"
+        length2="1.35*angstrom"
+        bondorder1="1.0"
+        bondorder2="2.0"
+        />
     ...
 ```
 This allows specification of force constants and lengths for bond orders 1 and 2, and then interpolation between those based on the partial bond order.
@@ -436,6 +444,7 @@ This allows specification of force constants and lengths for bond orders 1 and 2
 |---------------------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | 0.3                       | `potential="harmonic"`, `fractional_bondorder_method="none"`, `fractional_bondorder_interpolation="linear"`                 | `smirks`, `length`, `k`                       |  `id`, `parent_id`            |
 | 0.4                       | `potential="(k/2)*(r-length)^2"`, `fractional_bondorder_method="AM1-Wiberg"`, `fractional_bondorder_interpolation="linear"` | `smirks`, `length`, `k`                       |  `id`, `parent_id`            |
+| 0.5                       | `potential="(k/2)*(r-length)^2"`, `fractional_bondorder_method="AM1-Wiberg"`, `fractional_bondorder_interpolation="linear"`, `bondorder` | `smirks`, `length`, `k`                       |  `id`, `parent_id`            |
 
 
 ### `<Angles>`
@@ -536,7 +545,8 @@ Some key usage points:
 |  ProperTorsions section tag version | Tag attributes and default values                                                                                                                                   | Required parameter attributes                            | Optional parameter attributes  |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------|--------------------------------|
 | 0.3                                 | `potential="k*(1+cos(periodicity*theta-phase))"`, `default_idivf="auto"`                                                                                            | `smirks`, `k`, `phase`, `periodicity`                    | `idivf`, `id`, `parent_id`     |
-| 0.4                                 | `potential="k*(1+cos(periodicity*theta-phase))"`, `default_idivf="auto"`, `fractional_bondorder_method="AM1-Wiberg"`, `fractional_bondorder_interpolation="linear"` | `smirks`, (`k` OR `k_bondorder`), `phase`, `periodicity` | `idivf`, `id`, `parent_id`     |
+| 0.4                                 | `potential="k*(1+cos(periodicity*theta-phase))"`, `default_idivf="auto"`, `fractional_bondorder_method="AM1-Wiberg"`, `fractional_bondorder_interpolation="linear"`, | `smirks`, (`k` OR `k_bondorder`), `phase`, `periodicity` | `idivf`, `id`, `parent_id`     |
+| 0.5                                 | `potential="k*(1+cos(periodicity*theta-phase))"`, `default_idivf="auto"`, `fractional_bondorder_method="AM1-Wiberg"`, `fractional_bondorder_interpolation="linear"`, `bondorder` | `smirks`, (`k` OR `k_bondorder`), `phase`, `periodicity` | `idivf`, `id`, `parent_id`     |
 
 
 ### `<ImproperTorsions>`

@@ -47,20 +47,26 @@ enable a force field to account for these differences. Such a parameter may look
 <Bonds version="0.3" potential="harmonic" fractional_bondorder_method="AM1-Wiberg" fractional_bondorder_interpolation="linear">
     <Bond
         smirks="[#6X3:1]!#[#6X3:2]"
-        k_bondorder1="820.0*kilocalories_per_mole/angstrom**2"
-        k_bondorder1.5="1000.0*kilocalories_per_mole/angstrom**2"
-        k_bondorder2="1098*kilocalories_per_mole/angstrom**2"
-        length_bondorder1="1.45*angstrom"
-        length_bondorder1.5="1.43*angstrom"
-        length_bondorder2="1.35*angstrom"
+        k1="820.0*kilocalories_per_mole/angstrom**2"
+        k2="1000.0*kilocalories_per_mole/angstrom**2"
+        k3="1098*kilocalories_per_mole/angstrom**2"
+        length1="1.45*angstrom"
+        length2="1.43*angstrom"
+        length3="1.35*angstrom"
+        bondorder1="1.0"
+        bondorder2="1.5"
+        bondorder3="2.0"
+
     />
 />
 ```
 
 ## Backward compatibility
 
-This OFF-EP does not deprecate or remove and behavior, nor does it change the use of integer bond
-orders in parameter interpolation. It should be fully backwards-compatible.
+This OFF-EP adds an attribute to the `<Bonds/>` and `<ProperTorsions/>` sections that is required in
+order to use parameter interpolation. No functionality is removed, so forwards compatibility could
+be provided with a converter. Functionality is added, however, so backwards compatbility cannot be
+guaranteed.
 
 ## Detailed description
 
