@@ -1,4 +1,4 @@
-# OFF-EP 0003 — Allow interpolation of non-integer bond orders
+# OFF-EP 0003 — Allow fractional bond order interpolation between arbitrary fractional bond order interpolation points
 
 **Status:** Proposed
 
@@ -16,8 +16,6 @@
 
 ## Abstract
 
-# OFF-EP 0003 — Allow interpolation of non-integer bond orders
-
 This OFF-EP explicitly documents that non-integer bond orders can be used for interpolating parameters.
 
 ## Motivation and Scope
@@ -27,11 +25,11 @@ interpolate parameters for
 [bond](https://openforcefield.github.io/standards/standards/smirnoff/#fractional-bond-orders) and
 [proper
 torsion](https://openforcefield.github.io/standards/standards/smirnoff/#fractional-torsion-bond-orders)
-forces. The examples provided use bond orders of 1 and 2 and as the basis of interpolation between
+forces. The examples provided use bond orders of 1 and 2 as the basis of interpolation between
 their associated parameters. Work by the Open Force Field Initiative has suggested cases in which it
 would be useful to have non-integer bond orders such that i.e. parameters are interpolated between
 bond orders of 1.0 and 1.2 in a different way than they may be between bond orders of 1.2 and 2.0.
-The current speification does not explicitly forbid non-integer bond orders, but the section
+The current specification does not explicitly forbid non-integer bond orders, but the section
 describes the process of parameter interpolation using an example that does. Also, the current
 implementation in the OpenFF Toolkit does not support non-integer bond orders.
 
