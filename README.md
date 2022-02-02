@@ -12,5 +12,6 @@ rapid and significant changes.
 
 ## Commands
 
+* `pip install -r requirements.txt` - Install `mkdocs` and other necessary packages
 * `mkdocs serve` - Start the live-reloading docs server.
 * `mkdocs build` - Build the documentation site.
