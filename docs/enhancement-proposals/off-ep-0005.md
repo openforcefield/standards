@@ -37,23 +37,78 @@ that different methods should be used for each kinda of systems.
 This OFF-EP
 * does not propose changes any detail of the `<vdW>` section
 * does not alter the intended meaning of `method="PME"`
+* does not add allowed methods for non-periodic systems (still only `Coulomb`), but does require
+  explicitly specifying what is used for non-periodic systems
+
+Each of the above points are important and worthy of consideration but should be scoped to separate OFF-EPs.
 
 ## Usage and Impact
 
+Since most force fields use some flavor of PME for periodic systems and something similar to
+`method_nonperiodic="Coulomb"` for non-periodic systems, the default attributes for this tag will
+likely be the most commonly-used. Splitting `method` out into two attributes, however, makes it less
+ambiguous how electrostatics should be handled in each case and decouples the method used in each
+case. Users are recommended to consider upgrading from the default attribute values of 0.3 to 0.4 to avoid
+continuing to use this ambiguity. Implementations may wish to execute this up-conversion
+automatically (see below).
+
+The impact to a vast majority of users should be limited to needing to modify this line in their
+force field files. Non-standard electrostatics settings are not generally covered here and should be
+the focus of future OFF-EPs.
+
 ## Backward compatibility
+
+Version 0.4 of this tag is backwards-incompatible with older versions because the information
+content is different. It is ambiguous how to map both `method_periodic` and `method_nonperiodic`
+back down to a single `method` and it is not recommended to try doing so.
+
+Implementations may wish to add up-converters from old versions. A common up-converter could convert the
+following tag header
+
+```
+<Electrostatics version="0.3" method="PME" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+```
+
+to the equivalent of reading
+
+```
+<Electrostatics version="0.4" method_periodic="PME" method_nonperiodic="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+```
+
+This is likely desirable for implementations such as the OpenFF Toolkit in which the information
+content of the version 0.4 snippet represents what is it currently does.
 
 ## Detailed description
 
-TODO:
-* Copy or reference diff of specification
-* Decide if `method` should be removed / how to guess if `method` is specified but no others
-* Decide on removing `method="Coulomb"`
-  * Make sure there is wiggle room for engines that do not explicitly allow non-periodic simulation
-    but do allow for direct electrostatics with box size >> moleclue size (possibly with cut-off
-    electrostatics, but in a way that's effectively "no-cutoff")
-* Discuss how to upscale 0.3 to 0.4
+The `method` tag attribute is **removed** and replaced with `method_periodic` and `method_nonperiodic`.
+The deault values of each are `"PME"` and `"Coulomb"`, respectively. The following section is added
+to justify and describe these new methods:
+
+```
+Some methods for computing electrostatics interactions are not valid for periodic systems, so
+separate methods must be specified for periodic (`method_periodic`) and non-periodic
+(`method_nonperiodic`) systems.
+```
+
+It is clarified that the allowed values of `method_periodic` are `PME` and `reaction-field` and that the only
+allowed value of `mehtod_nonperiodic` is `Coulomb`.
+
+A clause is added to the description of the `Coulomb` method that makes it clear how it can be
+implemented in engines like GROMACS that do not support an equivalent of OpenMM's
+[``NonbondedForce.NoCutoff``](http://docs.openmm.org/latest/userguide/theory/02_standard_forces.html?highlight=nocutoff#coulomb-interaction-without-cutoff):
+
+```
+* `Coulomb` - direct electrostatics interactions should be used without reaction-field attenuation and
+  no cut-off (or with a cutoff that is larger than any intermolecular distance).
+```
 
 ## Alternatives
+
+Resolving this incompatibility could be left to implementation, as it has been for years. This is not
+desirable as a general principle of maintaining specifications.
+
+This could be resolved by mandating that separaate force fields should be used for periodic and
+non-periodic systems. This would be a clunky user experience and should be avoided.
 
 ## Discussion
 

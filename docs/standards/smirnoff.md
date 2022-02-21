@@ -364,10 +364,10 @@ Later revisions will also provide support for special interactions using the `<A
 
 Electrostatic interactions are specified via the `<Electrostatics>` tag.
 ```XML
-<Electrostatics version="0.3" method_periodic="PME" method_nonperiodic="no-cutoff" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" method_periodic="PME" method_nonperiodic="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
-Because some methods for computing electrostatics interactions are not valid for periodic systems,
+Some methods for computing electrostatics interactions are not valid for periodic systems, so
 separate methods must be specified for periodic (`method_periodic`) and non-periodic
 (`method_nonperiodic`) systems.
 
@@ -375,10 +375,9 @@ The `method_periodic` attribute specifies the manner in which electrostatic inte
 
 * `PME` - [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used (DEFAULT); can only apply to periodic systems
 * `reaction-field` - [reaction-field electrostatics](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-cutoff) should be used; can only apply to periodic systems
-* `Coulomb` - direct Coulomb interactions (with no reaction-field attenuation) should be used
 
 The `method_nonperiodic` attribute specifies the manner in which electrostatic interactions are to be computed to non-periodic systems. Allowed values are:
-* `no-cutoff` - electrostatics interactions should be used without reaction-field attenuation and
+* `Coulomb` - direct electrostatics interactions should be used without reaction-field attenuation and
   no cut-off (or with a cutoff that is larger than any intermolecular distance).
 
 The interaction scaling parameters applied to atoms connected by a few bonds are
@@ -395,7 +394,7 @@ For methods where the cutoff is not simply an implementation detail but determin
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
 | 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"`  | N/A                           | N/A                           |
-| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method_periodic="PME"`, `method_nonperiodic="no-cutoff"`  | N/A                           | N/A                           |
+| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method_periodic="PME"`, `method_nonperiodic="Coulomb"`  | N/A                           | N/A                           |
 
 
 ### `<Bonds>`
