@@ -4,7 +4,7 @@
 
 **Authors:** Matt Thompson
 
-**Stakeholders:** Karmen Condic-Jurkic, Jeffrey Wagner, David Mobley, John Chodera
+**Stakeholders:** Simon Boothroyd, Jeffrey Wagner, David Mobley, John Chodera
 
 **Acceptance criteria:** Unanimity
 
@@ -17,7 +17,7 @@
 ## Abstract
 
 This change allows for the `<Electrostatics>` tag to optionally specify that different methods
-shouuld be used for periodic (i.e. condensed-phase) and non-periodic (i.e. gas phase) systems. This
+should be used for periodic (i.e. condensed-phase) and non-periodic (i.e. gas phase) systems. This
 in particular enables a force field to specify that PME should be used for periodic systems and no
 cutoff should be used for non-periodic systems.
 
@@ -81,7 +81,7 @@ content of the version 0.4 snippet represents what is it currently does.
 ## Detailed description
 
 The `method` tag attribute is **removed** and replaced with `method_periodic` and `method_nonperiodic`.
-The deault values of each are `"PME"` and `"Coulomb"`, respectively. The following section is added
+The default values of each are `"PME"` and `"Coulomb"`, respectively. The following section is added
 to justify and describe these new methods:
 
 ```
@@ -107,7 +107,7 @@ implemented in engines like GROMACS that do not support an equivalent of OpenMM'
 Resolving this incompatibility could be left to implementation, as it has been for years. This is not
 desirable as a general principle of maintaining specifications.
 
-This could be resolved by mandating that separaate force fields should be used for periodic and
+This could be resolved by mandating that separate force fields should be used for periodic and
 non-periodic systems. This would be a clunky user experience and should be avoided.
 
 ## Discussion
