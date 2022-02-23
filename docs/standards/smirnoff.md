@@ -367,18 +367,18 @@ Electrostatic interactions are specified via the `<Electrostatics>` tag.
 <Electrostatics version="0.4" method_periodic="PME" method_nonperiodic="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
-Some methods for computing electrostatics interactions are not valid for periodic systems, so
+Some methods for computing electrostatic interactions are not valid for periodic systems, so
 separate methods must be specified for periodic (`method_periodic`) and non-periodic
 (`method_nonperiodic`) systems.
 
-The `method_periodic` attribute specifies the manner in which electrostatic interactions are to be computed to periodic systems. Allowed values are:
+The `method_periodic` attribute specifies the manner in which electrostatic interactions are to be computed in periodic systems. Allowed values are:
 
 * `PME` - [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used (DEFAULT); can only apply to periodic systems
 * `reaction-field` - [reaction-field electrostatics](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-cutoff) should be used; can only apply to periodic systems
 
-The `method_nonperiodic` attribute specifies the manner in which electrostatic interactions are to be computed to non-periodic systems. Allowed values are:
-* `Coulomb` - direct electrostatics interactions should be used without reaction-field attenuation and
-  no cut-off (or with a cutoff that is larger than any intermolecular distance).
+The `method_nonperiodic` attribute specifies the manner in which electrostatic interactions are to be computed in non-periodic systems. Allowed values are:
+* `Coulomb` - direct electrostatic interactions should be used without reaction-field attenuation and
+  no cut-off (or with a cutoff that is larger than any interaction distance).
 
 The interaction scaling parameters applied to atoms connected by a few bonds are
 
