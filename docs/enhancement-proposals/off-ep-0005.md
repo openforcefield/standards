@@ -32,10 +32,10 @@ option provided by OpenMM's ``NonbondedForce``.
 
 Given that is it not tractable to use (much less train) a force field that can only be applied to
 periodic OR non-periodic systems, this OFF-EP proposes that the `<Electrostatics>` tag may specify
-that different methods should be used for each kind of systems.
+that different methods should be used for each kind of system.
 
 This OFF-EP
-* does not propose changes any detail of the `<vdW>` section
+* does not propose changes in any detail of the `<vdW>` section
 * does not alter the intended meaning of `method="PME"`
 * does not add allowed methods for non-periodic systems (still only `Coulomb`), but does require
   explicitly specifying what is used for non-periodic systems
@@ -69,7 +69,7 @@ following tag header
 <Electrostatics version="0.3" method="PME" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
-to the equivalent of reading
+to a less ambiguous header using version 0.4, which for this case could be
 
 ```
 <Electrostatics version="0.4" method_periodic="PME" method_nonperiodic="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
