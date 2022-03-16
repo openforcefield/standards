@@ -2,13 +2,13 @@
 
 **Status:** Proposed
 
-**Authors:** Matt Thompson
+**Authors:** Matt Thompson and John Chodera
 
 **Stakeholders:** Simon Boothroyd, Jeffrey Wagner, David Mobley, John Chodera
 
 **Acceptance criteria:** Unanimity
 
-**Created:** 2020-02-18
+**Created:** 2020-03-15
 
 **Discussion:** [Issue #29](https://github.com/openforcefield/standards/issues/29)
 
@@ -16,104 +16,115 @@
 
 ## Abstract
 
-This change allows for the `<Electrostatics>` tag to optionally specify that different methods
-should be used for periodic (i.e. condensed-phase) and non-periodic (i.e. gas phase) systems. This
-in particular enables a force field to specify that PME should be used for periodic systems and no
-cutoff should be used for non-periodic systems.
+This change refines the way the `<Electrostatics>` tag defines behavior in periodic
+(i.e., condensed-phase) and non-periodic (i.e., gas phase) systems to clarify the
+intended true electrostatics models in each case. Implementations are permitted
+to make approximations to these specified models---e.g. Particle-Mesh Ewald (PME)---
+as a controlled approximation to Ewald) provided the approximation accuracy is controlled.
 
 ## Motivation and Scope
 
-In version 0.3 of the `<Electrostatics>` tag, the default and most commonly-used electrostatics
-method is PME (`method="PME")`. It is, however, not compatible with non-periodic systems, such as
-gas-phase and/or single-molecule systems. In practice, force fields defined with PME are modified by
-users in ways that make them compatible with non-periodic systems, such as the
-[``NoCutoff``](http://docs.openmm.org/latest/userguide/theory/02_standard_forces.html?highlight=nocutoff#coulomb-interaction-without-cutoff)
-option provided by OpenMM's ``NonbondedForce``.
+In version 0.3 of the `<Electrostatics>` tag, the default electrostatics method is
+`method="PME"`, with `reaction-field` also a permitted choice.
 
-Given that is it not tractable to use (much less train) a force field that can only be applied to
-periodic OR non-periodic systems, this OFF-EP proposes that the `<Electrostatics>` tag may specify
-that different methods should be used for each kind of system.
+These definitions present several issues that this OFF-EP attempts to solve:
+* `PME` is intended to be a permissible approximation to the true electrostatics model, Ewald
+* The boundary conditions (e.g. dielectric at infinity) for the Ewald sum are not specified
+* The Ewald method is only intended for periodic systems; unmodified vacuum electrostatics are intended for non-periodic systems
+* The treatment of intramolecular electrostatics exceptions is unspecified
+* The choice `reaction-field` does not uniquely specify the functional form for the true reaction-field model intended; many variants are available
+* The solvent dielectric constant was not specified.
+* Cutoffs were not specified
+* The physical constants used to compute the potential were unspecified
 
-This OFF-EP
-* does not propose changes in any detail of the `<vdW>` section
-* does not alter the intended meaning of `method="PME"`
-* does not add allowed methods for non-periodic systems (still only `Coulomb`), but does require
-  explicitly specifying what is used for non-periodic systems
+To solve these issues, this OFF-EP proposes:
+* The `method` attribute is replaced with `periodic_potential` in analogy to other parameters that use the `potential` term to specify the functional form or a common choice
+* The `periodic_potential` attribute defaults to `Ewald3D-ConductingBoundary` as a valid keyword that states that the Ewald periodic sum with conducting boundary conditions should be the true potential used for periodic systems
+* PME (and other methods) are permissible approximations to Ewald as long as they are controlled.
+* For reaction field or other methods, the `periodic_potential` can specify the exact functional form used for the periodic potential or a keyword denoting a common choice, along with the optional `cutoff` and `solvent_dielectric` attributes
+* The `nonperiodic_potential` attribute defaults to `Coulomb` indicating the Coulomb potential is to be used in non-periodic systems, though other functional forms are accepted.
+* The `exception_potential` attribute defaults to `Coulomb`, indicating the Coulomb potential is to be used for exceptions, though other functional forms are accepted.
+* We explicitly specify which self-consistent physical constants should be used to compute
 
-Each of the above points are important and worthy of consideration but should be scoped to separate OFF-EPs.
+We leave these to future extensions:
+* We reserve the possibility of adding a `nonperiodic_potential` keyword at a future date should it become necessary to permit different choices for non-periodic systems
+* We reserve the possibility of adding specific keywords to specify reaction field potentials for `periodic_potential`
 
 ## Usage and Impact
 
 Since most force fields use some flavor of PME for periodic systems and something similar to
-`method_nonperiodic="Coulomb"` for non-periodic systems, the default attributes for this tag will
-likely be the most commonly-used. Splitting `method` out into two attributes, however, makes it less
+`nonperiodic_potential="Coulomb"` for non-periodic systems, the default attributes for this tag will
+likely be the most commonly-used. Splitting `method` out into explicit attributes to specify periodic,
+nonperiodic, and exception potential energy terms, however, makes it less
 ambiguous how electrostatics should be handled in each case and decouples the method used in each
-case. Users are recommended to consider upgrading from the default attribute values of 0.3 to 0.4 to avoid
-continuing to use this ambiguity. Implementations may wish to execute this up-conversion
-automatically (see below).
+case.
 
-The impact to a vast majority of users should be limited to needing to modify this line in their
-force field files. Non-standard electrostatics settings are not generally covered here and should be
-the focus of future OFF-EPs.
+Users are recommended to consider upgrading from the default attribute values of 0.3 to 0.4 to avoid
+continuing to use this ambiguity. Implementations may wish to execute this up-conversion automatically (see below).
+
+If backward-compatibility is provided as specified below, users of old force fields will not need to update their force field definitions.
 
 ## Backward compatibility
 
-Version 0.4 of this tag is backwards-incompatible with older versions because the information
-content is different. It is ambiguous how to map both `method_periodic` and `method_nonperiodic`
-back down to a single `method` and it is not recommended to try doing so.
+To minimize pain in implementations, we can allow implementations continue to accept `method="PME"` as a synonym for `periodic_potential="Ewald3D-ConductingBoundary"` for a few releases,
+issuing a warning that the spec has changed and this behavior may be removed in a future release.
 
-Implementations may wish to add up-converters from old versions. A common up-converter could convert the
-following tag header
-
+Implementations may wish to add up-converters from old versions. An up-converter could convert the following tag header
 ```
 <Electrostatics version="0.3" method="PME" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
-
 to a less ambiguous header using version 0.4, which for this case could be
-
 ```
-<Electrostatics version="0.4" method_periodic="PME" method_nonperiodic="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
-
-This is likely desirable for implementations such as the OpenFF Toolkit in which the information
-content of the version 0.4 snippet represents what is it currently does.
 
 ## Detailed description
 
-The `method` tag attribute is **removed** and replaced with `method_periodic` and `method_nonperiodic`.
-The default values of each are `"PME"` and `"Coulomb"`, respectively. The following section is added
-to justify and describe these new methods:
+[CODATA 2018](https://physics.nist.gov/cuu/Constants/index.html) physical constants are used.
+Future OFF-EPs may migrate the specification of which self-consistent physical constants are used to a higher-level attribute.
 
+The `method` tag attribute is **removed** and replaced with `periodic_potential`, `nonperiodic_potential`, and `exception_potential`.
+
+The optional `cutoff` tag attribute is added to specify the cutoff used for `periodic_potential` if applicable, defaulting to `None`.
+No value of `cutoff` is allowed for Ewald methods---only finite-ranged methods.
+
+The optional `solvent_dielectric` tag attribute is added to specify the solvent dielectric used with finite-ranged potentials, defaulting to `78.5`.
+
+For `periodic_potential`:
+* `Ewald3D-ConductingBoundary` denotes that the Ewald potential with conducting (dielectric 0) boundary conditions are used
+* `Coulomb` denotes that the standard Coulomb potential is used with specified cutoff `cutoff`
+* A function denotes that the specified function is used with specified cutoff `cutoff` and optionally `solvent_dielectric`
+* Future OFF-EPs may add specific keywords for common choices of reaction field electrostatics
+
+For `nonperiodic_potential`:
+* `Coulomb` denotes that the standard Coulomb potential is used (without reaction field attenuation) with optional specified cutoff `cutoff`
+* A function denotes that the specified function is used with optional specified cutoff `cutoff` and optionally `solvent_dielectric`
+
+For `exception_potential`:
+* `Coulomb` denotes that the standard Coulomb potential is used with no cutoff
+* A function denotes that the specified function is used with no cutoff and optionally `solvent_dielectric`
+
+## Examples
+
+Ewald electrostatics (permitting PME to be used) are used for periodic systems; Coulomb used for non-periodic:
 ```
-Some methods for computing electrostatics interactions are not valid for periodic systems, so
-separate methods must be specified for periodic (`method_periodic`) and non-periodic
-(`method_nonperiodic`) systems.
+<Electrostatics version="0.4" cutoff="None" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
-It is clarified that the allowed values of `method_periodic` are `PME` and `reaction-field` and that the only
-allowed value of `mehtod_nonperiodic` is `Coulomb`.
-
-A clause is added to the description of the `Coulomb` method that makes it clear how it can be
-implemented in engines like GROMACS that do not support an equivalent of OpenMM's
-[``NonbondedForce.NoCutoff``](http://docs.openmm.org/latest/userguide/theory/02_standard_forces.html?highlight=nocutoff#coulomb-interaction-without-cutoff):
-
+Shifted reaction field electrostatics (e.g. from [OpenMM](http://docs.openmm.org/7.6.0/userguide/theory/02_standard_forces.html#coulomb-interaction-with-cutoff)) are used for periodic systems; Coulomb used for non-periodic:
 ```
-* `Coulomb` - direct electrostatics interactions should be used without reaction-field attenuation and
-  no cut-off (or with a cutoff that is larger than any intermolecular distance).
+<Electrostatics version="0.4" periodic_potential="charge1*charge2/(4*pi*epsilon0)*(1/r + k_rf*r^2 - c_rf); k_rf=(cutoff^(-3))*(solvent_dielectric-1)/(2*solvent_dielectric+1); c_rf=cutoff^(-1)*(3*solvent_dielectric)/(2*solvent_dielectric+1)" solvent_dielectric="78.5" cutoff="12*angstroms" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
 ## Alternatives
 
-Resolving this incompatibility could be left to implementation, as it has been for years. This is not
-desirable as a general principle of maintaining specifications.
-
-This could be resolved by mandating that separate force fields should be used for periodic and
-non-periodic systems. This would be a clunky user experience and should be avoided.
+See [OFF-EP 0005](https://github.com/openforcefield/standards/pull/30).
 
 ## Discussion
 
 - Toolkit [#1084](https://github.com/openforcefield/openff-toolkit/issues/1084)
 - Standards [#29](https://github.com/openforcefield/standards/issues/29)
+- Alternatives: [OFF-EP 0005](https://github.com/openforcefield/standards/pull/30)
 
 ## Copyright
 
