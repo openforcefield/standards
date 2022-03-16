@@ -32,7 +32,7 @@ option provided by OpenMM's ``NonbondedForce``.
 
 Given that is it not tractable to use (much less train) a force field that can only be applied to
 periodic OR non-periodic systems, this OFF-EP proposes that the `<Electrostatics>` tag may specify
-that different methods should be used for each kinda of systems.
+that different methods should be used for each kind of systems.
 
 This OFF-EP
 * does not propose changes any detail of the `<vdW>` section
