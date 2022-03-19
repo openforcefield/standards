@@ -44,7 +44,7 @@ To solve these issues, this OFF-EP proposes:
 * For reaction field or other methods, the `periodic_potential` can specify the exact functional form used for the periodic potential or a keyword denoting a common choice, along with the optional `cutoff` and `solvent_dielectric` attributes
 * The `nonperiodic_potential` attribute defaults to `Coulomb` indicating the Coulomb potential is to be used in non-periodic systems, though other functional forms are accepted.
 * The `exception_potential` attribute defaults to `Coulomb`, indicating the Coulomb potential is to be used for exceptions, though other functional forms are accepted.
-* We explicitly specify which self-consistent physical constants should be used to compute
+* We explicitly specify which self-consistent physical constants should be used.
 
 We leave these to future extensions:
 * We reserve the possibility of adding a `nonperiodic_potential` keyword at a future date should it become necessary to permit different choices for non-periodic systems
