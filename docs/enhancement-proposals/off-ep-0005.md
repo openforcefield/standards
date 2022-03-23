@@ -20,7 +20,7 @@ This change refines the way the `<Electrostatics>` tag defines behavior in perio
 (i.e., condensed-phase) and non-periodic (i.e., gas phase) systems to clarify the
 intended true electrostatics models in each case. Implementations are permitted
 to make approximations to these specified models---e.g. Particle-Mesh Ewald (PME)---
-as a controlled approximation to Ewald) provided the approximation accuracy is controlled.
+as a controlled approximation to Ewald provided the approximation accuracy is controlled.
 
 ## Motivation and Scope
 
@@ -66,54 +66,76 @@ If backward-compatibility is provided as specified below, users of old force fie
 
 ## Backward compatibility
 
-To minimize pain in implementations, we can allow implementations continue to accept `method="PME"` as a synonym for `periodic_potential="Ewald3D-ConductingBoundary"` for a few releases,
-issuing a warning that the spec has changed and this behavior may be removed in a future release.
-
 Implementations may wish to add up-converters from old versions. An up-converter could convert the following tag header
 ```
 <Electrostatics version="0.3" method="PME" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
-to a less ambiguous header using version 0.4, which for this case could be
+to a header using version 0.4, which for this case could be
 ```
 <Electrostatics version="0.4" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
+Concretely, the following conversions should be performed:
+
+| 0.3 `method`   | 0.4 `periodic_potential`   | 0.4 `nonperiodic_potential` | 0.4 `exception_potential` |
+|----------------|----------------------------|-----------------------------|---------------------------|
+| PME            | Ewald3D-ConductingBoundary | Coulomb                     | Coulomb                   |
+| reaction-field | reaction-field             | Coulomb                     | Coulomb                   |
+| Coulomb        | Coulomb                    | Coulomb                     | Coulomb                   |
+
+The value of an 0.3 `Electrostatics` section's `cutoff` attribute should be propagated into the 0.4 `Electrostatics` sections `nonperiodic_cutoff` attribute.
+
+The value of the 0.4 `Electrostatics` section's `periodic_cutoff` should be set to `none`.
+
+The value of the 0.4 `Electrostatics` section's `solvent_dielectric` should be set to `78.5`.
+
 ## Detailed description
 
-[CODATA 2018](https://physics.nist.gov/cuu/Constants/index.html) physical constants are used.
+### In the general SMIRNOFF spec description
+
+A section is added stating that [CODATA 2018](https://physics.nist.gov/cuu/Constants/index.html) physical constants are used in all released SMIRNOFF versions to date.
 Future OFF-EPs may migrate the specification of which self-consistent physical constants are used to a higher-level attribute.
+
+### In the `Electrostatics` section
 
 The `method` tag attribute is **removed** and replaced with `periodic_potential`, `nonperiodic_potential`, and `exception_potential`.
 
-The optional `cutoff` tag attribute is added to specify the cutoff used for `periodic_potential` if applicable, defaulting to `None`.
-No value of `cutoff` is allowed for Ewald methods---only finite-ranged methods.
+The `cutoff` tag attribute is **removed** and replaced with `periodic_cutoff` and `nonperiodic_cutoff`.
+
+The `solvent_dielectric` tag attribute is added.
+
+The optional `nonperiodic_cutoff` tag attribute is intended to have the same meaning as the previous `cutoff` attribute, defaulting to `9.0*angstrom`. 
+
+The optional `periodic_cutoff` tag attribute is added to specify the cutoff used for `periodic_potential` if applicable, defaulting to `none`.
+Only `periodic_cutoff="none"` is allowed for Ewald methods---only finite-ranged methods should set this to a non-`none` value.
 
 The optional `solvent_dielectric` tag attribute is added to specify the solvent dielectric used with finite-ranged potentials, defaulting to `78.5`.
 
 For `periodic_potential`:
-* `Ewald3D-ConductingBoundary` denotes that the Ewald potential with conducting (dielectric 0) boundary conditions are used
+* `Ewald3D-ConductingBoundary` (default) denotes that the Ewald potential with conducting (dielectric 0) boundary conditions are used
 * `Coulomb` denotes that the standard Coulomb potential is used with specified cutoff `cutoff`
+* `reaction-field` denotes that reaction-field electrostatics are used
 * A function denotes that the specified function is used with specified cutoff `cutoff` and optionally `solvent_dielectric`
 * Future OFF-EPs may add specific keywords for common choices of reaction field electrostatics
 
 For `nonperiodic_potential`:
-* `Coulomb` denotes that the standard Coulomb potential is used (without reaction field attenuation) with optional specified cutoff `cutoff`
+* `Coulomb` (default) denotes that the standard Coulomb potential is used (without reaction field attenuation) with optional specified cutoff `cutoff`
 * A function denotes that the specified function is used with optional specified cutoff `cutoff` and optionally `solvent_dielectric`
 
 For `exception_potential`:
-* `Coulomb` denotes that the standard Coulomb potential is used with no cutoff
+* `Coulomb` (default) denotes that the standard Coulomb potential is used with no cutoff
 * A function denotes that the specified function is used with no cutoff and optionally `solvent_dielectric`
 
 ## Examples
 
 Ewald electrostatics (permitting PME to be used) are used for periodic systems; Coulomb used for non-periodic:
 ```
-<Electrostatics version="0.4" cutoff="None" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" periodic_cutoff="None" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
 Shifted reaction field electrostatics (e.g. from [OpenMM](http://docs.openmm.org/7.6.0/userguide/theory/02_standard_forces.html#coulomb-interaction-with-cutoff)) are used for periodic systems; Coulomb used for non-periodic:
 ```
-<Electrostatics version="0.4" periodic_potential="charge1*charge2/(4*pi*epsilon0)*(1/r + k_rf*r^2 - c_rf); k_rf=(cutoff^(-3))*(solvent_dielectric-1)/(2*solvent_dielectric+1); c_rf=cutoff^(-1)*(3*solvent_dielectric)/(2*solvent_dielectric+1)" solvent_dielectric="78.5" cutoff="12*angstroms" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" periodic_potential="charge1*charge2/(4*pi*epsilon0)*(1/r + k_rf*r^2 - c_rf); k_rf=(cutoff^(-3))*(solvent_dielectric-1)/(2*solvent_dielectric+1); c_rf=cutoff^(-1)*(3*solvent_dielectric)/(2*solvent_dielectric+1)" solvent_dielectric="78.5" periodic_cutoff="12*angstroms" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
 ## Alternatives
