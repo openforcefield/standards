@@ -401,12 +401,12 @@ The interaction scaling parameters applied to atoms connected by a few bonds are
 
 Currently, no child tags are used because the charge model is specified via different means (currently library charges or BCCs).
 
-For methods where the cutoff is not simply an implementation detail but determines the potential energy of the system (such as `reaction-field` and `Coulomb`), the appropriate `cutoff` distance must also be specified, and a `switch_width` if a switching function is to be used.
+For methods where the cutoff is not simply an implementation detail but determines the potential energy of the system (such as `reaction-field` and `Coulomb`), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
 
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
 | 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"`  | N/A                           | N/A                           |
-| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `periodic_cutoff="none"`, `nonperiodic_cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `periodic_potential="PME"`, `nonperiodic_potential="Coulomb"`, `exception_potential="Coulomb"`, `solvent_dielectric="78.5"`   | N/A                           | N/A                           |
+| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `periodic_cutoff="none"`, `nonperiodic_cutoff="9.0*angstrom"`, `periodic_switch_width="none"`, `nonperiodic_switch_width="0*angstrom"`, `periodic_potential="PME"`, `nonperiodic_potential="Coulomb"`, `exception_potential="Coulomb"`, `solvent_dielectric="78.5"`   | N/A                           | N/A                           |
 
 
 ### `<Bonds>`

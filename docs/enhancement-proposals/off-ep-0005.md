@@ -83,9 +83,13 @@ Concretely, the following conversions should be performed:
 | reaction-field | reaction-field             | Coulomb                     | Coulomb                   |
 | Coulomb        | Coulomb                    | Coulomb                     | Coulomb                   |
 
-The value of an 0.3 `Electrostatics` section's `cutoff` attribute should be propagated into the 0.4 `Electrostatics` sections `nonperiodic_cutoff` attribute.
+The value of an 0.3 `Electrostatics` section's `cutoff` attribute should be propagated into the 0.4 `Electrostatics` section's `nonperiodic_cutoff` attribute.
+
+The value of an 0.3 `Electrostatics` section's `switch_width` attribute should be propagated into the 0.4 `Electrostatics` section's `nonperiodic_switch_width` attribute.
 
 The value of the 0.4 `Electrostatics` section's `periodic_cutoff` should be set to `none`.
+
+The value of the 0.4 `Electrostatics` section's `periodic_switch_width` should be set to `none`.
 
 The value of the 0.4 `Electrostatics` section's `solvent_dielectric` should be set to `78.5`.
 
@@ -106,8 +110,10 @@ The `solvent_dielectric` tag attribute is added.
 
 The optional `nonperiodic_cutoff` tag attribute is intended to have the same meaning as the previous `cutoff` attribute, defaulting to `9.0*angstrom`. 
 
-The optional `periodic_cutoff` tag attribute is added to specify the cutoff used for `periodic_potential` if applicable, defaulting to `none`.
-Only `periodic_cutoff="none"` is allowed for Ewald methods---only finite-ranged methods should set this to a non-`none` value.
+The optional `nonperiodic_switch_width` tag attribute is intended to have the same meaning as the previous `switch_width` attribute, defaulting to `0*angstrom`.
+
+The optional `periodic_cutoff` and `periodic_switch_width` tag attributes are added to specify the cutoff and switching width used for `periodic_potential` if applicable, both defaulting to `none`.
+Only `periodic_cutoff="none"` and `periodic_switch_width="none"` is allowed for Ewald methods---only finite-ranged methods should set these to a non-`none` value.
 
 The optional `solvent_dielectric` tag attribute is added to specify the solvent dielectric used with finite-ranged potentials, defaulting to `78.5`.
 
