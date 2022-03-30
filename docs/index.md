@@ -29,6 +29,7 @@ stages of discussion or completion.
 * [OFF-EP 1 &mdash; Clarify that constraint distances override equilibrium bond distances](enhancement-proposals/off-ep-0001.md)
 
 ##### Open Proposals
+* [OFF-EP 5 &mdash; Resolve ambiguity over PME electrostatics for nonperiodic systems](enhancement-proposals/off-ep-0005.md)
 
 ##### Final Proposals
 
