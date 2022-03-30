@@ -1,8 +1,8 @@
 # OFF-EP 0005 — Allow different electrostatics methods to be used on period and non-periodic systems
 
-**Status:** Proposed
+**Status:** Accepted
 
-**Authors:** Matt Thompson and John Chodera
+**Authors:** Matt Thompson and John Chodera, Jeffrey Wagner, Simon Boothroyd
 
 **Stakeholders:** Simon Boothroyd, Jeffrey Wagner, David Mobley, John Chodera
 
@@ -112,7 +112,7 @@ For `nonperiodic_potential`:
 
 For `exception_potential`:
 
-* `Coulomb` (default) denotes that the standard Coulomb potential should be used
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
 * A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 ## Examples

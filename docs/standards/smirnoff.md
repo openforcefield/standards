@@ -388,7 +388,7 @@ The `nonperiodic_potential` attribute specifies the manner in which electrostati
 
 The `exception_potential` attribute specifies the treatment of intramolecular electrostatics exceptions, such as scaled 1-4 interactions. Allowed values are:
 
-* `Coulomb` (default) denotes that the standard Coulomb potential should be used
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
 * A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The interaction scaling parameters applied to atoms connected by a few bonds are
@@ -400,7 +400,7 @@ The interaction scaling parameters applied to atoms connected by a few bonds are
 
 Currently, no child tags are used because the charge model is specified via different means (currently library charges or BCCs).
 
-For potentials where the cutoff determines the potential energy of the system (such as reaction field methods and `Coulomb`), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
+For potentials where the cutoff determines the potential energy of the system (such as custom expression or reaction field methods), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
 
 It is possible to define an Electrostatics section where no potential uses `cutoff`, `switch_width`, or `solvent_dielectric`. In these cases it is strongly recommended that these values be set to `none` to avoid ambiguity. 
 
