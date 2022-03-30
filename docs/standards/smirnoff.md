@@ -402,7 +402,7 @@ Currently, no child tags are used because the charge model is specified via diff
 
 For potentials where the cutoff determines the potential energy of the system (such as reaction field methods and `Coulomb`), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
 
-For potentials which do not make use of a `cutoff` or `switch_width`, these values will not be used (and it is strongly recommended that they be set to `none` to avoid ambiguity.) 
+For potentials which do not make use of a `cutoff`, `switch_width`, or `solvent_dielectric`, these values will not be used (and it is strongly recommended that they be set to `none` to avoid ambiguity.) 
 
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
