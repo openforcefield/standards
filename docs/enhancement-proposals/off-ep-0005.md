@@ -28,6 +28,7 @@ In version 0.3 of the `<Electrostatics>` tag, the default electrostatics method 
 `method="PME"`, with `reaction-field` also a permitted choice.
 
 These definitions present several issues that this OFF-EP attempts to solve:
+
 * `PME` is intended to be a permissible approximation to the true electrostatics model, Ewald
 * The boundary conditions (e.g. dielectric at infinity) for the Ewald sum are not specified
 * The Ewald method is only intended for periodic systems; unmodified vacuum electrostatics are intended for non-periodic systems
@@ -38,6 +39,7 @@ These definitions present several issues that this OFF-EP attempts to solve:
 * The physical constants used to compute the potential were unspecified
 
 To solve these issues, this OFF-EP proposes:
+
 * The `method` attribute is replaced with `periodic_potential` in analogy to other parameters that use the `potential` term to specify the functional form or a common choice
 * The `periodic_potential` attribute defaults to `Ewald3D-ConductingBoundary` as a valid keyword that states that the Ewald periodic sum with conducting boundary conditions should be the true potential used for periodic systems
 * PME (and other methods) are permissible approximations to Ewald as long as they are controlled.
@@ -45,10 +47,6 @@ To solve these issues, this OFF-EP proposes:
 * The `nonperiodic_potential` attribute defaults to `Coulomb` indicating the Coulomb potential is to be used in non-periodic systems, though other functional forms are accepted.
 * The `exception_potential` attribute defaults to `Coulomb`, indicating the Coulomb potential is to be used for exceptions, though other functional forms are accepted.
 * We explicitly specify which self-consistent physical constants should be used.
-
-We leave these to future extensions:
-* We reserve the possibility of adding a `nonperiodic_potential` keyword at a future date should it become necessary to permit different choices for non-periodic systems
-* We reserve the possibility of adding specific keywords to specify reaction field potentials for `periodic_potential`
 
 ## Usage and Impact
 
@@ -77,21 +75,15 @@ to a header using version 0.4, which for this case could be
 
 Concretely, the following conversions should be performed:
 
-| 0.3 `method`   | 0.4 `periodic_potential`   | 0.4 `nonperiodic_potential` | 0.4 `exception_potential` |
-|----------------|----------------------------|-----------------------------|---------------------------|
-| PME            | Ewald3D-ConductingBoundary | Coulomb                     | Coulomb                   |
-| reaction-field | reaction-field             | Coulomb                     | Coulomb                   |
-| Coulomb        | Coulomb                    | Coulomb                     | Coulomb                   |
+|  0.3 `method`    |  0.4 `periodic_potential`    |  0.4 `nonperiodic_potential`  |  0.4 `exception_potential`  |
+|------------------|------------------------------|-------------------------------|-----------------------------|
+|  `PME`           | `Ewald3D-ConductingBoundary` | `Coulomb`                     | `Coulomb`                   |
+| `reaction-field` | `charge1*charge2/(4*pi*epsilon0)*(1/r + k_rf*r^2 - c_rf); k_rf=(cutoff^(-3))*(solvent_dielectric-1)/(2*solvent_dielectric+1); c_rf=cutoff^(-1)*(3*solvent_dielectric)/(2*solvent_dielectric+1)`             | `Coulomb`                     | `Coulomb`                   |
+|  `Coulomb`       | `Coulomb`                    | `Coulomb`                     | `Coulomb`                   |
 
-The value of an 0.3 `Electrostatics` section's `cutoff` attribute should be propagated into the 0.4 `Electrostatics` section's `nonperiodic_cutoff` attribute.
+If the 0.3 section's `method` does not actually involve the use of a `cutoff` or `switch_width` (such as is the case if `method="PME"`), those values may be set to their defaults in the 0.4 `Electrostatics` section.
 
-The value of an 0.3 `Electrostatics` section's `switch_width` attribute should be propagated into the 0.4 `Electrostatics` section's `nonperiodic_switch_width` attribute.
-
-The value of the 0.4 `Electrostatics` section's `periodic_cutoff` should be set to `none`.
-
-The value of the 0.4 `Electrostatics` section's `periodic_switch_width` should be set to `none`.
-
-The value of the 0.4 `Electrostatics` section's `solvent_dielectric` should be set to `78.5`.
+The value of the 0.4 `Electrostatics` section's `solvent_dielectric` should be set to `none`.
 
 ## Detailed description
 
@@ -104,33 +96,24 @@ Future OFF-EPs may migrate the specification of which self-consistent physical c
 
 The `method` tag attribute is **removed** and replaced with `periodic_potential`, `nonperiodic_potential`, and `exception_potential`.
 
-The `cutoff` tag attribute is **removed** and replaced with `periodic_cutoff` and `nonperiodic_cutoff`.
-
-The `solvent_dielectric` tag attribute is added.
-
-The optional `nonperiodic_cutoff` tag attribute is intended to have the same meaning as the previous `cutoff` attribute, defaulting to `9.0*angstrom`. 
-
-The optional `nonperiodic_switch_width` tag attribute is intended to have the same meaning as the previous `switch_width` attribute, defaulting to `0*angstrom`.
-
-The optional `periodic_cutoff` and `periodic_switch_width` tag attributes are added to specify the cutoff and switching width used for `periodic_potential` if applicable, both defaulting to `none`.
-Only `periodic_cutoff="none"` and `periodic_switch_width="none"` is allowed for Ewald methods---only finite-ranged methods should set these to a non-`none` value.
-
-The optional `solvent_dielectric` tag attribute is added to specify the solvent dielectric used with finite-ranged potentials, defaulting to `78.5`.
+The optional `solvent_dielectric` tag attribute is added to specify the solvent dielectric used with finite-ranged potentials, defaulting to `none`.
 
 For `periodic_potential`:
+
 * `Ewald3D-ConductingBoundary` (default) denotes that the Ewald potential with conducting (dielectric 0) boundary conditions are used
-* `Coulomb` denotes that the standard Coulomb potential is used with specified cutoff `cutoff`
-* `reaction-field` denotes that reaction-field electrostatics are used
-* A function denotes that the specified function is used with specified cutoff `cutoff` and optionally `solvent_dielectric`
+* `Coulomb` denotes that the standard Coulomb potential should be used with specified cutoff `cutoff` and optionally switch width `switch_width`
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 * Future OFF-EPs may add specific keywords for common choices of reaction field electrostatics
 
 For `nonperiodic_potential`:
-* `Coulomb` (default) denotes that the standard Coulomb potential is used (without reaction field attenuation) with optional specified cutoff `cutoff`
-* A function denotes that the specified function is used with optional specified cutoff `cutoff` and optionally `solvent_dielectric`
+
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 For `exception_potential`:
-* `Coulomb` (default) denotes that the standard Coulomb potential is used with no cutoff
-* A function denotes that the specified function is used with no cutoff and optionally `solvent_dielectric`
+
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 ## Examples
 

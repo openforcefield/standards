@@ -368,7 +368,7 @@ Later revisions will also provide support for special interactions using the `<A
 
 Electrostatic interactions are specified via the `<Electrostatics>` tag.
 ```XML
-<Electrostatics version="0.4" periodic_potential="PME" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
 
 Some methods for computing electrostatic interactions are not valid for periodic systems, so
@@ -377,20 +377,19 @@ separate methods must be specified for periodic (`periodic_potential`) and non-p
 
 The `periodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in periodic systems. Allowed values are:
 
-* `PME` - [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used (DEFAULT)
-* `reaction-field` - [reaction-field electrostatics](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-cutoff) should be used
-* `Coulomb` denotes that the standard Coulomb potential should be used with specified cutoff `periodic_cutoff`
-* A function denotes that the specified function should be used with specified cutoff `periodic_cutoff` and optionally `solvent_dielectric`
+* `Ewald3D-ConductingBoundary` (default) denotes that a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Coulomb` denotes that the standard Coulomb potential should be used with specified cutoff `cutoff` and optionally switch width `switch_width`
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The `nonperiodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in non-periodic systems. Allowed values are:
 
-* `Coulomb` denotes that the standard Coulomb potential should be used (without reaction field attenuation) with optional specified cutoff `nonperiodic_cutoff`
-* A function denotes that the specified function should be used with optional specified cutoff `nonperiodic_cutoff` and optionally `solvent_dielectric`
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The `exception_potential` attribute specifies the treatment of intramolecular electrostatics exceptions, such as scaled 1-4 interactions. Allowed values are:
 
-* `Coulomb` denotes that the standard Coulomb potential should be used with no cutoff
-* A function denotes that the specified function should be used with no cutoff and optionally `solvent_dielectric`
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The interaction scaling parameters applied to atoms connected by a few bonds are
 
@@ -401,12 +400,14 @@ The interaction scaling parameters applied to atoms connected by a few bonds are
 
 Currently, no child tags are used because the charge model is specified via different means (currently library charges or BCCs).
 
-For methods where the cutoff is not simply an implementation detail but determines the potential energy of the system (such as `reaction-field` and `Coulomb`), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
+For potentials where the cutoff determines the potential energy of the system (such as reaction field methods and `Coulomb`), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
+
+For potentials which do not make use of a `cutoff` or `switch_width`, these values will not be used (and it is strongly recommended that they be set to `none` to avoid ambiguity.) 
 
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
-| 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"`  | N/A                           | N/A                           |
-| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `periodic_cutoff="none"`, `nonperiodic_cutoff="9.0*angstrom"`, `periodic_switch_width="none"`, `nonperiodic_switch_width="0*angstrom"`, `periodic_potential="PME"`, `nonperiodic_potential="Coulomb"`, `exception_potential="Coulomb"`, `solvent_dielectric="78.5"`   | N/A                           | N/A                           |
+| 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"` | N/A                           | N/A                           |
+| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="none"`, `switch_width="none"`, `periodic_potential="Ewald3D-ConductingBoundary"`, `nonperiodic_potential="Coulomb"`, `exception_potential="Coulomb"`, `solvent_dielectric="none"`   | N/A                           | N/A                           |
 
 
 ### `<Bonds>`
