@@ -30,6 +30,8 @@ stages of discussion or completion.
 
 ##### Open Proposals
 
+* [OFF-EP 6 &mdash; Define virtual site exclusion policy](enhancement-proposals/off-ep-0006.md)
+
 ##### Final Proposals
 
 ##### Rejected Proposals

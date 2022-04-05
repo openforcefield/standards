@@ -693,6 +693,18 @@ N may index any indexed atom.
 Additionally, each virtual site can bear Lennard-Jones parameters, specified by `sigma` and `epsilon` or `rmin_half` and `epsilon`.
 If unspecified these default to zero.
 
+Interactions between a virtual site and the other atoms / virtual sites in the molecule are controlled by the `exclusion_policy` parameter that can take values of:
+
+* `parent` - virtual site particles should exclude non-bonded interactions with, or scale their interactions with, the 
+  same particles that the main 'parent atom' that they are attached to does. Which atom is the 'parent atom' depends on 
+  the type of virtual site: for `BondCharge`, `MonovalentLonePair`, `DivalentLonePair`, and `TrivalentLonePair` types, 
+  it is the atom labelled `:1` in the SMIRKS pattern.
+
+  As an example, if the parent atom is separated by two bonds from another atom i.e a 1-3 pair, the virtual sites'
+  interaction with that other atom should also be treated as a 1-3 pair. Similarly, if the parent atom is separated by 
+  three bonds from another atom i.e a 1-4 pair, the virtual sites' interaction with that other atom should also be 
+  treated as a 1-4 pair and the interaction should be scaled by the appropriate `scale14` factor. 
+
 In the SMIRNOFF format, these are encoded as:
 ```XML
 <VirtualSites version="0.3" exclusion_policy="parents">
