@@ -695,7 +695,7 @@ If unspecified these default to zero.
 
 Interactions between a virtual site and the other atoms / virtual sites in the molecule are controlled by the `exclusion_policy` parameter that can take values of:
 
-* `parent` - virtual site particles should exclude non-bonded interactions with, or scale their interactions with, the 
+* `parents` - virtual site particles should exclude non-bonded interactions with, or scale their interactions with, the 
   same particles that the main 'parent atom' that they are attached to does. Which atom is the 'parent atom' depends on 
   the type of virtual site: for `BondCharge`, `MonovalentLonePair`, `DivalentLonePair`, and `TrivalentLonePair` types, 
   it is the atom labelled `:1` in the SMIRKS pattern.
