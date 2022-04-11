@@ -1,6 +1,6 @@
 # OFF-EP 6 — Define virtual site exclusion policy
 
-**Status:** Proposed
+**Status:** Accepted
 
 **Authors:** Simon Boothroyd, simon.boothroyd@openforcefield.org
 
