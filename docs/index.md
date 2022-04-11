@@ -27,6 +27,7 @@ stages of discussion or completion.
 ##### Accepted Proposals
 
 * [OFF-EP 1 &mdash; Clarify that constraint distances override equilibrium bond distances](enhancement-proposals/off-ep-0001.md)
+* [OFF-EP 6 &mdash; Define virtual site exclusion policy](enhancement-proposals/off-ep-0006.md)
 
 ##### Open Proposals
 
