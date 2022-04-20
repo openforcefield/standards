@@ -378,7 +378,6 @@ separate methods must be specified for periodic (`periodic_potential`) and non-p
 The `periodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in periodic systems. Allowed values are:
 
 * `Ewald3D-ConductingBoundary` (default) denotes that a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
-* `Coulomb` denotes that the standard Coulomb potential should be used with specified cutoff `cutoff` and optionally switch width `switch_width`
 * A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The `nonperiodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in non-periodic systems. Allowed values are:

@@ -79,7 +79,7 @@ Concretely, the following conversions should be performed:
 |------------------|------------------------------|-------------------------------|-----------------------------|
 |  `PME`           | `Ewald3D-ConductingBoundary` | `Coulomb`                     | `Coulomb`                   |
 | `reaction-field` | `charge1*charge2/(4*pi*epsilon0)*(1/r + k_rf*r^2 - c_rf); k_rf=(cutoff^(-3))*(solvent_dielectric-1)/(2*solvent_dielectric+1); c_rf=cutoff^(-1)*(3*solvent_dielectric)/(2*solvent_dielectric+1)`             | `Coulomb`                     | `Coulomb`                   |
-|  `Coulomb`       | `Coulomb`                    | `Coulomb`                     | `Coulomb`                   |
+|  `Coulomb`       | `Ewald3D-ConductingBoundary` | `Coulomb`                     | `Coulomb`                   |
 
 If the 0.3 section's `method` does not actually involve the use of a `cutoff` or `switch_width` (such as is the case if `method="PME"`), those values may be set to their defaults in the 0.4 `Electrostatics` section.
 
@@ -101,7 +101,6 @@ The optional `solvent_dielectric` tag attribute is added to specify the solvent 
 For `periodic_potential`:
 
 * `Ewald3D-ConductingBoundary` (default) denotes that the Ewald potential with conducting (dielectric 0) boundary conditions are used
-* `Coulomb` denotes that the standard Coulomb potential should be used with specified cutoff `cutoff` and optionally switch width `switch_width`
 * A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 * Future OFF-EPs may add specific keywords for common choices of reaction field electrostatics
 
