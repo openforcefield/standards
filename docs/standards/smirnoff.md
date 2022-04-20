@@ -104,6 +104,10 @@ The `<Date>` tag should conform to [ISO 8601 date formatting guidelines](https:/
 !!! todo
     Should we have a separate `<Metadata>` or `<Provenance>` section that users can add whatever they want to? This would minimize the potential for accidentally colliding with other tags we add in the future.
 
+### Physical constants
+
+All published SMIRNOFF specification versions are intended for use with CODATA 2018 physical constants.  
+
 ### Parameter generators
 
 Within the `<SMIRNOFF>` tag, top-level tags encode parameters for a force field based on a SMARTS/SMIRKS-based specification describing the chemical environment the parameters are to be applied to.
@@ -364,13 +368,27 @@ Later revisions will also provide support for special interactions using the `<A
 
 Electrostatic interactions are specified via the `<Electrostatics>` tag.
 ```XML
-<Electrostatics version="0.3" method="PME" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
+<Electrostatics version="0.4" periodic_potential="Ewald3D-ConductingBoundary" nonperiodic_potential="Coulomb" exception_potential="Coulomb" scale12="0.0" scale13="0.0" scale14="0.833333" scale15="1.0"/>
 ```
-The `method` attribute specifies the manner in which electrostatic interactions are to be computed:
 
-* `PME` - [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used (DEFAULT); can only apply to periodic systems
-* `reaction-field` - [reaction-field electrostatics](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-cutoff) should be used; can only apply to periodic systems
-* `Coulomb` - direct Coulomb interactions (with no reaction-field attenuation) should be used
+Some methods for computing electrostatic interactions are not valid for periodic systems, so
+separate methods must be specified for periodic (`periodic_potential`) and non-periodic
+(`nonperiodic_potential`) systems.
+
+The `periodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in periodic systems. Allowed values are:
+
+* `Ewald3D-ConductingBoundary` (default) denotes that a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
+
+The `nonperiodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in non-periodic systems. Allowed values are:
+
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
+
+The `exception_potential` attribute specifies the treatment of intramolecular electrostatics exceptions, such as scaled 1-4 interactions. Allowed values are:
+
+* `Coulomb` (default) denotes that the standard Coulomb potential should be used with no cutoff or reaction-field attenuation
+* A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The interaction scaling parameters applied to atoms connected by a few bonds are
 
@@ -381,11 +399,14 @@ The interaction scaling parameters applied to atoms connected by a few bonds are
 
 Currently, no child tags are used because the charge model is specified via different means (currently library charges or BCCs).
 
-For methods where the cutoff is not simply an implementation detail but determines the potential energy of the system (`reaction-field` and `Coulomb`), the `cutoff` distance must also be specified, and a `switch_width` if a switching function is to be used.
+For potentials where the cutoff determines the potential energy of the system (such as custom expression or reaction field methods), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
+
+It is possible to define an Electrostatics section where no potential uses `cutoff`, `switch_width`, or `solvent_dielectric`. In these cases it is strongly recommended that these values be set to `none` to avoid ambiguity. 
 
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
-| 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"`  | N/A                           | N/A                           |
+| 0.3                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="0*angstrom"`, `method="PME"` | N/A                           | N/A                           |
+| 0.4                                | `scale12="0"`, `scale13="0"`, `scale14="0.833333"`, `scale15="1.0"`, `cutoff="none"`, `switch_width="none"`, `periodic_potential="Ewald3D-ConductingBoundary"`, `nonperiodic_potential="Coulomb"`, `exception_potential="Coulomb"`, `solvent_dielectric="none"`   | N/A                           | N/A                           |
 
 
 ### `<Bonds>`
