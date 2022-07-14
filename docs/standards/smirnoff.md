@@ -361,7 +361,7 @@ Later revisions will also provide support for special interactions using the `<A
 
 | vdW section tag version | Tag attributes and default values                                                                                                                                                                                 | Required parameter attributes                 | Optional parameter attributes |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
-| 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"`, `long_range_dispersion="isotropic"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
