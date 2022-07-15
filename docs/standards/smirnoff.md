@@ -327,7 +327,7 @@ For standard Lennard-Jones 12-6 potentials (specified via `potential="Lennard-Jo
 The two are related by `r0 = 2^(1/6)*sigma` and conversion is done internally into the `sigma` values used in OpenMM.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
-as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), the cutoff (`cutoff`, default: `"9.0*angstroms"`), and long-range dispersion treatment scheme (`long_range_dispersion`, default: `"isotropic"`).
+as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), and the cutoff (`cutoff`, default: `"9.0*angstroms"`). Version 0.3 assumes that the long-range dispersion handling is isotropic.
 
 The `potential` attribute (default: `"none"`) specifies the potential energy function to use.
 Currently, only `potential="Lennard-Jones-12-6"` is supported:
