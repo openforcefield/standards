@@ -317,7 +317,7 @@ As an example of a complete SMIRNOFF force field specification, see [a recent fo
 
 van der Waals force parameters, which include repulsive forces arising from Pauli exclusion and attractive forces arising from dispersion, are specified via the `<vdW>` tag with sub-tags for individual `Atom` entries, such as:
 ```XML
-<vdW version="0.3" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="8.0*angstrom" cutoff="9.0*angstrom">
+<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="8.0*angstrom" cutoff="9.0*angstrom" long_range_dispersion="isotropic">
    <Atom smirks="[#1:1]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    <Atom smirks="[#1:1]-[#6]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    ...
@@ -327,7 +327,9 @@ For standard Lennard-Jones 12-6 potentials (specified via `potential="Lennard-Jo
 The two are related by `r0 = 2^(1/6)*sigma` and conversion is done internally into the `sigma` values used in OpenMM.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
-as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), and the cutoff (`cutoff`, default: `"9.0*angstroms"`). Version 0.3 assumes that the long-range dispersion handling is isotropic.
+as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), the cutoff (`cutoff`, default: `"9.0*angstroms"`).
+
+Version 0.4 includes a `long_range_dispersion` attribute (default: `"isotropic"`) that controls if long-range dispersion correction(s) are to be used. Supported values are `"isotropic"` (an isotroping long-range dispersion correction as desribed in [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) should be used) or `"none"` (use none). Version 0.3 assumes that the long-range dispersion handling is isotropic.
 
 The `potential` attribute (default: `"none"`) specifies the potential energy function to use.
 Currently, only `potential="Lennard-Jones-12-6"` is supported:
@@ -362,6 +364,7 @@ Later revisions will also provide support for special interactions using the `<A
 | vdW section tag version | Tag attributes and default values                                                                                                                                                                                 | Required parameter attributes                 | Optional parameter attributes |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.4                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"`, `long_range_dispersion="isotropic"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
