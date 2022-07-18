@@ -4,7 +4,7 @@
 
 **Authors:** Matt Thompson
 
-**Stakeholders:**
+**Stakeholders:** Jeffrey Wagner, David Mobley, John Chodera
 
 **Acceptance criteria:** <Unanimity>
 
