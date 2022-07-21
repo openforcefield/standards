@@ -66,8 +66,8 @@ Supported values are
 
 The default value, which is recommended for general use, is `"isotropic"`.
 
-These options only sensibly apply to periodic systems and only to vdW interactions. For non-periodic
-systems, this attribute should be ignored by implementations.
+These options only sensibly apply to periodic systems and only to vdW interactions with a cut-off. For non-periodic
+systems or those using full long-range interactions (i.e. LJPME), this attribute should be ignored by implementations.
 
 No other sections are updated, therefore this change is not meant to impact electrostatic interactions.
 
