@@ -60,7 +60,8 @@ any 0.3 version section is up-converted to a 0.4 section with the only change be
 A `long_range_dispersion` attribute is added to the `vdW` section, which is bumped to 0.4.
 Supported values are
   * `"isotropic"`: Isotropic dispersion corrections described in
-    [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) should be used.
+    [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) and implemented in
+    [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection) should be used.
   * `"none"`: No dispersion corrections should be used.
 
 The default value, which is recommended for general use, is `"isotropic"`.
