@@ -450,7 +450,7 @@ can be replaced by a single parameter line by first invoking the `fractional_bon
 ```
 This allows specification of force constants and lengths for bond orders 1 and 2, and then interpolation between those based on the partial bond order.
 
-* `fractional_bondorder_method` defaults to `AM1-Wiberg`.
+* `fractional_bondorder_method` defaults to `AM1-Wiberg`, which is the only supported scheme for now.
 * `fractional_bondorder_interpolation` defaults to `linear`, which is the only supported scheme for now.
 
 | Bonds section tag version | Tag attributes and default values                                                                                           | Required parameter attributes                 | Optional parameter attributes |
@@ -548,7 +548,7 @@ A fractional bond order of .9 would yield an interpolated `k#` value determined 
 
 Some key usage points:
 
-* `fractional_bondorder_method` defaults to `AM1-Wiberg`.
+* `fractional_bondorder_method` defaults to `AM1-Wiberg`, which is the only supported scheme for now.
 * `fractional_bondorder_interpolation` defaults to `linear`, which is the only supported scheme for now.
 
 |  ProperTorsions section tag version | Tag attributes and default values                                                                                                                                   | Required parameter attributes                            | Optional parameter attributes  |
