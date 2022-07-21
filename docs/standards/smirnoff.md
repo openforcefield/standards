@@ -566,7 +566,7 @@ Improper torsions are specified via an `<ImproperTorsions>...</ImproperTorsions>
     ...
 </ImproperTorsions>
 ```
-Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form:
+Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form of CHARMM:
 ```
 U = \sum_{i=1}^N k_i * (1 + cos(periodicity_i * phi - phase_i))
 ```
