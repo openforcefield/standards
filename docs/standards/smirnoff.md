@@ -566,7 +566,7 @@ Improper torsions are specified via an `<ImproperTorsions>...</ImproperTorsions>
     ...
 </ImproperTorsions>
 ```
-Currently, only `potential="charmm"` is supported, where we utilize the functional form:
+Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form of CHARMM:
 ```
 U = \sum_{i=1}^N k_i * (1 + cos(periodicity_i * phi - phase_i))
 ```
@@ -574,7 +574,7 @@ U = \sum_{i=1}^N k_i * (1 + cos(periodicity_i * phi - phase_i))
 !!! note
     **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format.
 
-If the `potential` attribute is omitted, it defaults to `charmm`.
+If the `potential` attribute is omitted, it defaults to `"k*(1+cos(periodicity*theta-phase))"`.
 
 The improper torsion energy is computed as the average over all three impropers (all with the same handedness) in a [trefoil](https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Trefoil_knot_left.svg/2000px-Trefoil_knot_left.svg.png).
 This avoids the dependence on arbitrary atom orderings that occur in more traditional typing engines such as those used in AMBER.
