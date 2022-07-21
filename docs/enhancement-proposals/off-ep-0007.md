@@ -16,13 +16,13 @@
 
 ## Abstract
 
-This change exposes long-range dispersion corrections as a toggleable option in the vdW section of
+This change exposes long-range dispersion corrections as a toggle-able option in the vdW section of
 the SMIRNOFF specification.
 
 ## Motivation and Scope
 
 In version 0.3 of the `<vdW>` tag, there is no exposed option for turning on or off long-range
-dispersion corrections. Existing implementaions of SMIRNOFF, to our knowldge, all use an isotropic
+dispersion corrections. Existing implementations of SMIRNOFF, to our knowledge, all use an isotropic
 correction, but in some current or future use cases it may be desired to turn this off or use a different type of
 correction. This proposal makes this an explicit attribute and also adds a non-default value that enables users
 to turn this correction off. It does not attempt to modify other non-bonded settings (cut-off
@@ -50,7 +50,7 @@ This change proposes adding an attribute to a section, so in a strict sense it i
 backwards-compatible. (A parser that only knows about version 0.3 might not understand a serialized
 representation of a version 0.4 section because of this new attribute, and at very least the
 information would be lost in a down-conversion.) However, the recommended
-default value matches what is currently ubiquituous in SMIRNOFF implementations, so an up-converter
+default value matches what is currently ubiquitous in SMIRNOFF implementations, so an up-converter
 from section 0.3 to 0.4 should be straightforward to write and safe to use. It is recommended that
 any 0.3 version section is up-converted to a 0.4 section with the only change being an added
 `long_range_dispersion` attribute with its default value of `"isotropic"`.
@@ -76,7 +76,7 @@ No other sections are updated, therefore this change is not meant to impact elec
 No alternative proposals are under consideration or offered. If this proposal were to be rejected,
 implementations would likely continue using long-range dispersion corrections, but would lack
 guidance from the SMIRNOFF specification and no other values (such as turning corrections off) would
-unamiguously be supported.
+unambiguously be supported.
 
 ## Discussion
 
