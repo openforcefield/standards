@@ -1,8 +1,8 @@
-# OFF-EP 0007 — Add long-range dispersion attribute in vdW section
+# OFF-EP 0007b — Add long-range dispersion attribute in vdW section
 
 **Status:** Draft
 
-**Authors:** Matt Thompson
+**Authors:** Matt Thompson, John Chodera
 
 **Stakeholders:** Jeffrey Wagner, David Mobley, John Chodera
 
@@ -10,39 +10,54 @@
 
 **Created:** 2022-06-18
 
-**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40)
+**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40) [PR #41](https://github.com/openforcefield/standards/pull/41)
 
 **Implementation:** [``openff-standards``](https://github.com/openforcefield/openff-standards)
 
 ## Abstract
 
-This change exposes long-range dispersion corrections as a toggle-able option in the vdW section of
-the SMIRNOFF specification.
+This change adds an attribute to the `vdW` section of the SMIRNOFF specification to clarify how long-range vdW interactions are handled.
 
 ## Motivation and Scope
 
-In version 0.3 of the `<vdW>` tag, there is no exposed option for turning on or off long-range
-dispersion corrections. Existing implementations of SMIRNOFF, to our knowledge, all use an isotropic
-correction, but in some current or future use cases it may be desired to turn this off or use a different type of
-correction. This proposal makes this an explicit attribute and also adds a non-default value that enables users
-to turn this correction off. It does not attempt to modify other non-bonded settings (cut-off
-distance and method, switching function, mixing rule, or long-range electrostatics treatment).
+In version 0.3 of the `<vdW>` tag, there is no exposed option for specifying how long-range vdW interactions are to be handled.
+Existing implementations of SMIRNOFF, to our knowledge, all presume an isotropic long-range dispersion correction is used,
+but important details that determine the "correct" potential energy are omitted, and no facility to specify alternative approaches to treating
+long-range interactions is provided. This proposal makes this an explicit attribute and adds specifications for the most important variants:
+no long-range vdW correction (`none`),
+an isotropic long-range vdW correction that integrates the vdW potential against the switching function out to infinite pair separation (`isotropic`),
+and the LJPME formulation (`LJPME`).
 
 ## Usage and Impact
 
-Existing SMIRNOFF implementations currently turn on a long-range dispersion correction (i.e. [OpenFF
-Toolkit](https://github.com/openforcefield/openff-toolkit/blob/0.10.6/openff/toolkit/typing/engines/smirnoff/parameters.py#L3695)) following guidance from [Standards #38](https://github.com/openforcefield/standards/pull/38) recently and a lack of guidance previously.
-Updating the specification would not impact this behavior if using default and recommended settings.
-Users wishing to turn this correction off, for whatever reason, would now be able to do so while
-still following the SMIRNOFF specifications.
+While existing SMIRNOFF implementations always use a long-range isotropic dispersion correction (i.e. [OpenFF
+Toolkit](https://github.com/openforcefield/openff-toolkit/blob/0.10.6/openff/toolkit/typing/engines/smirnoff/parameters.py#L3695)),
+following discussion in [Standards #38](https://github.com/openforcefield/standards/pull/38), it was recognized that
+(1) there was no way to disable this long-range correction or specify an important alternative approach (LJPME) that leads to a different potential definition,
+(2) the exact form of the long-range isotropic dispersion correction currently used was not specified as part of the SMIRNOFF standard.
+Updating the specification would not impact this behavior if using the default, recommended setting.
 
-Most engines implement some form of isotropic long-range dispersion correction. In
-[OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection),
+This proposed enhancement would provide a way to disable the long-range vdW correction as well as build force fields that use LJPME,
+which has been recognized as being important in treating heterogeneous systems such as [those containing lipid bilayers](https://doi.org/10.1021/ct400140n).
+
+Most engines implement a common form of isotropic long-range vdW correction in which the pairwise vdW potential is averaged over all vdW site pairs
+and integrated (numerically or analytically) alongside a surface area term (and a term to account for the switching function if one is in use) to account for the missing interactions out to infinite separation:
+```
+U_{correction} = [N (N-1)]^{-1} \sum_{i < j}^N \int_0^{\infty} dr [1-S(r)] [4 \pi r^2] U_{vdw}(r)
+```
+Here, `U_{correction}` is the long-range vdW correction, `N` is the number of vdW sites, `S(r)` is the switching function or cutoff function that assumes the value of `S(r) = 0` for `r \ge r_{cut}` and `S(r) = 1` for `r ~ 0`.
+
+In [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection),
 this is controlled via a method that accepts a boolean toggle. Similar options are implemented
 in [GROMACS](https://manual.gromacs.org/current/user-guide/mdp-options.html#mdp-DispCorr), AMBER
 (`nodisper`), [LAMMPS](https://docs.lammps.org/pair_modify.html), and likely other engines. However
 unlikely, if in the future other types of corrections than the current isotropic one are developed,
 this specification can be extended because the setting is a string value, not a boolean.
+
+Many of these engines also provided the capability to use LJPME.
+As with electrostatics, we do not specify the exact parameters used for PME (real-space cutoff, grid spacing, error tolerance);
+the SMIRNOFF spec instead specifies the Ewald sum is the true desired potential and the simulation engine must make a faithful
+approximation of this true potential, but can adjust settings or use other algorithms to achieve improved performance without introducing significant error.
 
 ## Backward compatibility
 
@@ -53,21 +68,27 @@ information would be lost in a down-conversion.) However, the recommended
 default value matches what is currently ubiquitous in SMIRNOFF implementations, so an up-converter
 from section 0.3 to 0.4 should be straightforward to write and safe to use. It is recommended that
 any 0.3 version section is up-converted to a 0.4 section with the only change being an added
-`long_range_dispersion` attribute with its default value of `"isotropic"`.
+`long_range_treatment` attribute with its default value of `"isotropic"`.
 
 ## Detailed description
 
-A `long_range_dispersion` attribute is added to the `vdW` section, which is bumped to 0.4.
+A `long_range_treatment` attribute is added to the `vdW` section, which is bumped to version 0.4.
+
 Supported values are
-  * `"isotropic"`: Isotropic dispersion corrections described in
-    [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) and implemented in
-    [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection) should be used.
-  * `"none"`: No dispersion corrections should be used.
+  * `"none"`: No long-range vdW correction is applied.
+  * `"isotropic"`: An isotropic vdW correction, described below, is applied.
+  * `"LJPME"`: An Ewald sum is used (commonly referred to as LJPME) to treat the vdW potential in a periodic manner [1](https://doi.org/10.1063/1.464397) [2](http://dx.doi.org/10.1063/1.465608) [3](https://doi.org/10.1021/acs.jctc.5b00726). Note that this is only compatible with certain forms of the potential that involve sums of inverse even powers of `r`.
 
 The default value, which is recommended for general use, is `"isotropic"`.
 
-These options only sensibly apply to periodic systems and only to vdW interactions with a cut-off. For non-periodic
-systems or those using full long-range interactions (i.e. LJPME), this attribute should be ignored by implementations.
+The long-range correction would only be applied to periodic systems; it would be omitted and this attribute ignored for non-periodic systems.
+
+For the `"isotropic"` case, the correction is computed as
+```
+U_{correction} = [N (N-1)]^{-1} \sum_{i < j}^N \int_0^{\infty} dr [1-S(r)] [4 \pi r^2] U_{vdw}(r)
+```
+Here, `U_{correction}` is the long-range vdW correction, `N` is the number of vdW sites, `S(r)` is the switching function or cutoff function that assumes the value of `S(r) = 0` for `r \ge r_{cut}` and `S(r) = 1` for `r ~ 0`.
+This is described in more detail in [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) and implemented in [OpenMM](http://openmm.org) for [Lennard-Jones 12-6 potentials analytically](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection) and for other vdW potentials [numerically](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.CustomNonbondedForce.html#openmm.openmm.CustomNonbondedForce.setUseLongRangeCorrection).
 
 No other sections are updated, therefore this change is not meant to impact electrostatic interactions.
 
