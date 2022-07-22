@@ -10,7 +10,7 @@
 
 **Created:** 2022-06-18
 
-**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40) [PR #41](https://github.com/openforcefield/standards/pull/41)
+**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40) [PR #44](https://github.com/openforcefield/standards/pull/44)
 
 **Implementation:** [``openff-standards``](https://github.com/openforcefield/openff-standards)
 
