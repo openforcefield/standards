@@ -6,7 +6,7 @@
 
 **Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
 
-**Acceptance criteria:** <Unanimity>
+**Acceptance criteria:** Acceptance by at least 3 of John Chodera, David Mobley, Lily Wang, or Jeff Wagner
 
 **Created:** &lt;date created>
 
@@ -29,7 +29,7 @@ If the proposal is based around changes to software, this section should clearly
 ## Usage and Impact
 
 This section describes how users of the ecosystem will use features 
-described in this NEP. It should be comprised mainly of code / file 
+described in this SMIRNOFF EP. It should be comprised mainly of code / file 
 examples that wouldn't  be possible without acceptance and implementation 
 of this proposal, as well as the impact the proposed changes would have 
 on the ecosystem. 
