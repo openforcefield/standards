@@ -53,7 +53,7 @@ respectively.
 
 Either `periodic_method` or `nonperiodic_method` can take the following values:
 
-* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` argument.
+* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` attribute.
 * `"no-cutoff"`: The vdW interaction is not truncated.
 
 The default values, and the implied up-conversion from `method="cutoff"`, are `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`.

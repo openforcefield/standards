@@ -328,10 +328,10 @@ The two are related by `r0 = 2^(1/6)*sigma` and conversion is done internally in
 
 Different cut-off treatments can be applied to periodic and non-periodic systems using the `periodic_method` and `nonperiodic_method` attributes, respectively. Each can take the following values:
 
-* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` argument.
+* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` attribute.
 * `"no-cutoff"`: The vdW interaction is not truncated.
 
-By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`.
+By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
 as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), and the cutoff (`cutoff`, default: `"9.0*angstroms"`). Version 0.3 assumes that the long-range dispersion handling is isotropic.
