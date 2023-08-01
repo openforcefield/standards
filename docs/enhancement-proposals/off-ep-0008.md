@@ -32,11 +32,9 @@ interactions without a cut-off are not supported by SMIRNOFF.
 
 ## Usage and Impact
 
-This section describes how users of the ecosystem will use features 
-described in this SMIRNOFF EP. It should be comprised mainly of code / file 
-examples that wouldn't  be possible without acceptance and implementation 
-of this proposal, as well as the impact the proposed changes would have 
-on the ecosystem. 
+As these proposed changes bring the specification in line with existing implementations, such as how OpenFF software
+implements SMIRNOFF, there is no practical impact on existing workflows. Other software that implements the SMIRNOFF
+specification may need to be updated.
 
 ## Backward compatibility
 
@@ -47,16 +45,18 @@ and community practices more broadly.
 
 ## Detailed description
 
+The vdW method section is updated to version 0.4.
+
 The `method` option is removed from the vdW section and replaced with two new options: `periodic_method` and
 `nonperiodic_method`. These encode the method that should be used for periodic and non-periodic simulations,
 respectively.
 
 Either `periodic_method` or `nonperiodic_method` can take the following values:
 
-* `"cutoff"`: The vdW interaction is truncated at some distance.
-* `"no-cutoff"`: The vdW interaction is truncated at some distance.
+* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` argument.
+* `"no-cutoff"`: The vdW interaction is not truncated.
 
-The `potential` option in the vdW section is not affected.
+Other options in the vdW section, such as `potential`, are not affected.
 
 ## Alternatives
 
