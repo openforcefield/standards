@@ -28,7 +28,7 @@ gas phase (no cut-off). This causes an issue for existing implementations, which
 in the gas phase despite not being a part of the SMIRNOFF specification.
 
 Additionally, the current specification implies that the only supported vdW method is "cutoff" and, by extension, that vdW
-interactions without a cut-off are not supported by SMIRNOFF.
+interactions without a cut-off are not supported by SMIRNOFF despite its common use.
 
 ## Usage and Impact
 
@@ -68,7 +68,7 @@ details into one setting, is non-trivial to parse, and makes future extensions t
 
 ## Discussion
 
-* [Ambiguitiy with periodicity](https://github.com/openforcefield/standards/pull/51)
+* [Ambiguity with periodicity](https://github.com/openforcefield/standards/pull/51)
 * [Lack of support for non-cut-off interactions](https://github.com/openforcefield/standards/issues/7)
 * A similar change to the Electrostatics section was accepted in OFF-EP 0005
 
