@@ -317,7 +317,7 @@ As an example of a complete SMIRNOFF force field specification, see [a recent fo
 
 van der Waals force parameters, which include repulsive forces arising from Pauli exclusion and attractive forces arising from dispersion, are specified via the `<vdW>` tag with sub-tags for individual `Atom` entries, such as:
 ```XML
-<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="8.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
+<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
    <Atom smirks="[#1:1]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    <Atom smirks="[#1:1]-[#6]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    ...
@@ -346,7 +346,7 @@ Support for [other Lennard-Jones mixing schemes](https://en.wikipedia.org/wiki/C
 
 Later revisions will add support for additional potential types (e.g., `Buckingham-exp-6`), as well as the ability to support arbitrary algebraic functional forms using a scheme such as
 ```XML
-<vdW version="0.3" potential="4*epsilon*((sigma/r)^12-(sigma/r)^6)" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1" switch_width="8.0*angstrom" cutoff="9.0*angstrom">
+<vdW version="0.3" potential="4*epsilon*((sigma/r)^12-(sigma/r)^6)" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1" switch_width="1.0*angstrom" cutoff="9.0*angstrom">
    <CombiningRules>
       <CombiningRule parameter="sigma" function="(sigma1+sigma2)/2"/>
       <CombiningRule parameter="epsilon" function="sqrt(epsilon1*epsilon2)"/>
