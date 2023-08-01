@@ -17,7 +17,7 @@
 
 ## Abstract
 
-This OFF-EP splits the current vdW `"method"` tag into separate tags for periodic and non-periodic systems and adds `"no-cutoff"` as a supported method.
+This OFF-EP splits the current `"method"` attribute in the vdW section into separate tags for periodic and non-periodic systems and adds `"no-cutoff"` as a supported method.
 
 ## Motivation and Scope
 
@@ -47,7 +47,7 @@ and community practices more broadly.
 
 The vdW method section is updated to version 0.4.
 
-The `method` option is removed from the vdW section and replaced with two new options: `periodic_method` and
+The `method` attribute is removed from the vdW section and replaced with two new attributes: `periodic_method` and
 `nonperiodic_method`. These encode the method that should be used for periodic and non-periodic simulations,
 respectively.
 
@@ -58,7 +58,7 @@ Either `periodic_method` or `nonperiodic_method` can take the following values:
 
 The default values, and the implied up-conversion from `method="cutoff"`, are `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`.
 
-Other options in the vdW section, such as `potential`, are not affected.
+Other attributes in the vdW section, such as `potential`, are not affected.
 
 ## Alternatives
 
