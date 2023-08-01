@@ -1,4 +1,4 @@
-# OFF-EP 0008 — Specifying different vdW methods for periodic and non-periodic systems and allow no-cutoff vdW interactions
+# OFF-EP 0008 — Specifying different vdW methods for periodic and non-periodic systems and allow "no-cutoff" vdW interactions
 
 **Status:** Draft
 
@@ -27,7 +27,7 @@ different schemes are used for periodic systems (cut-off interactions with vario
 systems (no cut-off). This causes an issue for existing implementations, which favor the use of a "no cut-off" scheme
 for non-periodic systems despite not being a part of the SMIRNOFF specification.
 
-Additionally, the current specification implies that the only supported vdW method is "cutoff" and, by extension, that vdW
+Additionally, the current specification implies that the only supported vdW method is `"cutoff"` and, by extension, that vdW
 interactions without a cut-off are not supported by SMIRNOFF despite its common use.
 
 ## Usage and Impact
@@ -57,7 +57,7 @@ Either `periodic_method` or `nonperiodic_method` can take the following values:
 * `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` attribute.
 * `"no-cutoff"`: The vdW interaction is not truncated.
 
-The default values, and the implied up-conversion from `method="cutoff"` of version 0.3, are `periodic_method="cutoff`
+The default values, and the implied up-conversion from `method="cutoff"` of version 0.3, are `periodic_method="cutoff"`
 and `nonperiodic_method="no-cutoff"`.
 
 Other attributes in the vdW section, such as `potential`, are not affected.
