@@ -317,7 +317,7 @@ As an example of a complete SMIRNOFF force field specification, see [a recent fo
 
 van der Waals force parameters, which include repulsive forces arising from Pauli exclusion and attractive forces arising from dispersion, are specified via the `<vdW>` tag with sub-tags for individual `Atom` entries, such as:
 ```XML
-<vdW version="0.3" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="8.0*angstrom" cutoff="9.0*angstrom">
+<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
    <Atom smirks="[#1:1]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    <Atom smirks="[#1:1]-[#6]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    ...
@@ -325,6 +325,13 @@ van der Waals force parameters, which include repulsive forces arising from Paul
 ```
 For standard Lennard-Jones 12-6 potentials (specified via `potential="Lennard-Jones-12-6"`), the `epsilon` parameter denotes the well depth, while the size property can be specified either via providing the `sigma` attribute, such as `sigma="1.3*angstrom"`, or via the `r_0/2` (`rmin/2`) values used in AMBER force fields (here denoted `rmin_half` as in the example above).
 The two are related by `r0 = 2^(1/6)*sigma` and conversion is done internally into the `sigma` values used in OpenMM.
+
+Different cut-off treatments can be applied to periodic and non-periodic systems using the `periodic_method` and `nonperiodic_method` attributes, respectively. Each can take the following values:
+
+* `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` attribute.
+* `"no-cutoff"`: The vdW interaction is not truncated.
+
+By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
 as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), and the cutoff (`cutoff`, default: `"9.0*angstroms"`). Version 0.3 assumes that the long-range dispersion handling is isotropic.
@@ -339,7 +346,7 @@ Support for [other Lennard-Jones mixing schemes](https://en.wikipedia.org/wiki/C
 
 Later revisions will add support for additional potential types (e.g., `Buckingham-exp-6`), as well as the ability to support arbitrary algebraic functional forms using a scheme such as
 ```XML
-<vdW version="0.3" potential="4*epsilon*((sigma/r)^12-(sigma/r)^6)" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1" switch_width="8.0*angstrom" cutoff="9.0*angstrom">
+<vdW version="0.3" potential="4*epsilon*((sigma/r)^12-(sigma/r)^6)" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1" switch_width="1.0*angstrom" cutoff="9.0*angstrom">
    <CombiningRules>
       <CombiningRule parameter="sigma" function="(sigma1+sigma2)/2"/>
       <CombiningRule parameter="epsilon" function="sqrt(epsilon1*epsilon2)"/>
@@ -362,6 +369,7 @@ Later revisions will also provide support for special interactions using the `<A
 | vdW section tag version | Tag attributes and default values                                                                                                                                                                                 | Required parameter attributes                 | Optional parameter attributes |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.4                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `periodic_method="cutoff"`, `nonperiodic_method="no-cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
