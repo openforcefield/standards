@@ -317,7 +317,7 @@ As an example of a complete SMIRNOFF force field specification, see [a recent fo
 
 van der Waals force parameters, which include repulsive forces arising from Pauli exclusion and attractive forces arising from dispersion, are specified via the `<vdW>` tag with sub-tags for individual `Atom` entries, such as:
 ```XML
-<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
+<vdW version="0.5" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
    <Atom smirks="[#1:1]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    <Atom smirks="[#1:1]-[#6]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    ...
@@ -330,6 +330,10 @@ Different cut-off treatments can be applied to periodic and non-periodic systems
 
 * `"cutoff"`: The vdW interaction is truncated at a distance specified by the `cutoff` attribute.
 * `"no-cutoff"`: The vdW interaction is not truncated.
+
+`periodic_method` can take additionally take the following values:
+
+* `Ewald3D-ConductingBoundary`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
 
 By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
@@ -370,6 +374,7 @@ Later revisions will also provide support for special interactions using the `<A
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 | 0.4                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `periodic_method="cutoff"`, `nonperiodic_method="no-cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.5                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `periodic_method="cutoff"`, `nonperiodic_method="no-cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
