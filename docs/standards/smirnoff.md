@@ -74,11 +74,11 @@ The version format is `x.y`, where `x` denotes the major version and `y` denotes
 SMIRNOFF versions are guaranteed to be backward-compatible within the *same major version number series*, but it is possible major version increments will break backwards-compatibility.
 
 
-| SMIRNOFF tag version | Required attributes | Optional attributes | 
-|----------------------|---------------------|---------------------| 
-| 0.1                  | `aromaticity_model` | `Date`, `Author`    | 
-| 0.2                  | `aromaticity_model` | `Date`, `Author`    | 
-| 0.3                  | `aromaticity_model` | `Date`, `Author`    | 
+| SMIRNOFF tag version | Required attributes | Optional attributes |
+|----------------------|---------------------|---------------------|
+| 0.1                  | `aromaticity_model` | `Date`, `Author`    |
+| 0.2                  | `aromaticity_model` | `Date`, `Author`    |
+| 0.3                  | `aromaticity_model` | `Date`, `Author`    |
 
 
 The SMIRNOFF tag versions describe the required and allowed force field-wide settings. The list of keywords is as follows:
@@ -137,7 +137,7 @@ The strings `:1`, `:2`, and `:2` label these atoms as indices 1, 2, and 3, with 
 Equilibrium angles are provided as the `angle` attribute, along with force constants as the `k` attribute (with corresponding units included in the expression).
 
 !!! note
-    The reference implementation of the SMIRNOFF specification implemented in the Open Force Field Toolkit will, by default, raise an exception if an unexpected attribute is encountered. The toolkit can be configured to accept non-spec keywords, but these are considered "cosmetic" and will not be evaluated. 
+    The reference implementation of the SMIRNOFF specification implemented in the Open Force Field Toolkit will, by default, raise an exception if an unexpected attribute is encountered. The toolkit can be configured to accept non-spec keywords, but these are considered "cosmetic" and will not be evaluated.
     For example, providing an `<Angle>` tag that also specifies a second force constant `k2` will result in an exception, unless the user specifies that "cosmetic" attributes should be accepted by the parser.
 
 ### SMIRNOFF parameter specification is hierarchical
@@ -159,7 +159,7 @@ This behavior is intended for limited use in appending very specific parameters,
 
 To minimize the potential for [unit conversion errors](https://en.wikipedia.org/wiki/Mars_Climate_Orbiter#Cause_of_failure), SMIRNOFF force fields explicitly specify units in a form readable to both humans and computers for all unit-bearing quantities.
 Allowed values for units are given in [simtk.unit](https://github.com/openmm/openmm/blob/master/wrappers/python/simtk/unit/unit_definitions.py) (though in the future this may change to the more widely-used Python [pint library](https://pint.readthedocs.io/en/latest/)).
-For example, for the `angle` (equilibrium angle) and `k` (force constant) parameters in the `<Angle>` example block above, both attributes are specified as a mathematical expression 
+For example, for the `angle` (equilibrium angle) and `k` (force constant) parameters in the `<Angle>` example block above, both attributes are specified as a mathematical expression
 ```XML
    <Angle smirks="[#1:1]-[#6X4:2]-[#1:3]" angle="109.50*degree" k="70.0*kilocalorie_per_mole/radian**2"/>
 ```
@@ -259,9 +259,9 @@ The `<ChargeIncrement>` tags specify how the quantum chemical derived charges ar
 The `charge_increment#` attributes specify how much the charge on the associated tagged atom index (replacing `#`) should be modified.
 
 Starting in the 0.4 version of this section, a `ChargeIncrement` may be specified with one less `charge_increment` value than it has tagged atoms.
-The missing `charge_increment` value must be that of the highest tagged atom index. 
+The missing `charge_increment` value must be that of the highest tagged atom index.
 This missing `charge_increment` will be calculated to offset the sum of the other `charge_increment`s in the same `ChargeIncrement` parameter to achieve a net value of 0.
-This allows `ChargeIncrement` parameters to be defined similar to bond charge corrections. 
+This allows `ChargeIncrement` parameters to be defined similar to bond charge corrections.
 
 Note that atoms for which library charges have already been applied are excluded from charging via `<ChargeIncrementModel>`.
 
@@ -295,7 +295,7 @@ Note that atoms for which prespecified or library charges have already been appl
 ### Prespecified charges (reference implementation only)
 
 In our reference implementation of SMIRNOFF in the Open Force Field Toolkit, we also provide a method for specifying user-defined partial charges during system creation.
-This functionality is accessed by using the `charge_from_molecules` optional argument during system creation, such as in  `ForceField.create_openmm_system(topology, charge_from_molecules=molecule_list)`. 
+This functionality is accessed by using the `charge_from_molecules` optional argument during system creation, such as in  `ForceField.create_openmm_system(topology, charge_from_molecules=molecule_list)`.
 When this optional keyword is provided, all matching molecules will have their charges set by the entries in `molecule_list`.
 This method is provided solely for convenience in developing and exploring alternative charging schemes; actual force field releases for distribution will use one of the other mechanisms specified above.
 
@@ -303,7 +303,7 @@ This method is provided solely for convenience in developing and exploring alter
 
 A SMIRNOFF force field consists of one or more force field term definition sections.
 For the most part, these sections independently define how a specific component of the potential energy function for a molecular system is supposed to be computed (such as bond stretch energies, or Lennard-Jones interactions), as well as how parameters are to be assigned for this particular term.
-Each parameter section contains a `version`, which encodes the behavior of the section, as well as the required and optional attributes the top-level tag and SMIRKS-based parameters. 
+Each parameter section contains a `version`, which encodes the behavior of the section, as well as the required and optional attributes the top-level tag and SMIRKS-based parameters.
 This decoupling of how parameters are assigned for each term provides a great deal of flexibility in composing new force fields while allowing a minimal number of parameters to be used to achieve accurate modeling of intramolecular forces.
 
 Below, we describe the specification for each force field term definition using the XML representation of a SMIRNOFF force field.
@@ -317,7 +317,7 @@ As an example of a complete SMIRNOFF force field specification, see [a recent fo
 
 van der Waals force parameters, which include repulsive forces arising from Pauli exclusion and attractive forces arising from dispersion, are specified via the `<vdW>` tag with sub-tags for individual `Atom` entries, such as:
 ```XML
-<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff">
+<vdW version="0.4" potential="Lennard-Jones-12-6" combining_rules="Lorentz-Berthelot" scale12="0.0" scale13="0.0" scale14="0.5" scale15="1.0" switch_width="1.0*angstrom" cutoff="9.0*angstrom" periodic_method="cutoff" nonperiodic_method="no-cutoff" long_range_treatment="isotropic">
    <Atom smirks="[#1:1]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    <Atom smirks="[#1:1]-[#6]" sigma="1.4870*angstrom" epsilon="0.0157*kilocalories_per_mole"/>
    ...
@@ -334,7 +334,7 @@ Different cut-off treatments can be applied to periodic and non-periodic systems
 By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
 Attributes in the `<vdW>` tag specify the scaling terms applied to the energies of 1-2 (`scale12`, default: 0), 1-3 (`scale13`, default: 0), 1-4 (`scale14`, default: 0.5), and 1-5 (`scale15`, default: 1.0) interactions,
-as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), and the cutoff (`cutoff`, default: `"9.0*angstroms"`). Version 0.3 assumes that the long-range dispersion handling is isotropic.
+as well as the distance at which a switching function is applied (`switch_width`, default: `"1.0*angstrom"`), the cutoff (`cutoff`, default: `"9.0*angstroms"`).
 
 The `potential` attribute (default: `"none"`) specifies the potential energy function to use.
 Currently, only `potential="Lennard-Jones-12-6"` is supported:
@@ -366,10 +366,28 @@ Later revisions will also provide support for special interactions using the `<A
 </vdW>   
 ```
 
+Version 0.4 includes a `long_range_treatment` attribute (default: `"isotropic"`) that controls how long-range vdW iteractions are handled for periodic systems; this attribute is ignored for non-periodic systems.
+
+Supported values of `long_range_treatment` are
+  * `"none"`: No long-range vdW correction is applied.
+  * `"isotropic"`: An isotropic vdW correction, described below, is applied.
+  * `"LJPME"`: An Ewald sum is used (commonly referred to as LJPME) to treat the vdW potential in a periodic manner [1](https://doi.org/10.1063/1.464397) [2](http://dx.doi.org/10.1063/1.465608) [3](https://doi.org/10.1021/acs.jctc.5b00726). Note that this is only compatible with certain forms of the potential that involve sums of inverse even powers of `r`.
+
+For the `"isotropic"` case, the vdW correction is computed as
+```
+U_{correction} = [N (N-1)]^{-1} \sum_{i < j}^N \int_0^{\infty} dr [1-S(r)] [4 \pi r^2] U_{vdw}(r)
+```
+Here, `U_{correction}` is the long-range vdW correction, `N` is the number of vdW sites, `S(r)` is the switching function or cutoff function that assumes the value of `S(r) = 0` for `r \ge r_{cut}` and `S(r) = 1` for `r ~ 0`.
+This is described in more detail in [Shirts, 2007](https://pubs.acs.org/doi/10.1021/jp0735987) and implemented in [OpenMM](http://openmm.org) for [Lennard-Jones 12-6 potentials analytically](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html#openmm.openmm.NonbondedForce.setUseDispersionCorrection) and for other vdW potentials [numerically](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.CustomNonbondedForce.html#openmm.openmm.CustomNonbondedForce.setUseLongRangeCorrection).
+
+Version 0.3 assumes that the long-range dispersion handling is isotropic.
+
+
 | vdW section tag version | Tag attributes and default values                                                                                                                                                                                 | Required parameter attributes                 | Optional parameter attributes |
 |-------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|-------------------------------|
 | 0.3                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
-| 0.4                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `periodic_method="cutoff"`, `nonperiodic_method="no-cutoff"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.4                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `method="cutoff"`, `long_range_treatment="isotropic"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
+| 0.5                     | `potential="Lennard-Jones-12-6`, `combining_rules="Lorentz-Berthelot"`, `scale12="0"`, `scale13="0"`, `scale14="0.5"`, `scale15="1.0"`, `cutoff="9.0*angstrom"`, `switch_width="1.0*angstrom"`, `periodic_method="cutoff"`, `nonperiodic_method="no-cutoff"`, `long_range_treatment="isotropic"` | `smirks`, `epsilon`, (`sigma` OR `rmin_half`) | `id`, `parent_id`             |
 
 
 ### `<Electrostatics>`
@@ -409,7 +427,7 @@ Currently, no child tags are used because the charge model is specified via diff
 
 For potentials where the cutoff determines the potential energy of the system (such as custom expression or reaction field methods), the appropriate `cutoff` distance must also be specified, and the appropriate `switch_width` should be set to a numerical value if a switching function is to be used.
 
-It is possible to define an Electrostatics section where no potential uses `cutoff`, `switch_width`, or `solvent_dielectric`. In these cases it is strongly recommended that these values be set to `none` to avoid ambiguity. 
+It is possible to define an Electrostatics section where no potential uses `cutoff`, `switch_width`, or `solvent_dielectric`. In these cases it is strongly recommended that these values be set to `none` to avoid ambiguity.
 
 | Electrostatics section tag version | Tag attributes and default values                                                                                                         | Required parameter attributes | Optional parameter attributes |
 |------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|-------------------------------|
@@ -724,15 +742,15 @@ If unspecified these default to zero.
 
 Interactions between a virtual site and the other atoms / virtual sites in the molecule are controlled by the `exclusion_policy` parameter that can take values of:
 
-* `parents` - virtual site particles should exclude non-bonded interactions with, or scale their interactions with, the 
-  same particles that the main 'parent atom' that they are attached to does. Which atom is the 'parent atom' depends on 
-  the type of virtual site: for `BondCharge`, `MonovalentLonePair`, `DivalentLonePair`, and `TrivalentLonePair` types, 
+* `parents` - virtual site particles should exclude non-bonded interactions with, or scale their interactions with, the
+  same particles that the main 'parent atom' that they are attached to does. Which atom is the 'parent atom' depends on
+  the type of virtual site: for `BondCharge`, `MonovalentLonePair`, `DivalentLonePair`, and `TrivalentLonePair` types,
   it is the atom labelled `:1` in the SMIRKS pattern.
 
   As an example, if the parent atom is separated by two bonds from another atom i.e a 1-3 pair, the virtual sites'
-  interaction with that other atom should also be treated as a 1-3 pair. Similarly, if the parent atom is separated by 
-  three bonds from another atom i.e a 1-4 pair, the virtual sites' interaction with that other atom should also be 
-  treated as a 1-4 pair and the interaction should be scaled by the appropriate `scale14` factor. 
+  interaction with that other atom should also be treated as a 1-3 pair. Similarly, if the parent atom is separated by
+  three bonds from another atom i.e a 1-4 pair, the virtual sites' interaction with that other atom should also be
+  treated as a 1-4 pair and the interaction should be scaled by the appropriate `scale14` factor.
 
 In the SMIRNOFF format, these are encoded as:
 ```XML
@@ -837,10 +855,10 @@ We recommend generics be used sparingly unless it is your intention to provide t
 
 ### 0.3
 
-This is a backwards-incompatible update to the SMIRNOFF 0.2 draft specification. 
+This is a backwards-incompatible update to the SMIRNOFF 0.2 draft specification.
 However, the Open Force Field Toolkit version accompanying this update is capable of converting 0.1 spec SMIRNOFF data to 0.2 spec, and subsequently 0.2 spec to 0.3 spec.
 The 0.1-to-0.2 spec conversion makes a number of assumptions about settings such as long-range nonbonded handling.
-Warnings are printed about each assumption that is made during this spec conversion. 
+Warnings are printed about each assumption that is made during this spec conversion.
 No mechanism to convert backwards in spec is provided.
 
 Key changes in this version of the spec are:
