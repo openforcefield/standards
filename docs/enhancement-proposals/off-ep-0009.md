@@ -32,11 +32,18 @@ There are many details and user-provided options in various PME implementations 
 
 LJPME is widely implemented in modern molecular simulation engines including [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html?highlight=ljpme), [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/long-range-vdw.html#lennard-jones-pme), Amber (link needed), CHARMM (link needed), and [LAMMPS](https://docs.lammps.org/pair_lj_long.html). Each implementation may differ slightly in its details; this proposal treats LJPME identically to PME for Coulombic interactions and leaves these questions unresolved.
 
+Some implementations may may the following approximations:
+
+- Used with the 12-6 Lennard-Jones potential, where $r^12$ is short-range and the $r^6$ term is long-range, the $r^12$ term is excluded from the reciprocal space calculations.
+- In reciprocal space, only geometric mixing rules are supported.
+
 While engine support for LJPME is strong, there may be compatibility issues in downstream methods such as free energy calculations or the use of non-Lennard-Jones potentials. We estimate these to be relatively rare and that a vast majority of use cases will be able to use LJPME without major hindrance.
 
 Users may themselves wish to tinker with options specified in a SMIRNOFF force field, such as not using LJPME even if `periodic_method="Ewald3D"` is specified. There is nothing a force field specification can do to prevent modifications like this, identically to other potentially disruptive user modifications such as changing the cut-off distance.
 
 This proposal only adds a non-default option and does not make recommendations of which option is best.
+
+In this first iteration, `periodic_method="Ewald3D"` is only compatible with `potential="Lennard-Jones-12-6"`, which is currently the only supported value. Future changes to the `potential` attribute should discuss compatibility with LJPME, if any, including which terms can be ignored in reciprocal space.
 
 ## Backward compatibility
 
