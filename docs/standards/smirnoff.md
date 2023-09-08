@@ -333,7 +333,7 @@ Different cut-off treatments can be applied to periodic and non-periodic systems
 
 `periodic_method` can take additionally take the following values:
 
-* `Ewald3D-ConductingBoundary`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Ewald3D`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
 
 By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 

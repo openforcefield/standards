@@ -16,7 +16,7 @@
 
 ## Abstract
 
-This change adds `periodic_method="Ewald3D-ConductingBoundary"` as a supported attribute value in the `<vdW>` tag.
+This change adds `periodic_method="Ewald3D"` as a supported attribute value in the `<vdW>` tag.
 
 ## Motivation and Scope
 
@@ -34,7 +34,7 @@ LJPME is widely implemented in modern molecular simulation engines including [Op
 
 While engine support for LJPME is strong, there may be compatibility issues in downstream methods such as free energy calculations or the use of non-Lennard-Jones potentials. We estimate these to be relatively rare and that a vast majority of use cases will be able to use LJPME without major hindrance.
 
-Users may themselves wish to tinker with options specified in a SMIRNOFF force field, such as not using LJPME even if `periodic_method="Ewald3D-ConductingBoundary"` is specified. There is nothing a force field specification can do to prevent modifications like this, identically to other potentially disruptive user modifications such as changing the cut-off distance.
+Users may themselves wish to tinker with options specified in a SMIRNOFF force field, such as not using LJPME even if `periodic_method="Ewald3D"` is specified. There is nothing a force field specification can do to prevent modifications like this, identically to other potentially disruptive user modifications such as changing the cut-off distance.
 
 This proposal only adds a non-default option and does not make recommendations of which option is best.
 
@@ -46,10 +46,10 @@ This proposal only *adds a new supported value* for one attribute and makes no o
 
 ## Detailed description
 
-This change adds `"Ewald3D-ConductingBoundary"` as a supported value of the `periodic_method` attribute in the `<vdW>` tag:
+This change adds `"Ewald3D"` as a supported value of the `periodic_method` attribute in the `<vdW>` tag:
 
 ```
-* `Ewald3D-ConductingBoundary`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Ewald3D`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
 ```
 
 The description is nearly identical to how the `periodic_potential` attribute of the `<Electrostatics>` section is described.
