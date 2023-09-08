@@ -333,7 +333,7 @@ Different cut-off treatments can be applied to periodic and non-periodic systems
 
 `periodic_method` can take additionally take the following values:
 
-* `Ewald3D`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Ewald3D`: a method like [particle mesh Ewald](http://docs.openmm.org/development/userguide/theory/02_standard_forces.html#coulomb-interaction-with-ewald-summation) should be used. This is only compatible with `potential="Lennard-Jones-12-6"`.
 
 By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
@@ -390,7 +390,7 @@ separate methods must be specified for periodic (`periodic_potential`) and non-p
 
 The `periodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in periodic systems. Allowed values are:
 
-* `Ewald3D-ConductingBoundary` (default) denotes that a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Ewald3D-ConductingBoundary` (default) denotes that a method like [particle mesh Ewald](http://docs.openmm.org/development/userguide/theory/02_standard_forces.html#coulomb-interaction-with-ewald-summation) should be used.
 * A function denotes that the specified function should be used, which may make use of `cutoff`, `switch_width`, and/or `solvent_dielectric` terms
 
 The `nonperiodic_potential` attribute specifies the manner in which electrostatic interactions are to be computed in non-periodic systems. Allowed values are:
