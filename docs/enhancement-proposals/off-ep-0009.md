@@ -1,16 +1,16 @@
 # OFF-EP 0009 — Add LJPME
 
-**Status:** Draft
+**Status:** Submitted
 
 **Authors:** Matt Thompson, John Chodera
 
-**Acceptance criteria:** Unanimity
+**Acceptance criteria:** Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]
 
 **Stakeholders:**
 
 **Created:** 2023-09-05
 
-**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40) [PR #44](https://github.com/openforcefield/standards/pull/44)
+**Discussion:** [PR #40](https://github.com/openforcefield/standards/pull/40), [PR #44](https://github.com/openforcefield/standards/pull/44), [Issue #11](https://github.com/openforcefield/standards/issues/11), [Toolkit issue #989](https://github.com/openforcefield/openff-toolkit/issues/989#issuecomment-862792421), [OFF-EP-0008](https://github.com/openforcefield/standards/pull/53#issuecomment-1661316600)
 
 **Implementation:** [``openff-standards``](https://github.com/openforcefield/openff-standards)
 
@@ -24,22 +24,22 @@ There are compelling reasons for force fields to handle long-range vdW interacti
 
 LJPME is only valid for periodic systems, so the `nonperiodic_method` attribute is unaffected.
 
-LJPME does not involve a tail correction or long-range dispersion correction, as these are only relevant with cut-off vdW interactions. These attributes are unaffected.
+LJPME does not involve a tail correction or long-range dispersion correction, as these are only relevant with cut-off vdW interactions. These attributes should be ignored if LJPME is used.
 
-There are many details and user-provided options in various PME implementations that might affect results; this proposal does not attempt to resolve them and instead suggests that a future OFF-EP should handle these questions.
+There are many details and user-provided options in various PME implementations that might affect results; this proposal does not attempt to resolve them and instead suggests that a future OFF-EP should handle these questions (i.e. [Issue #50](https://github.com/openforcefield/standards/issues/50)).
 
 ## Usage and Impact
 
-LJPME is widely implemented in modern molecular simulation engines including [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html?highlight=ljpme), [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/long-range-vdw.html#lennard-jones-pme), Amber (link needed), CHARMM (link needed), and [LAMMPS](https://docs.lammps.org/pair_lj_long.html). Each implementation may differ slightly in its details; this proposal treats LJPME identically to PME for Coulombic interactions and leaves these questions unresolved.
+LJPME is widely implemented in modern molecular simulation engines including [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html?highlight=ljpme), [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/long-range-vdw.html#lennard-jones-pme), Amber, CHARMM, and [LAMMPS](https://docs.lammps.org/pair_lj_long.html). Each implementation may differ slightly in its details; this proposal treats LJPME identically to PME for Coulombic interactions and leaves these differences unresolved.
 
-Some implementations may may the following approximations:
+Some implementations may use the following approximations:
 
 - Used with the 12-6 Lennard-Jones potential, where $r^12$ is short-range and the $r^6$ term is long-range, the $r^12$ term is excluded from the reciprocal space calculations.
 - In reciprocal space, only geometric mixing rules are supported.
 
-While engine support for LJPME is strong, there may be compatibility issues in downstream methods such as free energy calculations or the use of non-Lennard-Jones potentials. We estimate these to be relatively rare and that a vast majority of use cases will be able to use LJPME without major hindrance.
+While engine support for LJPME is strong, there may be compatibility issues in downstream methods such as free energy calculations or the use of non-Lennard-Jones potentials. We estimate these to be relatively rare and that a vast majority of use cases will be able to use LJPME in a general force field without major hindrance.
 
-Users may themselves wish to tinker with options specified in a SMIRNOFF force field, such as not using LJPME even if `periodic_method="Ewald3D"` is specified. There is nothing a force field specification can do to prevent modifications like this, identically to other potentially disruptive user modifications such as changing the cut-off distance.
+Users may themselves wish to tinker with options specified in a SMIRNOFF force field, such as not using LJPME even if `periodic_method="Ewald3D"` is specified. There is nothing a force field specification can do to prevent modifications like this, identically to other potentially-disruptive user modifications such as changing the cut-off distance.
 
 This proposal only adds a non-default option and does not make recommendations of which option is best.
 
@@ -49,14 +49,14 @@ In this first iteration, `periodic_method="Ewald3D"` is only compatible with `po
 
 This proposal only *adds a new supported value* for one attribute and makes no other changes, so it should be backwards-compatible with all current and compliant implementations. Conversion from version 0.4 should not change the information content of an OFFXML file or in-memory representation.
 
-(I'm not sure if this change necessitates a bump in the version; nothing is added or removed and the defaults are unchanged, but if there is no bump I can't envision a clear answer to the question of "is LJPME supported in version 0.4?" so I lean toward thinking it is needed.)
+This proposal bumps the version of the vdW section from 0.4 to 0.5 with only the being that `"Ewald3D"` is a supported value for `periodic_potential`.
 
 ## Detailed description
 
 This change adds `"Ewald3D"` as a supported value of the `periodic_method` attribute in the `<vdW>` tag:
 
 ```
-* `Ewald3D`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used
+* `Ewald3D`: a method like [particle mesh Ewald](https://docs.openmm.org/latest/userguide/theory.html#coulomb-interaction-with-particle-mesh-ewald) should be used. This is only compatible with `potential="Lennard-Jones-12-6"`.
 ```
 
 The description is nearly identical to how the `periodic_potential` attribute of the `<Electrostatics>` section is described.
@@ -65,7 +65,7 @@ This change corresponds to a bump in the vdW version from 0.4 to 0.5. All other 
 
 ## Alternatives
 
-[OFF-EP-0007b](https://github.com/openforcefield/standards/pull/44) includes this change as part of a larger overhaul with long-range dispersion corrections. That was introduced before [OFF-EP-0008](https://github.com/openforcefield/standards/pull/53) split the `method` attribute into `periodic_method` and `nonperiodic_method` methods and it placed the LJPME option within a new `long_range_treatment` attribute. This might lead to confusing and self-inconsistent combinations of attribute values such as
+[OFF-EP-0007b](https://github.com/openforcefield/standards/pull/44) includes this change as part of a larger overhaul with long-range dispersion corrections. That was introduced before [OFF-EP-0008](https://github.com/openforcefield/standards/pull/53) split the `method` attribute into `periodic_method` and `nonperiodic_method` attributes and it placed the LJPME option within a new `long_range_treatment` attribute. This might lead to confusing and self-inconsistent combinations of attribute values such as
 
 ```XML
 <vdW ... periodic_method="cutoff" nonperiodic_method="no-cutoff" long_range_treatment="Ewald3D-ConductingBoundary" </vdW>
