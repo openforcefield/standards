@@ -20,7 +20,7 @@ This change adds `periodic_method="Ewald3D"` as a supported attribute value in t
 
 ## Motivation and Scope
 
-There are compelling reasons for force fields to handle long-range vdW interactions with an Ewald sum (so-called LJPME, used here synonymously) analogously to how electrostatics are conventionally handled, despite the increased computational cost. While tail corrections largely mediate the errors introduced by cutting off vdW interactions before they naturally decay to zero, they do so imperfectly, particularly in nonisotropic systems. These differences, even if small, also imply that a force field fitted with cut-off vdW interactions would not likely perform as well if LJPME is used.
+There are compelling reasons for force fields to handle long-range vdW interactions with an Ewald sum (so-called LJPME, used here synonymously) analogously to how electrostatics are conventionally handled, despite the increased computational cost. While tail corrections largely mediate the errors introduced by cutting off vdW interactions before they naturally decay to zero, they do so imperfectly, particularly in nonisotropic systems. These differences, even if small, also imply that a force field fitted with cut-off vdW interactions would not likely perform as well if LJPME is used. Additionally, without LJPME, some observables may have substantially different values depending on the user-selected cutoff.
 
 LJPME is only valid for periodic systems, so the `nonperiodic_method` attribute is unaffected.
 
