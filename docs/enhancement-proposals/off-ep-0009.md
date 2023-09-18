@@ -77,6 +77,16 @@ This proposal does not attempt to generally resolve current ambiguities in long-
 
 ## Discussion
 
+Several details were brought up in a [SMIRNOFF meeting](https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting), including:
+
+- Ewald summation can be efficiently implemented via [PME](https://doi.org/10.1063/1.464397).
+- The use of PME for electrostatics interactions usually relies on a conducting periodic boundary (so-called "tin foil" boundary condiditions). There might be an analogous boundary condition used in LJPME implementations, but it's not obvious and there is nothing in LJ/vdW interactions that makes a clear analogy to the dielectric constant.
+- Implementations with 12-6 Lennard Jones potentials are generally restricted to the $1/r^6$ term since the $1/r^{12}$ term is short-ranged only and ignoring it introduces no or negligible error.
+  - Modified Lennard-Jones with stronger repulsive terms (i.e. 14-6) should be feasible, still ignoring the repulsive term, but engines may not (yet) support this.
+  - Whether or not this assumption holds well for non-LJ potentials (such as a [double exponential potential](https://doi.org/10.1039/d3dd00070b)) is not yet explored.
+- Switching from Lorentz–Berthelot to geometric mixing rules in reciprocal space (long distance, past the cutoff or direct/reciprocal space transition) has been claimed to introduce [only a small error](https://doi.org/10.1021/acs.jctc.5b00726). The authors emphasize that non-LJPME methods wouldn't include any interactions at these distances anyway.
+- The Ewald3D solution can technically be extended to support any $1/r^{2n}$ powers, but we are not considering this for now.
+
 ## Copyright
 
 * This was seeded from the
