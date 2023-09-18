@@ -49,7 +49,7 @@ In this first iteration, `periodic_method="Ewald3D"` is only compatible with `po
 
 This proposal only *adds a new supported value* for one attribute and makes no other changes, so it should be backwards-compatible with all current and compliant implementations. Conversion from version 0.4 should not change the information content of an OFFXML file or in-memory representation.
 
-This proposal bumps the version of the vdW section from 0.4 to 0.5 with only the being that `"Ewald3D"` is a supported value for `periodic_potential`.
+This proposal bumps the version of the vdW section from 0.4 to 0.5 with the only difference being that `"Ewald3D"` is becoming a supported value for `periodic_potential`.
 
 ## Detailed description
 
