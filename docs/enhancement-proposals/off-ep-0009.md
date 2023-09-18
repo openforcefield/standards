@@ -30,7 +30,7 @@ There are many details and user-provided options in various PME implementations 
 
 ## Usage and Impact
 
-LJPME is widely implemented in modern molecular simulation engines including [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.openmm.NonbondedForce.html?highlight=ljpme), [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/long-range-vdw.html#lennard-jones-pme), Amber, CHARMM, and [LAMMPS](https://docs.lammps.org/pair_lj_long.html). Each implementation may differ slightly in its details; this proposal treats LJPME identically to PME for Coulombic interactions and leaves these differences unresolved.
+LJPME is widely implemented in modern molecular simulation engines including [OpenMM](http://docs.openmm.org/8.0.0/api-python/generated/openmm.openmm.NonbondedForce.html?highlight=ljpme), [GROMACS](https://manual.gromacs.org/current/reference-manual/functions/long-range-vdw.html#lennard-jones-pme), Amber, CHARMM, and [LAMMPS](https://docs.lammps.org/pair_lj_long.html). Each implementation may differ slightly in its details; this proposal treats LJPME identically to PME for Coulombic interactions and leaves these differences unresolved.
 
 Some implementations may use the following approximations:
 
