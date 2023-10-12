@@ -714,7 +714,7 @@ We will support the following different types or geometries of off-center charge
 
 ![Monovalent lone pair virtual site](figures/vsite_monovalent.jpg)
 
-- `DivalentLonePair`: This is suitable for cases like four-point and five-point water models as well as pyrimidine; a charge site `S` lies a specified distance `d` from the central atom among three atoms (blue) along the bisector of the angle between the atoms (if `outOfPlaneAngle` is zero) or out of the plane by the specified angle (if `outOfPlaneAngle` is nonzero) with its projection along the bisector. For positive values fo the distance `d` the virtual site lies outside the 2-1-3 angle and for negative values it lies inside.
+- `DivalentLonePair`: This is suitable for cases like four-point and five-point water models as well as pyrimidine; a charge site `S` lies a specified distance `d` from the central atom among three atoms (blue) along the bisector of the angle between the atoms (if `outOfPlaneAngle` is zero) or out of the plane by the specified angle (if `outOfPlaneAngle` is nonzero) with its projection along the bisector. For positive values of the distance `d` the virtual site lies outside the 2-1-3 angle and for negative values it lies inside.
 
 ![Divalent lone pair virtual site](figures/vsite_divalent.jpg)
 
