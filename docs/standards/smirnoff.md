@@ -509,8 +509,15 @@ Proper torsions are specified via a `<ProperTorsions>...</ProperTorsions>` block
 Here, child `Proper` tags specify at least `k1`, `phase1`, and `periodicity1` attributes for the corresponding parameters of the first force term applied to this torsion.
 However, additional values are allowed in the form `k#`, `phase#`, and `periodicity#`, where all `#` values must be consecutive (e.g., it is impermissible to specify `k1` and `k3` values without a `k2` value) but `#` can go as high as necessary.
 
-For convenience, and optional attribute specifies a torsion multiplicity by which the barrier height should be divided (`idivf#`).
-The default behavior of this attribute can be controlled by the top-level attribute `default_idivf` (default: `"auto"`) for `<ProperTorsions>`, which can be an integer (such as `"1"`) controlling the value of `idivf` if not specified or `"auto"` if the barrier height should be divided by the number of torsions impinging on the central bond.
+For convenience, an optional attribute specifies a torsion multiplicity by which the barrier height (``k#``) should be divided (`idivf#`). The final barrier height is calculated as ``k#/idivf#``. ``idivf`` can be assigned an integer value (such as `"1"`), or `"auto"`. If `idivf="auto"`, the following equation is used to determine the ``idivf`` value for a torsion applying to four atoms `i-j-k-l`, where ``n_j`` refers to the degree (i.e. number of bonds) of atom `j`:
+
+```
+idivf = (n_j - 1) * (n_k - 1)
+```
+
+The default behavior of this ``idivf`` can be controlled by the top-level attribute `default_idivf` (default: `"auto"`) for `<ProperTorsions>`.
+
+
 For example:
 ```XML
 <ProperTorsions version="0.3" potential="k*(1+cos(periodicity*theta-phase))" default_idivf="auto">
@@ -521,13 +528,38 @@ For example:
 
 Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form:
 ```
-U = \sum_{i=1}^N k_i * (1 + cos(periodicity_i * phi - phase_i))
+U = \sum_{i=1}^N k_i/idivf_i * (1 + cos(periodicity_i * phi - phase_i))
 ```
 
 !!! note
     **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format.
 
 If the `potential` attribute is omitted, it defaults to `k*(1+cos(periodicity*theta-phase))`.
+
+In the potential function, the angle ``theta`` is calculated using input vectors
+defined by the four atoms of the torsion `i-j-k-l`.
+Where the vector ``r_ij`` is defined as the vector from atom `j` to atom `i`:
+```
+r_ij = x_i - x_j
+```
+the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``:
+
+```
+u1 = r_ij x r_kj
+u2 = r_kj x r_kl
+theta = acos(u1 • u2)
+```
+
+The directionality of the ``theta`` angle is important in cases where the torsion profile is asymmetric,
+i.e. where the ``phase`` is neither 0 nor pi.
+
+
+!!! note
+    ProperTorsion SMIRKS are always applied assuming that the *match* is symmetric across the central bond.
+    i.e. even if a SMIRKS pattern is written to specifically match atoms `l-k-j-i` in that order,
+    this is treated as equivalent to matching `i-j-k-l`. In implementations where the dihedral angle value
+    depends on the order of atoms, no order is guaranteed and asymmetric torsions may result in
+    undefined behaviour.
 
 
 #### Fractional torsion bond orders
