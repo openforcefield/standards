@@ -6,7 +6,7 @@
 
 **Acceptance criteria:** Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]
 
-**Stakeholders:**
+**Stakeholders:** John Chodera, David Mobley, Jeff Wagner, Lily Wang, Matt Thompson
 
 **Created:** 2024-02-07
 
@@ -32,7 +32,7 @@ All of these ambiguities may cause confusion to anybody implementing the SMIRNOF
 
 This change defines the ``idivf`` parameter in line with the philosophy used in AMBER force fields. The OpenFF implementation has not hitherto used or implemented ``idivf="auto"`` in its ProperTorsion parameters. As such there should be no practical impact on existing workflows and simulations. Other force fields and software that have implemented and interpreted the `idivf="auto"` parameter in ways that do not align with our definition will need to be updated accordingly.
 
-The proposed clarification of input vector order and symmetric SMIRKS matching reflects existing implementations and simulations in OpenFF and OpenMM. Software that converts systems out into other software may need to adjust the input order to ensure the correct sign of the torsion.
+The proposed clarification of input vector order and symmetric SMIRKS matching reflects existing implementations and simulations in OpenFF and OpenMM. Software that converts systems out into other formats may need to adjust the input order to ensure the correct sign of the torsion.
 
 ## Backward compatibility
 
@@ -60,12 +60,20 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 > ```
 > r_ij = x_i - x_j
 > ```
-> the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``:
+> the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``.
+> The directionality or sign of the angle is determined by comparing the `r_ij` vector to the `u_jkl` plane. If the angle is acute, the sign is positive; if obtuse, the sign is negative.
 > 
 > ```
-> u1 = r_ij x r_kj
-> u2 = r_kj x r_kl
-> theta = acos(u1 • u2)
+> u_ijk = r_ij x r_kj
+> u_jkl = r_kj x r_kl
+> angle = acos(u_ijk • u_jkl)
+> 
+> rij_to_ujkl = r_ij • u_jkl
+> if rij_to_ujkl < 0:
+>     sign = -1
+> else:
+>     sign = 1
+> theta = sign * angle
 > ```
 > 
 > The directionality of the ``theta`` angle is important in cases where the torsion profile is asymmetric,
@@ -82,10 +90,6 @@ And finally adds a note on how ProperTorsion SMIRKS are applied:
 
 ## Alternatives
 
-If there were any alternative solutions to solving the same problem,
-they should be discussed here, along with a justification for the chosen
-approach.
-
 ### Alternative 1: the `idivf` parameter could be removed
 
 In this alternative scenario, `idivf` would be implicitly set to `1`, as has been the case
@@ -101,7 +105,7 @@ reducing the number of necessary parameters to fit.
 
 In this alternative scenario, proper torsion parameters with asymmetric profiles
 (e.g. with phases outside 0 or pi) would be explicitly disallowed in the SMIRNOFF spec
-and OpenFF infrastructure. An error would be raised on reading these.
+and OpenFF infrastructure. An error would be raised on reading these. This would render concerns about dihedral sign and the impact of atom order superfluous.
 
 The approach of keeping asymmetric torsions was chosen to:
     * enable reading our existing Sage 2.0 force field, which was published with asymmetric torsions
@@ -119,7 +123,7 @@ The approach of keeping asymmetric torsions was chosen to:
     - An implementation of `idivf` could simply take into account molecular topology
     - `idivf="auto"` can be defined using the degree of the atoms in the central bond
     - Sage 2.0 did contain asymmetric torsions, where the sign of the dihedral affects the potential
-    - Measuring a dihedral angle from i-j-k-l may always give the same result as l-k-j-i
+    - Measuring a dihedral angle from i-j-k-l should always give the same result as l-k-j-i
 
 ## Copyright
 

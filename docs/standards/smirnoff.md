@@ -542,12 +542,20 @@ Where the vector ``r_ij`` is defined as the vector from atom `j` to atom `i`:
 ```
 r_ij = x_i - x_j
 ```
-the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``:
+the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``.
+The directionality or sign of the angle is determined by comparing the `r_ij` vector to the `u_jkl` plane. If the angle is acute, the sign is positive; if obtuse, the sign is negative.
 
 ```
-u1 = r_ij x r_kj
-u2 = r_kj x r_kl
-theta = acos(u1 • u2)
+u_ijk = r_ij x r_kj
+u_jkl = r_kj x r_kl
+angle = acos(u_ijk • u_jkl)
+
+rij_to_ujkl = r_ij • u_jkl
+if rij_to_ujkl < 0:
+    sign = -1
+else:
+    sign = 1
+theta = sign * angle
 ```
 
 The directionality of the ``theta`` angle is important in cases where the torsion profile is asymmetric,
