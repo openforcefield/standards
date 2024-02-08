@@ -1,6 +1,6 @@
 # OFF-EP 0010 — Clarify ProperTorsion implementation of idivf and dihedral calculation
 
-**Status:** Draft
+**Status:** Submitted
 
 **Authors:** Lily Wang
 
@@ -123,7 +123,7 @@ The approach of keeping asymmetric torsions was chosen to:
     - An implementation of `idivf` could simply take into account molecular topology
     - `idivf="auto"` can be defined using the degree of the atoms in the central bond
     - Sage 2.0 did contain asymmetric torsions, where the sign of the dihedral affects the potential
-    - Measuring a dihedral angle from i-j-k-l should always give the same result as l-k-j-i
+    - Measuring a dihedral angle from i-j-k-l *should* always give the same result as l-k-j-i 
 
 ## Copyright
 
