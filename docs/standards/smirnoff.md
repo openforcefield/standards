@@ -563,11 +563,12 @@ i.e. where the ``phase`` is neither 0 nor pi.
 
 
 !!! note
-    ProperTorsion SMIRKS are always applied assuming that the *match* is symmetric across the central bond.
-    i.e. even if a SMIRKS pattern is written to specifically match atoms `l-k-j-i` in that order,
-    this is treated as equivalent to matching `i-j-k-l`. In implementations where the dihedral angle value
-    depends on the order of atoms, no order is guaranteed and asymmetric torsions may result in
-    undefined behaviour.
+ 
+    A SMIRKS patterns that can match a particular bonded 
+    quartet in either `i-j-k-l` or `l-k-j-i` order is 
+    ambiguous, and the specification cannot guarantee the 
+    match will be performed in any predetermined or 
+    deterministic order, potentially leading to undesired and undefined results.
 
 
 #### Fractional torsion bond orders

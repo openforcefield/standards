@@ -20,9 +20,14 @@ This change clarifies the implementation of SMIRKS matching, dihedral calculatio
 
 ## Motivation and Scope
 
-A ProperTorsion is defined between a connected quartet of atoms i-j-k-l. The dihedral angle can be calculated using input vectors in two directions: ($r_{ij}$, $r_{jk}$, $r_{kl}$) or ($r_{ij}$, $r_{kl}$, $r_{kl}$), where $r_{ij} = x_{j} - x{i}$. It is currently unclear which standard to follow. While both directions yield the same result for symmetric torsions where the phase is 0 or pi, the choice of direction affects the sign for asymmetric torsions.
+A ProperTorsion is defined between a connected quartet of atoms `i-j-k-l`. The dihedral angle is calculated between the two planes defined by `i-j-k` and `j-k-l`. The directions of these planes, and the resulting sign of the dihedral, depend on how they are defined; however, it is currently unclear what standard to follow. While both directions yield the same result for symmetric torsions where the phase is 0 or pi, the choice of direction is important for for asymmetric torsions.
 
-In addition, ProperTorsions are matched symmetrically, even if the SMIRKS pattern is written asymmetrically; no order is guaranteed in applying the torsion parameter. While atom order does not affect the angle calculation in many implementations, it is important to highlight this potentially undefined behaviour in case some software does take atom order into account.
+In addition, a SMIRKS pattern that can match a particular 
+bonded quartet in either `i-j-k-l` or `l-k-j-i` order is 
+ambiguous, and the SMIRNOFF specification does not 
+guarantee that the match will be performed in any predetermined or deterministic order. As this may
+potentially lead to undesired results, this proposal
+adds a note highlighting this fact.
 
 Finally, the effect of the `idivf="auto"` parameter on the ProperTorsion potential is outlined in words that can be interpreted ambiguously.
 
@@ -82,11 +87,12 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 And finally adds a note on how ProperTorsion SMIRKS are applied:
 
 > !!! note
->     ProperTorsion SMIRKS are always applied assuming that the *match* is symmetric across the central bond.
->     i.e. even if a SMIRKS pattern is written to specifically match atoms `l-k-j-i` in that order,
->     this is treated as equivalent to matching `i-j-k-l`. In implementations where the dihedral angle value
->     depends on the order of atoms, no order is guaranteed and asymmetric torsions may result in
->     undefined behaviour.
+>     A SMIRKS patterns that can match a particular bonded 
+>     quartet in either `i-j-k-l` or `l-k-j-i` order is 
+>     ambiguous, and the specification cannot guarantee the 
+>     match will be performed in any predetermined or 
+>     deterministic order, potentially leading to undesired 
+>     and undefined results.
 
 ## Alternatives
 
