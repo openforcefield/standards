@@ -528,7 +528,7 @@ For example:
 
 Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form:
 ```
-U = \sum_{i=1}^N k_i/idivf_i * (1 + cos(periodicity_i * phi - phase_i))
+U = \sum_{i=1}^N k_i/idivf_i * (1 + cos(periodicity_i * theta - phase_i))
 ```
 
 !!! note
