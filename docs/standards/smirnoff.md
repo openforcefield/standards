@@ -564,7 +564,7 @@ i.e. where the ``phase`` is neither 0 nor pi.
 
 !!! note
  
-    A SMIRKS patterns that can match a particular bonded 
+    A SMIRKS pattern that can match a particular bonded 
     quartet in either `i-j-k-l` or `l-k-j-i` order is 
     ambiguous, and the specification cannot guarantee the 
     match will be performed in any predetermined or 
