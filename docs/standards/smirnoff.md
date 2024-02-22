@@ -532,7 +532,7 @@ U = \sum_{i=1}^N k_i/idivf_i * (1 + cos(periodicity_i * theta - phase_i))
 ```
 
 !!! note
-    **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format.
+    **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format (AMBER uses phi in an analogous way to how SMIRNOFF uses theta).
 
 If the `potential` attribute is omitted, it defaults to `k*(1+cos(periodicity*theta-phase))`.
 
