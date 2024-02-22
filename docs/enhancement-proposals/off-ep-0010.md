@@ -87,7 +87,7 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 And finally adds a note on how ProperTorsion SMIRKS are applied:
 
 > !!! note
->     A SMIRKS patterns that can match a particular bonded 
+>     A SMIRKS pattern that can match a particular bonded 
 >     quartet in either `i-j-k-l` or `l-k-j-i` order is 
 >     ambiguous, and the specification cannot guarantee the 
 >     match will be performed in any predetermined or 
