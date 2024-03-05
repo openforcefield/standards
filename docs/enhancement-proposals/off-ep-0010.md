@@ -20,7 +20,7 @@ This change clarifies the implementation of SMIRKS matching, dihedral calculatio
 
 ## Motivation and Scope
 
-A ProperTorsion is defined between a connected quartet of atoms `i-j-k-l`. The dihedral angle is calculated between the two planes defined by `i-j-k` and `j-k-l`. The directions of these planes, and the resulting sign of the dihedral, depend on how they are defined; however, it is currently unclear what standard to follow. While both directions yield the same result for symmetric torsions where the phase is 0 or pi, the choice of direction is important for for asymmetric torsions.
+A ProperTorsion is defined between a connected quartet of atoms `i-j-k-l`. The dihedral angle is calculated between the two planes defined by `i-j-k` and `j-k-l`. The directions of these planes, and the resulting sign of the dihedral, depend on how they are defined; however, it is currently unclear what standard to follow. While both directions yield the same result for symmetric torsions where the phase is 0 or pi, the choice of direction is important for asymmetric torsions.
 
 In addition, a SMIRKS pattern that can match a particular 
 bonded quartet in either `i-j-k-l` or `l-k-j-i` order is 
@@ -61,18 +61,26 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 
 > In the potential function, the angle ``theta`` is calculated using input vectors
 > defined by the four atoms of the torsion `i-j-k-l`.
+
+> ![Dihedral angle figure](figures/dihedral-angle-summary.png)
+
 > Where the vector ``r_ij`` is defined as the vector from atom `j` to atom `i`:
 > ```
 > r_ij = x_i - x_j
 > ```
-> the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``.
-> The directionality or sign of the angle is determined by comparing the `r_ij` vector to the `u_jkl` plane. If the angle is acute, the sign is positive; if obtuse, the sign is negative.
+> the angle ``theta`` should be calculated using the input vectors ``r_ij``, ``r_kj``, and ``r_kl``. These define the planes ``u_ijk`` and ``u_jkl`` (see figure below, > section A).
+
+> ![Dihedral angle process](figures/dihedral-angle-process.png)
 > 
+> The sign of the angle is determined by comparing the `r_ij` vector to the `u_jkl` plane (see figure above, section B). If the `r_ij` vector has an acute angle to the ``u_jkl`` vector, the sign is positive; if the angle is obtuse, the sign is negative (section C > in figure above).
+
+> Pseudocode of the expected implementation is provided below.
+
 > ```
 > u_ijk = r_ij x r_kj
 > u_jkl = r_kj x r_kl
-> angle = acos(u_ijk • u_jkl)
-> 
+> angle = acos(u_ijk • u_jkl)  # returns in domain [0, pi]
+
 > rij_to_ujkl = r_ij • u_jkl
 > if rij_to_ujkl < 0:
 >     sign = -1
@@ -81,8 +89,11 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 > theta = sign * angle
 > ```
 > 
-> The directionality of the ``theta`` angle is important in cases where the torsion profile is asymmetric,
-> i.e. where the ``phase`` is neither 0 nor pi.
+> The sign of the ``theta`` angle is important in cases where the torsion profile is > asymmetric,
+> i.e. where the ``phase`` is neither 0 nor pi, for example in the case below.
+
+> ![Dihedral angle torsion profile](figures/dihedral-torsion-profile.png)
+
 
 And finally adds a note on how ProperTorsion SMIRKS are applied:
 
