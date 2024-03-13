@@ -1,10 +1,10 @@
 # OFF-EP X — Template
 
-**Status:** &lt;Draft | Proposed | Accepted | Rejected | Deferred | Final>
+**Status:** Draft
 
-**Authors:** &lt;list of authors' real names and optionally, email addresses>
+**Authors:** Tom Potter (Cresset)
 
-**Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
+**Stakeholders:** Cresset and other users of SMIRNOFF virtual sites
 
 **Acceptance criteria:** Acceptance by at least 3 of John Chodera, David Mobley, Lily Wang, or Jeff Wagner
 
@@ -16,15 +16,14 @@
 
 ## Abstract
 
-A short description of the change being addressed.
+This change would update the SMIRNOFF DivalentLonePair virtual site specification to allow virtual sites to be defined using both
+an in-plane and an out-of-plane angle.
 
 ## Motivation and Scope
 
-This section describes the need for the proposed change. It should
-describe the existing problem, who it affects, what it is trying to
-solve, and why. This section should explicitly address the scope of and
-key requirements for the proposed change.
-If the proposal is based around changes to software, this section should clearly indicate which package(s) would be changed.
+The current implementation of DivalentLonePair sites allows the geometry to be specified with the distance and outOfPlaneAngle 
+parameters. There are a number of useful virtual site geometries which cannot be achieved with these parameters. Adding an
+inPlaneAngle parameter would allow these, and other geometries to be generated using the DivalentLonePair site.
 
 ## Usage and Impact
 
@@ -36,28 +35,15 @@ on the ecosystem.
 
 ## Backward compatibility
 
-This section describes the ways in which the proposal breaks backward
-compatibility, and the migrations / strategies that will be implemented
-to reduce the inconvenience caused to the users.
+This would require all DivalentLonePair sites to specify an inPlaneAngle parameter.
+Any existing implementations would need to set this to 0 to capture the same geometries
+as before. 
 
 ## Detailed description
 
 This section should provide a detailed description of the proposed
 change. It should include examples of how the new functionality would be
 used, intended use-cases and pseudo-code illustrating its use.
-
-## Alternatives
-
-If there were any alternative solutions to solving the same problem,
-they should be discussed here, along with a justification for the chosen
-approach.
-
-## Discussion
-
-This section may just be a bullet list including links to any discussions
-regarding the proposal:
-
-- This includes links to mailing list threads and / or relevant GitHub issues.
 
 ## Copyright
 
