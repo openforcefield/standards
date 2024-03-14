@@ -31,7 +31,7 @@ manually or with external tools.
 This parameter could be used in a number of chemical systems. For example, when modelling sulfur compounds such as thiophenes, virtual sites can be placed to represent sigma holes along the C-S bond axes (ie. in the plane of the C-S-C angle). 
 This approach is taken in [OPLS4](https://pubmed.ncbi.nlm.nih.gov/34096718/) and the [Astex charge model](https://pubmed.ncbi.nlm.nih.gov/31553186/). In both cases, placing two in-plane and two out-of-plane sites on sulfur was found to give the best results. In the same Astex model, the orientations of sites on divalent atoms (such as oxygen in an alcohol group) were placed to best capture the ESP surface, and will not always exactly match the axis bisecting the bond angle, as described in the current `DivalentLonePair` specification.
 
-Adding an out-of-plane angle would allow all of these virtual site models to be defined using a SMIRNOFF forcefield, as well as allowing users more flexibility to define their own virtual site geometries.
+Adding an out-of-plane angle would allow all of these virtual site models to be defined using a SMIRNOFF forcefield, as well as allowing users more flexibility to define their own virtual site geometries for divalent atoms.
 
 ## Backward compatibility
 
@@ -43,8 +43,17 @@ with existing implementations.
 
 ## Detailed description
 
-Examples of new virtual site definitions would be:
+Referring to the diagram in the [existing SMIRNOFF standards](https://openforcefield.github.io/standards/standards/smirnoff/#virtualsites-virtual-sites-for-off-atom-charges),
+`inPlaneAngle` is the angle between the vector bisecting the 2-1-3 angle and the 1-VS vector (projected onto the plane of the 2-1-3 angle). Defining the x-axis as this bisecting the bond,
+the y-axis as an orthogonal axis in the plane, the z-axis as the cross product of x and y, and the origin as the position of atom 1, the position of the virtual site would then be defined by:
 ```
+x = distance * cos(in_plane_angle) * cos(out_of_plane_angle)
+y = distance * sin(in_plane_angle) * cos(out_of_plane_angle)
+z = distance * sin(out_of_plane_angle)
+```
+
+Examples of new virtual site definitions would be:
+```xml
 <VirtualSite
     type="DivalentLonePair"
     name="VS"
@@ -57,7 +66,7 @@ Examples of new virtual site definitions would be:
 </VirtualSite>
 ```
 for an in-plane sulfur sites, or:
-```
+```xml
 <VirtualSite
     type="DivalentLonePair"
     name="VS1"
@@ -79,8 +88,7 @@ for an in-plane sulfur sites, or:
     match="once" >
 </VirtualSite>
 ```
-for the off-centre -OH sites. Referring to the diagram in the [existing SMIRNOFF standards](https://openforcefield.github.io/standards/standards/smirnoff/#virtualsites-virtual-sites-for-off-atom-charges),
-`inPlaneAngle` is the angle between the angle bisecting the 2-1-3 angle and the 1-VS vector.
+for the off-centre -OH sites. 
 
 These new definitions could be directly converted to existing virtual site types in common MD packages, including the LocalCoordinatesSite in OpenMM and the 3out site in Gromacs.
 
