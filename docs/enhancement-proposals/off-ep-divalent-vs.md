@@ -29,9 +29,9 @@ manually or with external tools.
 ## Usage and Impact
 
 This parameter could be used in a number of chemical systems. For example, when modelling sulfur compounds such as thiophenes, virtual sites can be placed to represent sigma holes along the C-S bond axes (ie. in the plane of the C-S-C angle). 
-This approach is taken in [OPLS4](https://pubmed.ncbi.nlm.nih.gov/34096718/) and the [Astex charge model](https://pubmed.ncbi.nlm.nih.gov/31553186/). In both cases, placing two in-plane and two out-of-plane sites on sulfur was found to give the best results. In the same Astex model, the orientations of sites on divalent atoms (such as oxygen in an alcohol group) were placed to best capture the ESP surface, and will not always exactly match the axis bisecting the bond angle, as described in the current `DivalentLonePair` specification.
+This approach is taken in [OPLS4](https://pubmed.ncbi.nlm.nih.gov/34096718/) and the [Astex charge model](https://pubmed.ncbi.nlm.nih.gov/31553186/). In both cases, placing two in-plane and two out-of-plane sites on sulfur was found to give the best results. In the same Astex model, the orientations of sites on divalent atoms designed to represent lone pairs (such as for oxygen in an alcohol group) were placed to best capture the ESP surface, and will not always exactly match the axis bisecting the bond angle, as described in the current `DivalentLonePair` specification.
 
-Adding an out-of-plane angle would allow all of these virtual site models to be defined using a SMIRNOFF forcefield, as well as allowing users more flexibility to define their own virtual site geometries for divalent atoms.
+Adding an out-of-plane angle would allow all of these virtual site geometries to be defined using a SMIRNOFF forcefield, as well as allowing users more flexibility to define their own virtual site geometries for divalent atoms.
 
 ## Backward compatibility
 
@@ -55,7 +55,7 @@ Examples of new virtual site definitions would be:
 ```xml
 <VirtualSite
     type="DivalentLonePair"
-    name="VS"
+    name="VS1"
     smirks="[#16X2:1](~[*:2])~[*:3]"
     distance="0.4 * angstrom"
     charge_increment1="0.1*elementary_charge"
@@ -63,8 +63,18 @@ Examples of new virtual site definitions would be:
     inPlaneAngle="60.0 * degree"
     match="all_permutations" >
 </VirtualSite>
+<VirtualSite
+    type="DivalentLonePair"
+    name="VS2"
+    smirks="[#16X2:1](~[*:2])~[*:3]"
+    distance="0.4 * angstrom"
+    charge_increment1="0.1*elementary_charge"
+    outOfPlaneAngle="60.0 * degree"
+    inPlaneAngle="0.0 * degree"
+    match="all_permutations" >
+</VirtualSite>
 ```
-for the in-plane sulfur sites, or:
+for the in-plane and out-of-plane sulfur sites, or:
 ```xml
 <VirtualSite
     type="DivalentLonePair"
