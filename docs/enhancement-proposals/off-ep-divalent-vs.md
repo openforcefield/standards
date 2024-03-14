@@ -35,16 +35,15 @@ Adding an out-of-plane angle would allow all of these virtual site models to be 
 
 ## Backward compatibility
 
-This would require all DivalentLonePair sites to specify an inPlaneAngle parameter.
+This would require all `DivalentLonePair` site definitions to include an `inPlaneAngle` parameter.
 Any existing implementations of this site would need to add `inPlaneAngle="0.0 * degree"` to their definitions.
 
-Alternatively, `inPlaneAngle` could be optional, with a default value of 0. This would keep backwards compatibility
-with existing implementations.
+Alternatively, backwards compatibility could be kept by making `inPlaneAngle` an optional parameter, with a default value of 0.
 
 ## Detailed description
 
 Referring to the diagram in the [existing SMIRNOFF standards](https://openforcefield.github.io/standards/standards/smirnoff/#virtualsites-virtual-sites-for-off-atom-charges),
-`inPlaneAngle` is the angle between the vector bisecting the 2-1-3 angle and the 1-VS vector (projected onto the plane of the 2-1-3 angle). Defining the x-axis as this bisecting the bond,
+`inPlaneAngle` is the angle between the vector bisecting the 2-1-3 angle and the 1-VS vector (projected onto the plane of the 2-1-3 angle). Defining the x-axis as the vector bisecting the angle,
 the y-axis as an orthogonal axis in the plane, the z-axis as the cross product of x and y, and the origin as the position of atom 1, the position of the virtual site would then be defined by:
 ```
 x = distance * cos(in_plane_angle) * cos(out_of_plane_angle)
@@ -65,7 +64,7 @@ Examples of new virtual site definitions would be:
     match="all_permutations" >
 </VirtualSite>
 ```
-for an in-plane sulfur sites, or:
+for the in-plane sulfur sites, or:
 ```xml
 <VirtualSite
     type="DivalentLonePair"
@@ -90,7 +89,7 @@ for an in-plane sulfur sites, or:
 ```
 for the off-centre -OH sites. 
 
-These new definitions could be directly converted to existing virtual site types in common MD packages, including the LocalCoordinatesSite in OpenMM and the 3out site in Gromacs.
+These new definitions could be directly converted to existing virtual site types in common MD packages, such as the LocalCoordinatesSite in OpenMM and the 3out site in Gromacs.
 
 ## Copyright
 
