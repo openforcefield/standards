@@ -79,7 +79,7 @@ for the in-plane and out-of-plane sulfur sites, or:
 <VirtualSite
     type="DivalentLonePair"
     name="VS1"
-    smirks="[#8X2:1](~[*:2])~[#1:3]"
+    smirks="[#8X2:1](~[!#1:2])~[#1:3]"
     distance="0.4 * angstrom"
     charge_increment1="0.1*elementary_charge"
     outOfPlaneAngle="60.0 * degree"
@@ -89,7 +89,7 @@ for the in-plane and out-of-plane sulfur sites, or:
 <VirtualSite
     type="DivalentLonePair"
     name="VS2"
-    smirks="[#8X2:1](~[*:2])~[#1:3]"
+    smirks="[#8X2:1](~[!#1:2])~[#1:3]"
     distance="0.4 * angstrom"
     charge_increment1="0.1*elementary_charge"
     outOfPlaneAngle="-60.0 * degree"
