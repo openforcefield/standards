@@ -29,6 +29,9 @@ stages of discussion or completion.
 * [OFF-EP 1 &mdash; Clarify that constraint distances override equilibrium bond distances](enhancement-proposals/off-ep-0001.md)
 * [OFF-EP 5 &mdash; Resolve ambiguity over PME electrostatics for nonperiodic systems](enhancement-proposals/off-ep-0005.md)
 * [OFF-EP 6 &mdash; Define virtual site exclusion policy](enhancement-proposals/off-ep-0006.md)
+* [OFF-EP 8 &mdash; Specifying different vdW methods for periodic and non-periodic systems and allow "no-cutoff" vdW interactions](enhancement-proposals/off-ep-0008.md)
+* [OFF-EP 9 &mdash; Add LJPME](enhancement-proposals/off-ep-0009.md)
+* [OFF-EP 10 &mdash; Clarify ProperTorsion implementation of idivf and dihedral calculation](enhancement-proposals/off-ep-0010.md)
 
 ##### Open Proposals
 
