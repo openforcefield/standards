@@ -72,22 +72,26 @@ It also adds a section explaining the computation of ``theta`` to the ``ProperTo
 
 > ![Dihedral angle process](figures/dihedral-angle-process.png)
 > 
-> The sign of the angle is determined by comparing the `r_ij` vector to the `u_jkl` plane (see figure above, section B). If the `r_ij` vector has an acute angle to the ``u_jkl`` vector, the sign is positive; if the angle is obtuse, the sign is negative (section C > in figure above).
-
+> The sign of the angle is determined by comparing the `r_ji` vector to the `u_jkl` plane (see figure above, section B). If the `r_ji` vector has an acute angle to the ``u_jkl`` vector, the sign is positive; if the angle is obtuse, the sign is negative (section C in figure above).
+> 
 > Pseudocode of the expected implementation is provided below.
-
+> 
 > ```
-> u_ijk = r_ij x r_kj
-> u_jkl = r_kj x r_kl
+> u_ijk = r_ji x r_jk
+> u_jkl = r_jk x r_lk
 > angle = acos(u_ijk • u_jkl)  # returns in domain [0, pi]
-
-> rij_to_ujkl = r_ij • u_jkl
+> 
+> rij_to_ujkl = r_ji • u_jkl
 > if rij_to_ujkl < 0:
 >     sign = -1
 > else:
 >     sign = 1
 > theta = sign * angle
 > ```
+> 
+> !!! note
+> 
+>     Angle values close to 0 and π may be susceptible to precision errors in implementations.
 > 
 > The sign of the ``theta`` angle is important in cases where the torsion profile is > asymmetric,
 > i.e. where the ``phase`` is neither 0 nor pi, for example in the case below.
