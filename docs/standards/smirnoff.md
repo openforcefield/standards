@@ -509,8 +509,15 @@ Proper torsions are specified via a `<ProperTorsions>...</ProperTorsions>` block
 Here, child `Proper` tags specify at least `k1`, `phase1`, and `periodicity1` attributes for the corresponding parameters of the first force term applied to this torsion.
 However, additional values are allowed in the form `k#`, `phase#`, and `periodicity#`, where all `#` values must be consecutive (e.g., it is impermissible to specify `k1` and `k3` values without a `k2` value) but `#` can go as high as necessary.
 
-For convenience, and optional attribute specifies a torsion multiplicity by which the barrier height should be divided (`idivf#`).
-The default behavior of this attribute can be controlled by the top-level attribute `default_idivf` (default: `"auto"`) for `<ProperTorsions>`, which can be an integer (such as `"1"`) controlling the value of `idivf` if not specified or `"auto"` if the barrier height should be divided by the number of torsions impinging on the central bond.
+For convenience, an optional attribute specifies a torsion multiplicity by which the barrier height (``k#``) should be divided (`idivf#`). The final barrier height is calculated as ``k#/idivf#``. ``idivf`` can be assigned an integer value (such as `"1"`), or `"auto"`. If `idivf="auto"`, the following equation is used to determine the ``idivf`` value for a torsion applying to four atoms `i-j-k-l`, where ``n_j`` refers to the degree (i.e. number of bonds) of atom `j`:
+
+```
+idivf = (n_j - 1) * (n_k - 1)
+```
+
+The default behavior of this ``idivf`` can be controlled by the top-level attribute `default_idivf` (default: `"auto"`) for `<ProperTorsions>`.
+
+
 For example:
 ```XML
 <ProperTorsions version="0.3" potential="k*(1+cos(periodicity*theta-phase))" default_idivf="auto">
@@ -521,13 +528,61 @@ For example:
 
 Currently, only `potential="k*(1+cos(periodicity*theta-phase))"` is supported, where we utilize the functional form:
 ```
-U = \sum_{i=1}^N k_i * (1 + cos(periodicity_i * phi - phase_i))
+U = \sum_{i=1}^N k_i/idivf_i * (1 + cos(periodicity_i * theta - phase_i))
 ```
 
 !!! note
-    **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format.
+    **AMBER defines a modified functional form**, such that `U = \sum_{i=1}^N (k_i/2) * (1 + cos(periodicity_i * phi - phase_i))`, so that barrier heights would need to be divided by two in order to be used in the SMIRNOFF format (AMBER uses phi in an analogous way to how SMIRNOFF uses theta).
 
 If the `potential` attribute is omitted, it defaults to `k*(1+cos(periodicity*theta-phase))`.
+
+In the potential function, the angle ``theta`` is calculated using input vectors
+defined by the four atoms of the torsion `i-j-k-l`.
+
+![Dihedral angle figure](figures/dihedral-angle-summary.png)
+
+Where the vector ``r_ji`` is defined as the vector from atom `j` to atom `i`:
+```
+r_ji = x_i - x_j
+```
+the angle ``theta`` should be calculated using the input vectors ``r_ji``, ``r_jk``, and ``r_lk``. These define the planes ``u_ijk`` and ``u_jkl`` (see figure below, section A).
+
+![Dihedral angle process](figures/dihedral-angle-process.png)
+
+The sign of the angle is determined by comparing the `r_ji` vector to the `u_jkl` plane (see figure above, section B). If the `r_ji` vector has an acute angle to the ``u_jkl`` vector, the sign is positive; if the angle is obtuse, the sign is negative (section C in figure above).
+
+Pseudocode of the expected implementation is provided below.
+
+```
+u_ijk = r_ji x r_jk
+u_jkl = r_jk x r_lk
+angle = acos(u_ijk • u_jkl)  # returns in domain [0, pi]
+
+rij_to_ujkl = r_ji • u_jkl
+if rij_to_ujkl < 0:
+    sign = -1
+else:
+    sign = 1
+theta = sign * angle
+```
+
+!!! note
+
+    Angle values close to 0 and π may be susceptible to precision errors in implementations.
+
+The sign of the ``theta`` angle is important in cases where the torsion profile is asymmetric,
+i.e. where the ``phase`` is neither 0 nor pi, for example in the case below.
+
+![Dihedral angle torsion profile](figures/dihedral-torsion-profile.png)
+
+
+!!! note
+ 
+    A SMIRKS pattern that can match a particular bonded 
+    quartet in either `i-j-k-l` or `l-k-j-i` order is 
+    ambiguous, and the specification cannot guarantee the 
+    match will be performed in any predetermined or 
+    deterministic order, potentially leading to undesired and undefined results.
 
 
 #### Fractional torsion bond orders
