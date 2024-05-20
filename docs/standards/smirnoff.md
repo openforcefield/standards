@@ -45,7 +45,6 @@ A reference implementation of the SMIRNOFF XML specification is provided in the 
 
 The reference implementation currently generates parameterized molecular mechanics systems for the GPU-accelerated [OpenMM](https://openmm.org) molecular simulation toolkit.
 Parameterized systems can subsequently be converted for use in other popular molecular dynamics simulation packages (including [AMBER](https://ambermd.org/), [CHARMM](https://www.charmm.org), [NAMD](https://www.ks.uiuc.edu/Research/namd/), [Desmond](https://www.deshawresearch.com/resources_desmond.html), and [LAMMPS](https://lammps.sandia.gov/)) via [ParmEd](https://parmed.github.io/ParmEd) and [InterMol](https://github.com/shirtsgroup/InterMol).
-See [the example on using SMIRNOFF in AMBER or GROMACS](https://github.com/openforcefield/openff-toolkit/blob/master/examples/using_smirnoff_in_amber_or_gromacs/convert_to_amber_gromacs.ipynb) for more details.
 
 ## Basic structure
 
