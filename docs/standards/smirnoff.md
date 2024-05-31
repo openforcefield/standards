@@ -215,7 +215,7 @@ If the template matches multiple non-overlapping sets of atoms, all such matches
 If multiple templates match the same set of atoms, the last template specified will be used.
 
 Solvent models or excipients can also have partial charges specified via the `<LibraryCharges>` tag.
-For example, to ensure water molecules are assigned partial charges for [TIP3P](https://www.sklogwiki.org/SklogWiki/index.php/TIP3P_model_of_water) water, we can specify a library charge entry:
+For example, to ensure water molecules are assigned partial charges for [TIP3P](http://www.sklogwiki.org/SklogWiki/index.php/TIP3P_model_of_water) water, we can specify a library charge entry:
 ```XML
 <LibraryCharges version="0.3">
    <!-- TIP3P water oxygen with charge override -->
@@ -838,7 +838,7 @@ See the [OpenFF toolkit GitHub issue tracker](https://github.com/openforcefield/
 
 A Python reference implementation of a parameterization engine implementing the SMIRNOFF force field specification can be found [online](https://github.com/openforcefield/openff-toolkit).
 This implementation can use either the free-for-academics (but commercially supported) [OpenEye toolkit](https://docs.eyesopen.com/toolkits/python/index.html) or the free and open source [RDKit cheminformatics toolkit](https://www.rdkit.org/).
-See the [installation instructions](https://open-forcefield-toolkit.readthedocs.io/en/latest/installation.html) for information on how to install this implementation and its dependencies.
+See the [installation instructions](https://docs.openforcefield.org/projects/toolkit/en/latest/installation.html) for information on how to install this implementation and its dependencies.
 
 ### Examples
 
@@ -865,7 +865,7 @@ system = forcefield.create_openmm_system(topology)
 See `examples/SMIRNOFF_simulation/` for an extension of this example illustrating how to simulate this molecule in the gas phase.
 
 The `topology` object provided to `create_openmm_system()` can contain any number of molecules of different types, including biopolymers, ions, buffer molecules, or solvent molecules.
-The OpenFF toolkit provides a number of convenient methods for importing or constructing topologies given PDB files, Sybyl mol2 files, SDF files, SMILES strings, and IUPAC names; see the [toolkit documentation](https://open-forcefield-toolkit.readthedocs.io/) for more information.
+The OpenFF toolkit provides a number of convenient methods for importing or constructing topologies given PDB files, Sybyl mol2 files, SDF files, SMILES strings, and IUPAC names; see the [toolkit documentation](https://docs.openforcefield.org/projects/toolkit/en/stable/) for more information.
 Notably, this `topology` object differs from those found in [OpenMM](http://docs.openmm.org/latest/api-python/generated/openmm.app.topology.Topology.html#openmm.app.topology.Topology) or [MDTraj](https://mdtraj.org/1.9.0/api/generated/mdtraj.Topology.html#mdtraj.Topology) in that it contains information on the *chemical identity* of the molecules constituting the system, rather than this atomic elements and covalent connectivity; this additional chemical information is required for the [direct chemical perception](https://doi.org/10.1101/286542) features of SMIRNOFF typing.
 
 ### Using SMIRNOFF small molecule force fields with traditional biopolymer force fields
@@ -913,7 +913,7 @@ Key changes in this version of the spec are:
 
 ### 0.2
 
-This is a backwards-incompatible overhaul of the SMIRNOFF 0.1 draft specification along with [a refactor of the reference `ForceField` class](https://open-forcefield-toolkit.readthedocs.io/en/stable/api/generated/openff.toolkit.typing.engines.smirnoff.forcefield.ForceField.html):
+This is a backwards-incompatible overhaul of the SMIRNOFF 0.1 draft specification along with [a refactor of the reference `ForceField` class](https://docs.openforcefield.org/projects/toolkit/en/stable/api/generated/openff.toolkit.typing.engines.smirnoff.ForceField.html#openff.toolkit.typing.engines.smirnoff.ForceField):
 
 * Aromaticity model now defaults to `OEAroModel_MDL`, and aromaticity model names drop OpenEye-specific prefixes
 * Top-level tags are now required to specify units for any unit-bearing quantities to avoid the potential for mistakes from implied units.
