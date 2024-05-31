@@ -13,7 +13,7 @@ Primary contributors include:
 * John D. Chodera  (Memorial Sloan Kettering Cancer Center) `<john.chodera@choderalab.org>`
 * David L. Mobley (University of California, Irvine) `<dmobley@uci.edu>`
 
-SMIRNOFF and its reference implementation in the OpenFF Toolkit was heavily inspired by the [ForceField class](https://docs.openmm.org/latest/api-python/generated/simtk.openmm.app.forcefield.ForceField.html#simtk.openmm.app.forcefield.ForceField) from the [OpenMM](https://openmm.org) molecular simulation package, and its associated [XML format](https://docs.openmm.org/latest/userguide/application.html#writing-the-xml-file), developed by [Peter K. Eastman](https://en.wikipedia.org/wiki/Peter_Eastman) (Stanford University).
+SMIRNOFF and its reference implementation in the OpenFF Toolkit was heavily inspired by the [ForceField class](http://docs.openmm.org/latest/api-python/generated/openmm.app.forcefield.ForceField.html#openmm.app.forcefield.ForceField) from the [OpenMM](https://openmm.org) molecular simulation package, and its associated [XML format](https://docs.openmm.org/latest/userguide/application.html#writing-the-xml-file), developed by [Peter K. Eastman](https://en.wikipedia.org/wiki/Peter_Eastman) (Stanford University).
 
 ## Representations and encodings
 
@@ -158,7 +158,7 @@ This behavior is intended for limited use in appending very specific parameters,
 ## Units
 
 To minimize the potential for [unit conversion errors](https://en.wikipedia.org/wiki/Mars_Climate_Orbiter#Cause_of_failure), SMIRNOFF force fields explicitly specify units in a form readable to both humans and computers for all unit-bearing quantities.
-Allowed values for units are given in [simtk.unit](https://github.com/openmm/openmm/blob/master/wrappers/python/simtk/unit/unit_definitions.py) (though in the future this may change to the more widely-used Python [pint library](https://pint.readthedocs.io/en/latest/)).
+Allowed values for units are given in [openmm.unit](https://github.com/openmm/openmm/blob/master/wrappers/python/openmm/unit/unit_definitions.py) (though in the future this may change to the more widely-used Python [pint library](https://pint.readthedocs.io/en/latest/)).
 For example, for the `angle` (equilibrium angle) and `k` (force constant) parameters in the `<Angle>` example block above, both attributes are specified as a mathematical expression 
 ```XML
    <Angle smirks="[#1:1]-[#6X4:2]-[#1:3]" angle="109.50*degree" k="70.0*kilocalorie_per_mole/radian**2"/>
@@ -866,7 +866,7 @@ See `examples/SMIRNOFF_simulation/` for an extension of this example illustratin
 
 The `topology` object provided to `create_openmm_system()` can contain any number of molecules of different types, including biopolymers, ions, buffer molecules, or solvent molecules.
 The OpenFF toolkit provides a number of convenient methods for importing or constructing topologies given PDB files, Sybyl mol2 files, SDF files, SMILES strings, and IUPAC names; see the [toolkit documentation](https://open-forcefield-toolkit.readthedocs.io/) for more information.
-Notably, this `topology` object differs from those found in [OpenMM](https://docs.openmm.org/latest/api-python/generated/simtk.openmm.app.topology.Topology.html#simtk.openmm.app.topology.Topology) or [MDTraj](https://mdtraj.org/1.9.0/api/generated/mdtraj.Topology.html#mdtraj.Topology) in that it contains information on the *chemical identity* of the molecules constituting the system, rather than this atomic elements and covalent connectivity; this additional chemical information is required for the [direct chemical perception](https://doi.org/10.1101/286542) features of SMIRNOFF typing.
+Notably, this `topology` object differs from those found in [OpenMM](https://docs.openmm.org/latest/api-python/generated/openmm.app.topology.Topology.html#openmm.app.topology.Topology) or [MDTraj](https://mdtraj.org/1.9.0/api/generated/mdtraj.Topology.html#mdtraj.Topology) in that it contains information on the *chemical identity* of the molecules constituting the system, rather than this atomic elements and covalent connectivity; this additional chemical information is required for the [direct chemical perception](https://doi.org/10.1101/286542) features of SMIRNOFF typing.
 
 ### Using SMIRNOFF small molecule force fields with traditional biopolymer force fields
 
