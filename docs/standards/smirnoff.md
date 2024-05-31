@@ -49,7 +49,7 @@ See [the example on using SMIRNOFF in AMBER or GROMACS](https://github.com/openf
 
 ## Basic structure
 
-A reference implementation of a SMIRNOFF force field parser that can process XML representations (denoted by `.offxml` file extensions) can be found in the [OpenFF Toolkit `ForceField` class](https://open-forcefield-toolkit.readthedocs.io/en/stable/api/generated/openff.toolkit.typing.engines.smirnoff.forcefield.ForceField.html).
+A reference implementation of a SMIRNOFF force field parser that can process XML representations (denoted by `.offxml` file extensions) can be found in the [OpenFF Toolkit `ForceField` class](https://docs.openforcefield.org/projects/toolkit/en/stable/api/generated/openff.toolkit.typing.engines.smirnoff.ForceField.html).
 
 Below, we describe the main structure of such an XML representation.
 
