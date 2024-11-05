@@ -333,7 +333,7 @@ Different cut-off treatments can be applied to periodic and non-periodic systems
 
 `periodic_method` can take additionally take the following values:
 
-* `Ewald3D`: a method like [Ewald summation](http://docs.openmm.org/8.0.0/userguide/theory/02_standard_forces.html#coulomb-interaction-with-ewald-summation) should be used. This is only compatible with `potential="Lennard-Jones-12-6"`.
+* `Ewald3D`: a method like [Ewald summation](http://docs.openmm.org/8.0.0/userguide/theory/02_standard_forces.html#coulomb-interaction-with-ewald-summation) (often referred to in implementation as "LJPME") should be used. This is only compatible with `potential="Lennard-Jones-12-6"`.
 
 By default, `periodic_method="cutoff` and `nonperiodic_method="no-cutoff"`. If either attribute is set to `no-cutoff`, other attributes dealing with the cut-off are ignored.
 
