@@ -16,7 +16,7 @@
 
 ## Abstract
 
-A short description of the change being addressed.
+This change adds a `<GNNCharges>` tag which describes a graph-convolutional neutral network (GNN) that can be used to assign atomic partial charges.
 
 ## Motivation and Scope
 
