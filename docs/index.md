@@ -35,6 +35,8 @@ stages of discussion or completion.
 
 ##### Open Proposals
 
+* [OFF-EP XX &mdash; GNN Charges](enhancement-proposals/off-ep-00XX.md)
+
 ##### Final Proposals
 
 ##### Rejected Proposals
