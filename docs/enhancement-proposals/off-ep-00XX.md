@@ -20,11 +20,23 @@ A short description of the change being addressed.
 
 ## Motivation and Scope
 
-This section describes the need for the proposed change. It should
-describe the existing problem, who it affects, what it is trying to
-solve, and why. This section should explicitly address the scope of and
-key requirements for the proposed change.
-If the proposal is based around changes to software, this section should clearly indicate which package(s) would be changed.
+OpenFF NAGL has built on existing work and trained a GNN that reproduced AM1-BCC partial charges for a substantial set of chemistries. Currently, there is not a canonically method by which these charges can be used in a SMIRNOFF force field. Generating partial charges from a GNN and passing them alongside a SMIRNOFF force field as prespecified charges works but is discouraged as this pathway exists only as a convenience to a user. Using an external tool to assign charges also bypasses the need to specify the contents of the GNN sufficient for somebody else to reimplement them. Developers and users for SMIRNOFF force fields would benefit from information about these GNNs being encoded directly into the force field itself.
+
+This affects any consumer of SMIRNOFF force fields which includes `<GNNCharges>`. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<GNNCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
+
+The introduction of this section lays the groundwork for supporting future models with improved performance and scope. This may include, for example:
+
+- support for more elements
+- improved runtime performance on large and/or complex molecule(s) such as biopolymers
+- modelling of charge methods other than AM1-BCC
+- models employing different architecture, featurization, and/or normalization techniques
+
+OpenFF has produced a reference implementation of this section in its package OpenFF NAGL. The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL will need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools, such as prespecified charges and virtual site parameter which modify charges. Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.
+
+This proposal does not include changes or interactions with sections that do not modify partial charges, such as `<vdW>`, `<Constraints>`, `<Bonds>`, `<Angles>`, etc.
+
+# TODO: Describe where in the charge method hierarchy this exists
+# TODO: Describe interaction(s) with virtual sites
 
 ## Usage and Impact
 
