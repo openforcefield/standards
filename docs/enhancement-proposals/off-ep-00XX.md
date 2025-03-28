@@ -52,9 +52,64 @@ This adds a new section which cannot meaningfully be converted to any existing s
 
 ## Detailed description
 
-This section should provide a detailed description of the proposed
-change. It should include examples of how the new functionality would be
-used, intended use-cases and pseudo-code illustrating its use.
+This proposal adds a section named `<GNNCharges`>. Version 0.1 of this section includes tags for
+
+- a file containing model weights
+- information about atom and bond features
+- a description of the model architecture
+- the reactions used for standardization.
+
+The tag `weights` points to a file that includes models weights. This by convention is a PyTorch `.pt` file, but in principle could be any file that describe model weight as used by the GNN. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to another file is an necessary and unavoidable layer of compleity.
+
+The tag `AtomFeatures` includes a list of `AtomFeature`s, each of which describes a feature used by the model. Each feature includes descriptive a `name` attribute and other attribute-specific properties. The following attributes are supported:
+
+- `"atomic_element"`, specifying also (in a comma-separated stringified list) the elements supported by the mode, in the order in which they are one-hot encoded
+- `"atom_connectivity"`, specifying also the range of values this feature can take
+- `"atom_average_formal_charge"`
+- `"atom_in_ring_of_size"`, specifying also an integer `"ring_size"`, the size of a ring that an atom is either in or not in
+
+- The `AtomFeatures` tag includes an attribute `feature_size` which is a (stringified) integer of the total number of atom features. This should be redundant with the total number of atom features and serves as a consistency check.
+
+The tag `BondFeatures` structurally mirrors the `AtomFeatures` section, but describes bond featurization with analogously-named elements.
+
+The tag `Model` describes the model architecture of the GNN.
+
+The tag `Standardizations` enumerates a number of reactions used for (molecule? output?) standardization. Each `Reaction` containts a SMARTS string that describes a chemical reaction used in (same question) standardization. This tag also has a `max_iter` attribute that specifies the maximum number of iterations used in the normalizaiton process.
+
+Below is an example `<GNNCharges>` section:
+
+```xml
+<GNNCharges weights="elm-v1.1.pt">
+    <!-- specify precision? -->
+    <!-- feature_size could be included as a check -- should sum to the total shape of feature tensor -->
+    <AtomFeatures feature_size="21" >
+        <!-- could include first_index, last_index as check if these are not ordered -->
+        <AtomFeature name="atomic_element" categories="C,O,H,N,S,F,Br,Cl,I,P" />
+        <AtomFeature name="atom_connectivity" categories="1,2,3,4,5,6" />
+        <AtomFeature name="atom_average_formal_charge" />
+        <AtomFeature name="atom_in_ring_of_size" ring_size="3" />
+        <AtomFeature name="atom_in_ring_of_size" ring_size="4" />
+        <AtomFeature name="atom_in_ring_of_size" ring_size="5" />
+        <AtomFeature name="atom_in_ring_of_size" ring_size="6" />
+    </AtomFeatures>
+    <BondFeatures>
+        <BondFeature ... />
+    </BondFeatures>
+    <Model version="0.1">
+        <!-- will stuff ever change per layer? Quite possible but also seems like overtuning -->
+        <!-- how to incorporate architecture-specific arguments like aggregation_function? -->
+        <!-- how to appropriately map layer weights and biases from the file to the actual layers? Just indexing? -->
+        <ConvolutionModule activation_function="ReLU" n_hidden_layers="5" architecture="SAGEConv" hidden_feature_size="512" />
+        <ReadoutModule activation_function="Sigmoid" n_hidden_layers="1" hidden_feature_size="128" pooling="atoms" output_features="initial_charge,electronegativity,hardness" postprocess_layer="regularized_compute_partial_charges">
+        </ReadoutModule">
+    </Model>
+    <Standardizations max_iter="200">
+        <Reaction reaction="[N,P,As,Sb;X3:1](=[O,S,Se,Te:2])=[O,S,Se,Te:3]>>[*+1:1](-[*-1:2])=[*:3]" />
+        <Reaction reaction="[S+2:1]([O-:2])([O-:3])>>[S+0:1](=[O-0:2])(=[O-0:3])" />
+        ...
+    </Standardizations
+</GNNCharges>
+```
 
 ## Alternatives
 
