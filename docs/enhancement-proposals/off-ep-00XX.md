@@ -107,7 +107,7 @@ Below is an example `<GNNCharges>` section:
         <Reaction reaction="[N,P,As,Sb;X3:1](=[O,S,Se,Te:2])=[O,S,Se,Te:3]>>[*+1:1](-[*-1:2])=[*:3]" />
         <Reaction reaction="[S+2:1]([O-:2])([O-:3])>>[S+0:1](=[O-0:2])(=[O-0:3])" />
         ...
-    </Standardizations
+    </Standardizations>
 </GNNCharges>
 ```
 
