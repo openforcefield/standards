@@ -16,13 +16,13 @@
 
 ## Abstract
 
-This change adds a `<GNNCharges>` tag which describes a graph-convolutional neutral network (GNN) that can be used to assign atomic partial charges.
+This change adds a `<GNNCharges>` tag which describes a graph-convolutional neural network (GNN) that can be used to assign atomic partial charges.
 
 ## Motivation and Scope
 
-OpenFF NAGL has built on existing work and trained a GNN that reproduced AM1-BCC partial charges for a substantial set of chemistries. Currently, there is not a canonically method by which these charges can be used in a SMIRNOFF force field. Generating partial charges from a GNN and passing them alongside a SMIRNOFF force field as prespecified charges works but is discouraged as this pathway exists only as a convenience to a user. Using an external tool to assign charges also bypasses the need to specify the contents of the GNN sufficient for somebody else to reimplement them. Developers and users for SMIRNOFF force fields would benefit from information about these GNNs being encoded directly into the force field itself.
+OpenFF NAGL has built on existing work and trained a GNN that reproduced AM1-BCC partial charges for a substantial set of chemistries. Currently, there is not a canonical method by which these charges can be used in a SMIRNOFF force field. Generating partial charges from a GNN and passing them alongside a SMIRNOFF force field as prespecified charges works but is discouraged as this pathway exists only as a convenience to a user. Using an external tool to assign charges also bypasses the need to specify the contents of the GNN sufficient for somebody else to reimplement them. Developers and users for SMIRNOFF force fields would benefit from information about these GNNs being encoded directly into the force field itself.
 
-This affects any consumer of SMIRNOFF force fields which includes `<GNNCharges>`. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<GNNCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
+The changes outlined in this proposal affect any consumer of SMIRNOFF force fields which include `<GNNCharges>`, which is likely to be the case for `openff-2.3.0` and beyond. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<GNNCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
 
 The introduction of this section lays the groundwork for supporting future models with improved performance and scope. This may include, for example:
 
@@ -59,11 +59,11 @@ This proposal adds a section named `<GNNCharges`>. Version 0.1 of this section i
 - a description of the model architecture
 - the reactions used for standardization.
 
-The tag `weights` points to a file that includes models weights. This by convention is a PyTorch `.pt` file, but in principle could be any file that describe model weight as used by the GNN. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to another file is an necessary and unavoidable layer of compleity.
+The tag `weights` points to a file that includes models weights. This by convention is a PyTorch `.pt` file, but in principle could be any file that describe model weight as used by the GNN. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to another file is an necessary and unavoidable layer of complexity.
 
 The tag `AtomFeatures` includes a list of `AtomFeature`s, each of which describes a feature used by the model. Each feature includes descriptive a `name` attribute and other attribute-specific properties. The following attributes are supported:
 
-- `"atomic_element"`, specifying also (in a comma-separated stringified list) the elements supported by the mode, in the order in which they are one-hot encoded
+- `"atomic_element"`, specifying also (in a comma-separated stringified list) the elements supported by the model, in the order in which they are one-hot encoded
 - `"atom_connectivity"`, specifying also the range of values this feature can take
 - `"atom_average_formal_charge"`
 - `"atom_in_ring_of_size"`, specifying also an integer `"ring_size"`, the size of a ring that an atom is either in or not in
@@ -74,7 +74,7 @@ The tag `BondFeatures` structurally mirrors the `AtomFeatures` section, but desc
 
 The tag `Model` describes the model architecture of the GNN.
 
-The tag `Standardizations` enumerates a number of reactions used for (molecule? output?) standardization. Each `Reaction` containts a SMARTS string that describes a chemical reaction used in (same question) standardization. This tag also has a `max_iter` attribute that specifies the maximum number of iterations used in the normalizaiton process.
+The tag `Standardizations` enumerates a number of reactions used for molecule standardization. Each `Reaction` contains a SMARTS string that describes a chemical reaction used in molecule standardization. This tag also has a `max_iter` attribute that specifies the maximum number of iterations used in the normalization process.
 
 Below is an example `<GNNCharges>` section:
 
