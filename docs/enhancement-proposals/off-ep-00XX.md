@@ -48,7 +48,7 @@ on the ecosystem.
 
 ## Backward compatibility
 
-This adds a new section which cannot meaningfully be converted to any existing sections.
+This proposal adds a new section which does not affect backwards compatibility. While in practice we intend for the GNNCharges section to become the new default charge method in our future flagship force fields, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to GNNCharges sections.
 
 ## Detailed description
 
@@ -64,7 +64,7 @@ The tag `weights` points to a file that includes models weights. This by convent
 The tag `AtomFeatures` includes a list of `AtomFeature`s, each of which describes a feature used by the model. Each feature includes descriptive a `name` attribute and other attribute-specific properties. The following attributes are supported:
 
 - `"atomic_element"`, specifying also (in a comma-separated stringified list) the elements supported by the model, in the order in which they are one-hot encoded
-- `"atom_connectivity"`, specifying also the range of values this feature can take
+- `"atom_connectivity"`, referring to the number of unique bonds this atom is involved in (not considering bond order), specifying the range of values this feature can take.
 - `"atom_average_formal_charge"`
 - `"atom_in_ring_of_size"`, specifying also an integer `"ring_size"`, the size of a ring that an atom is either in or not in
 
