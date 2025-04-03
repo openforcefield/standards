@@ -16,13 +16,13 @@
 
 ## Abstract
 
-This change adds a `<GNNCharges>` tag which describes a graph-convolutional neural network (GNN) that can be used to assign atomic partial charges.
+This change adds a `<NAGLCharges>` tag which describes a graph-convolutional neural network (GNN) that can be used to assign atomic partial charges.
 
 ## Motivation and Scope
 
 OpenFF NAGL has built on existing work and trained a GNN that reproduced AM1-BCC partial charges for a substantial set of chemistries. Currently, there is not a canonical method by which these charges can be used in a SMIRNOFF force field. Generating partial charges from a GNN and passing them alongside a SMIRNOFF force field as prespecified charges works but is discouraged as this pathway exists only as a convenience to a user. Using an external tool to assign charges also bypasses the need to specify the contents of the GNN sufficient for somebody else to reimplement them. Developers and users for SMIRNOFF force fields would benefit from information about these GNNs being encoded directly into the force field itself.
 
-The changes outlined in this proposal affect any consumer of SMIRNOFF force fields which include `<GNNCharges>`, which is likely to be the case for `openff-2.3.0` and beyond. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<GNNCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
+The changes outlined in this proposal affect any consumer of SMIRNOFF force fields which include `<NAGLCharges>`, which is likely to be the case for `openff-2.3.0` and beyond. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<NAGLCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
 
 The introduction of this section lays the groundwork for supporting future models with improved performance and scope. This may include, for example:
 
@@ -35,8 +35,16 @@ OpenFF has produced a reference implementation of this section in its package Op
 
 This proposal does not include changes or interactions with sections that do not modify partial charges, such as `<vdW>`, `<Constraints>`, `<Bonds>`, `<Angles>`, etc.
 
-# TODO: Describe where in the charge method hierarchy this exists
-# TODO: Describe interaction(s) with virtual sites
+`NAGLCharges` fits into the current charge hierarchy as follows (with methods high in the list taking priority over those lower):
+
+- Pre-specified charges (charge_from_molecules)
+- Library charges
+- GNN charges
+- ToolkitAM1BCC charges
+- ChargeIncrementModel charges
+
+
+Future iterations of this section may include direct assignment of partial charges to virtual sites. However in this initial version, there is no special behavior around virtual sites. If the `NAGLCharges` section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. 
 
 ## Usage and Impact
 
@@ -48,11 +56,11 @@ on the ecosystem.
 
 ## Backward compatibility
 
-This proposal adds a new section which does not affect backwards compatibility. While in practice we intend for the GNNCharges section to become the new default charge method in our future flagship force fields, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to GNNCharges sections.
+This proposal adds a new section which does not affect backwards compatibility. While in practice we intend for the NAGLCharges section to become the new default charge method in our future flagship force fields, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to NAGLCharges sections.
 
 ## Detailed description
 
-This proposal adds a section named `<GNNCharges`>. Version 0.1 of this section includes tags for
+This proposal adds a section named `<NAGLCharges`>. The initial version of this section, 0.3,  includes tags for
 
 - a file containing model weights
 - information about atom and bond features
@@ -60,6 +68,8 @@ This proposal adds a section named `<GNNCharges`>. Version 0.1 of this section i
 - the reactions used for standardization.
 
 The tag `weights` points to a file that includes models weights. This by convention is a PyTorch `.pt` file, but in principle could be any file that describe model weight as used by the GNN. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to another file is an necessary and unavoidable layer of complexity.
+
+Both of the following tags - `AtomFeatures` and `BondFeatures` - operate on a "resonance-averaged" representation of the molecule. This representation is generated by enumerating all resonance forms of the molecule using the method described in [Gilson et al.](https://pubs.acs.org/doi/10.1021/ci034148o), and then averaging the formal charges and bond orders to get a single "resonance-averaged" molecule representation. Importantly, this means that there may be noninteger formal charges and bond orders fed into the network.  
 
 The tag `AtomFeatures` includes a list of `AtomFeature`s, each of which describes a feature used by the model. Each feature includes descriptive a `name` attribute and other attribute-specific properties. The following attributes are supported:
 
@@ -71,15 +81,16 @@ The tag `AtomFeatures` includes a list of `AtomFeature`s, each of which describe
 - The `AtomFeatures` tag includes an attribute `feature_size` which is a (stringified) integer of the total number of atom features. This should be redundant with the total number of atom features and serves as a consistency check.
 
 The tag `BondFeatures` structurally mirrors the `AtomFeatures` section, but describes bond featurization with analogously-named elements.
+- (need to talk to Lily for details here)
 
 The tag `Model` describes the model architecture of the GNN.
 
 The tag `Standardizations` enumerates a number of reactions used for molecule standardization. Each `Reaction` contains a SMARTS string that describes a chemical reaction used in molecule standardization. This tag also has a `max_iter` attribute that specifies the maximum number of iterations used in the normalization process.
 
-Below is an example `<GNNCharges>` section:
+Below is an example `<NAGLCharges>` section:
 
 ```xml
-<GNNCharges weights="elm-v1.1.pt">
+<NAGLCharges weights="elm-v1.1.pt" version="0.3">
     <!-- specify precision? -->
     <!-- feature_size could be included as a check -- should sum to the total shape of feature tensor -->
     <AtomFeatures feature_size="21" >
@@ -101,14 +112,14 @@ Below is an example `<GNNCharges>` section:
         <!-- how to appropriately map layer weights and biases from the file to the actual layers? Just indexing? -->
         <ConvolutionModule activation_function="ReLU" n_hidden_layers="5" architecture="SAGEConv" hidden_feature_size="512" />
         <ReadoutModule activation_function="Sigmoid" n_hidden_layers="1" hidden_feature_size="128" pooling="atoms" output_features="initial_charge,electronegativity,hardness" postprocess_layer="regularized_compute_partial_charges">
-        </ReadoutModule">
+        </ReadoutModule>
     </Model>
     <Standardizations max_iter="200">
         <Reaction reaction="[N,P,As,Sb;X3:1](=[O,S,Se,Te:2])=[O,S,Se,Te:3]>>[*+1:1](-[*-1:2])=[*:3]" />
         <Reaction reaction="[S+2:1]([O-:2])([O-:3])>>[S+0:1](=[O-0:2])(=[O-0:3])" />
         ...
     </Standardizations>
-</GNNCharges>
+</NAGLCharges>
 ```
 
 ## Alternatives
