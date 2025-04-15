@@ -6,17 +6,17 @@
 
 **Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
 
-**Acceptance criteria:** 
+**Acceptance criteria:** Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]
 
-**Created:** &lt;date created>
+**Created:** 2025-04-01
 
-**Discussion:** &lt;link to the PR / issue where proposal is being discussed>
+**Discussion:** [PR #71](https://github.com/openforcefield/standards/pull/71)
 
 **Implementation:** &lt;link an example / reference implementation of the proposal>
 
 ## Abstract
 
-This change adds a `<NAGLCharges>` section which calls for the NAGL program to be used to assign atomic partial charges.
+This change adds a `<NAGLCharges>` section which calls for a specific NAGL model to be used to assign atomic partial charges.
 
 ## Motivation and Scope
 
@@ -36,7 +36,7 @@ This change adds a `<NAGLCharges>` section which calls for the NAGL program to b
 - ToolkitAM1BCC charges
 - ChargeIncrementModel charges
 
-The initial `0.3` version of the `NAGLCharges` section does have special interactions with virtual sites, though future versions of this section may include direct assignment of partial charges to virtual sites. If the `NAGLCharges` section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. 
+The initial `0.3` version of the `NAGLCharges` section does have special interactions with virtual sites, though future versions of this section may include direct assignment of partial charges to virtual sites. But for the 0.3 version of this section proposed by this EP, the behavior will be that, if the `NAGLCharges` section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. 
 
 ## Backward compatibility
 
@@ -46,18 +46,20 @@ This proposal adds a new section which does not affect backwards compatibility. 
 
 This proposal adds a section named `<NAGLCharges`>. The proposed initial version of this section (0.3) is as follows, and will be added verbatim to the specification if this EP is approved:
 
-The `NAGLCharges` section-level element defines that the force field should use the `openff-nagl` software to assign partial charges. It contains the following  attributes:
+The `NAGLCharges` section-level element defines that the force field should use a sepcific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following  attributes:
 
 - `version`
-- `weights`
+- `model_file`
 
-The attribute `weights` points to a file that includes model weights. This by convention is a PyTorch `.pt` file containing additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
+The attribute `model_file` points to a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to  contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
 
 Below is an example `<NAGLCharges>` section:
 
 ```xml
-<NAGLCharges weights="elm-v1.1.pt" version="0.3"></NAGLCharges>
+<NAGLCharges model_file="elm-v1.1.pt" version="0.3"></NAGLCharges>
 ```
+
+This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for rejecting model files which it can not correctly interpret.
 
 ## Alternatives
 
@@ -79,9 +81,6 @@ GNN provided weights that are shipped alongside a force field. It allows for fut
 underlying charge model is targeted.
 
 ## Discussion
-
-This section may just be a bullet list including links to any discussions
-regarding the proposal:
 
 - [Original SMIRNOFF EP](https://github.com/openforcefield/standards/pull/71)
 
