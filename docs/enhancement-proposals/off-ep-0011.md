@@ -1,4 +1,4 @@
-# OFF-EP X — Template
+# OFF-EP 11 — Add NAGLCharges section to spec
 
 **Status:** Draft
 
@@ -24,8 +24,6 @@ This change adds a `<NAGLCharges>` section which calls for a specific NAGL model
 
 **Who this EP would affect:** The changes outlined in this proposal affect any consumer of SMIRNOFF force fields that include `<NAGLCharges>`, which is likely to be the case for `openff-2.3.0` and beyond. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement `<NAGLCharges>`, by definition, to use force fields that include this section. Existing force fields cannot use this section, so they are not affected.
 
-**Changes needed:** The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL will need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools, such as prespecified charges and virtual site parameter which modify charges. Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.
-
 **Interaction with other sections:** This proposal does not include changes or interactions with sections that do not modify partial charges, such as `<vdW>`, `<Constraints>`, `<Bonds>`, `<Angles>`, etc.
 
 `NAGLCharges` fits into the current charge hierarchy as follows (with methods high in the list taking priority over those lower):
@@ -33,10 +31,12 @@ This change adds a `<NAGLCharges>` section which calls for a specific NAGL model
 - Pre-specified charges (charge_from_molecules)
 - Library charges
 - GNN charges
-- ToolkitAM1BCC charges
 - ChargeIncrementModel charges
+- ToolkitAM1BCC charges
 
 The initial `0.3` version of the `NAGLCharges` section does have special interactions with virtual sites, though future versions of this section may include direct assignment of partial charges to virtual sites. But for the 0.3 version of this section proposed by this EP, the behavior will be that, if the `NAGLCharges` section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. 
+
+**Changes needed:** The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL will need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools, such as prespecified charges and virtual site parameter which modify charges. Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.
 
 ## Backward compatibility
 
@@ -46,7 +46,9 @@ This proposal adds a new section which does not affect backwards compatibility. 
 
 This proposal adds a section named `<NAGLCharges`>. The proposed initial version of this section (0.3) is as follows, and will be added verbatim to the specification if this EP is approved:
 
-The `NAGLCharges` section-level element defines that the force field should use a sepcific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following  attributes:
+### `<NAGLCharges>`: Use a specified NAGL model file for charge assignment
+
+The `NAGLCharges` section-level element defines that the force field should use a sepcific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following attributes:
 
 - `version`
 - `model_file`
@@ -59,7 +61,10 @@ Below is an example `<NAGLCharges>` section:
 <NAGLCharges model_file="elm-v1.1.pt" version="0.3"></NAGLCharges>
 ```
 
-This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for rejecting model files which it can not correctly interpret.
+This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for only accepting model files which it can not correctly interpret.
+
+Note that atoms for which prespecified or `<LibraryCharges>` charges have already been applied are excluded from charging via `<NAGLCharges>`.
+
 
 ## Alternatives
 
