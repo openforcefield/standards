@@ -4,15 +4,13 @@
 
 **Authors:** Lily Wang, Matt Thompson, Jeff Wagner
 
-**Stakeholders:** &lt;list of stakeholders that would be affected by this proposal>
-
 **Acceptance criteria:** Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]
 
 **Created:** 2025-04-01
 
 **Discussion:** [PR #71](https://github.com/openforcefield/standards/pull/71)
 
-**Implementation:** &lt;link an example / reference implementation of the proposal>
+**Implementation:** https://github.com/openforcefield/openff-interchange/pull/1206 https://github.com/openforcefield/openff-toolkit/pull/2048
 
 ## Abstract
 
@@ -36,11 +34,11 @@ This change adds a `<NAGLCharges>` section which calls for a specific NAGL model
 
 The initial `0.3` version of the `NAGLCharges` section does have special interactions with virtual sites, though future versions of this section may include direct assignment of partial charges to virtual sites. But for the 0.3 version of this section proposed by this EP, the behavior will be that, if the `NAGLCharges` section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. 
 
-**Changes needed:** The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL will need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools, such as prespecified charges and virtual site parameter which modify charges. Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.
+**Changes needed:** The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL will need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools (such as prespecified charges and virtual site parameters which modify charges). Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.
 
 ## Backward compatibility
 
-This proposal adds a new section which does not affect backwards compatibility. While in practice we intend for the NAGLCharges section to become the new default charge method in our future flagship force fields, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to NAGLCharges sections.
+This proposal adds a new section which does not affect backwards compatibility. While in practice the first version of the NAGLCharges section is very likely to be trained on AM1BCC ELF10 charges, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to NAGLCharges sections.
 
 ## Detailed description
 
@@ -48,17 +46,23 @@ This proposal adds a section named `<NAGLCharges`>. The proposed initial version
 
 ### `<NAGLCharges>`: Use a specified NAGL model file for charge assignment
 
-The `NAGLCharges` section-level element defines that the force field should use a sepcific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following attributes:
+The `NAGLCharges` section-level element defines that the force field should use a specific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following attributes:
 
 - `version`
 - `model_file`
+- `model_file_hash` (optional)
+- `digital_object_identifier` (optional)
 
-The attribute `model_file` points to a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to  contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
+The attribute `model_file` is a string identifying a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
+
+ Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
+ - The optional attribute `model_file_hash` is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no `model_file_hash` is provided, then no hash comparison will be performed. 
+ - The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be from this Zenodo entry. The Zenodo entry must have an attached file matching the `model_file` to be fetched. 
 
 Below is an example `<NAGLCharges>` section:
 
 ```xml
-<NAGLCharges model_file="elm-v1.1.pt" version="0.3"></NAGLCharges>
+<NAGLCharges model_file="openff-gnn-am1bcc-0.1.0-rc.3.pt" model_file_hash="144ed56e46c5b3ad80157b342c8c0f8f7340e4d382a678e30dd300c811646bd0" digital_object_identifier="10.5072/zenodo.203601" version="0.3"></NAGLCharges>
 ```
 
 This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for only accepting model files which it can not correctly interpret.
