@@ -296,20 +296,26 @@ Note that atoms for which prespecified, `<NAGLCharges>`, `<LibraryCharges>`, or 
 
 ### `<NAGLCharges>`: Use a specified NAGL model file for charge assignment
 
-The `NAGLCharges` section-level element defines that the force field should use a sepcific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following attributes:
+The `NAGLCharges` section-level element specifies that the force field should use a specific model file in conjunction with the `openff-nagl` software to assign partial charges. It contains the following attributes:
 
 - `version`
 - `model_file`
+- `model_file_hash` (optional)
+- `digital_object_identifier` (optional)
 
-The attribute `model_file` points to a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to  contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
+The attribute `model_file` is a string identifying a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
+
+ Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
+ - The optional attribute `model_file_hash` is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no `model_file_hash` is provided, then no hash comparison will be performed. 
+ - The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the `model_file` string to be fetched. 
 
 Below is an example `<NAGLCharges>` section:
 
 ```xml
-<NAGLCharges model_file="elm-v1.1.pt" version="0.3"></NAGLCharges>
+<NAGLCharges model_file="openff-gnn-am1bcc-0.1.0-rc.3.pt" model_file_hash="144ed56e46c5b3ad80157b342c8c0f8f7340e4d382a678e30dd300c811646bd0" digital_object_identifier="10.5072/zenodo.203601" version="0.3"></NAGLCharges>
 ```
 
-This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for only accepting model files which it can not correctly interpret.
+This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for only accepting model files which it can correctly interpret.
 
 Note that atoms for which prespecified or `<LibraryCharges>` charges have already been applied are excluded from charging via `<NAGLCharges>`.
 
