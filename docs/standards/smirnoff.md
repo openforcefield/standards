@@ -229,7 +229,7 @@ For example, to ensure water molecules are assigned partial charges for [TIP3P](
 | 0.3                                |                                      | `smirks`, `charge` (indexed)    | `name`, `id`, `parent_id`     |
 
 
-Note that atoms for which prespecifie charges have already been applied are excluded from charging via `<LibraryCharges>`.
+Note that atoms for which prespecified charges have already been applied are excluded from charging via `<LibraryCharges>`.
 
 
 
