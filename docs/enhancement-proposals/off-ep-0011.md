@@ -28,7 +28,7 @@ This change adds a `<NAGLCharges>` section which calls for a specific NAGL model
 
 - Pre-specified charges (charge_from_molecules)
 - Library charges
-- GNN charges
+- NAGL charges
 - ChargeIncrementModel charges
 - ToolkitAM1BCC charges
 
