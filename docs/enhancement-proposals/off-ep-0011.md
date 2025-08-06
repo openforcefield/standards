@@ -57,7 +57,7 @@ The attribute `model_file` is a string identifying a file that includes model we
 
 Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
 - The optional attribute `model_file_hash` is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no `model_file_hash` is provided, then no hash comparison will be performed. 
-- The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be fetched from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the `model_file` string to be fetched. This field is not used for validating the model file contents, so if a model publisher wants to ensure that the user's local model file matches that at the DOI, they should use the `model_file_hash` field. .
+- The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be fetched from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the `model_file` string to be fetched. This field is not used for validating the model file contents, so if a model publisher wants to ensure that a user's local model file matches that at the DOI, they should use the `model_file_hash` field.
 
 Below is an example `<NAGLCharges>` section:
 
