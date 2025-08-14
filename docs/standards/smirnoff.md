@@ -305,9 +305,9 @@ The `NAGLCharges` section-level element specifies that the force field should us
 
 The attribute `model_file` is a string identifying a file that includes model weights and other information. This by convention is a PyTorch `.pt` file, extended to contain additional information about the model that is read by the `openff-nagl` software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.
 
- Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
- - The optional attribute `model_file_hash` is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no `model_file_hash` is provided, then no hash comparison will be performed. 
- - The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the `model_file` string to be fetched. 
+Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
+- The optional attribute `model_file_hash` is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no `model_file_hash` is provided, then no hash comparison will be performed. 
+- The optional attribute `digital_object_identifier` is a string that contains a [Zenodo](https://zenodo.org/) [Digital Object Identifier](https://www.doi.org/) that can be accessed to fetch the model file. If the file can not be found locally, it may be fetched from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the `model_file` string to be fetched. This field is not used for validating the model file contents, so if a model publisher wants to ensure that a user's local model file matches that at the DOI, they should use the `model_file_hash` field.
 
 Below is an example `<NAGLCharges>` section:
 
