@@ -1,0 +1,1099 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../off-ep-0009/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>OFF-EP 10 - Clarify ProperTorsion implementation of idivf and dihedral calculation - OpenFF Standards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#off-ep-0010-clarify-propertorsion-implementation-of-idivf-and-dihedral-calculation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenFF Standards" class="md-header__button md-logo" aria-label="OpenFF Standards" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenFF Standards
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OFF-EP 10 - Clarify ProperTorsion implementation of idivf and dihedral calculation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenFF Standards" class="md-nav__button md-logo" aria-label="OpenFF Standards" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OpenFF Standards
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Standards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/smirnoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SMIRNOFF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/qc-data-submission/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QC Data Submission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhancement Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enhancement Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0000/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 0 - Purpose and Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP X - Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0001/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 1 - Clarify that constraint distances override equilibrium bond distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0005/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 5 - Resolve ambiguity over PME electrostatics for nonperiodic systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0006/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 6 - Define virtual site exclusion policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0008/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 8 - Specifying different vdW methods for periodic and non-periodic systems and allow "no-cutoff" vdW interactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0009/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 9 - Add LJPME
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 10 - Clarify ProperTorsion implementation of idivf and dihedral calculation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 10 - Clarify ProperTorsion implementation of idivf and dihedral calculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation and Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-and-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage and Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backward-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternative-1-the-idivf-parameter-could-be-removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 1: the idivf parameter could be removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-2-disallow-asymmetric-torsions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 2: disallow asymmetric torsions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copyright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copyright
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation and Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-and-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage and Impact
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backward-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed description
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#alternative-1-the-idivf-parameter-could-be-removed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 1: the idivf parameter could be removed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternative-2-disallow-asymmetric-torsions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternative 2: disallow asymmetric torsions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copyright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copyright
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="off-ep-0010-clarify-propertorsion-implementation-of-idivf-and-dihedral-calculation">OFF-EP 0010 — Clarify ProperTorsion implementation of idivf and dihedral calculation</h1>
+<p><strong>Status:</strong> Submitted</p>
+<p><strong>Authors:</strong> Lily Wang</p>
+<p><strong>Acceptance criteria:</strong> Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]</p>
+<p><strong>Stakeholders:</strong> John Chodera, David Mobley, Jeff Wagner, Lily Wang, Matt Thompson</p>
+<p><strong>Created:</strong> 2024-02-07</p>
+<p><strong>Discussion:</strong> <a href="https://github.com/openforcefield/standards/issues/59">Issue #59</a>, <a href="https://github.com/openforcefield/standards/issues/60">Issue #60</a></p>
+<p><strong>Implementation:</strong> <a href="https://github.com/openforcefield/standards"><code>openforcefield/standards</code></a></p>
+<h2 id="abstract">Abstract</h2>
+<p>This change clarifies the implementation of SMIRKS matching, dihedral calculation, and <code>idivf="auto"</code> for ProperTorsion parameters.</p>
+<h2 id="motivation-and-scope">Motivation and Scope</h2>
+<p>A ProperTorsion is defined between a connected quartet of atoms <code>i-j-k-l</code>. The dihedral angle is calculated between the two planes defined by <code>i-j-k</code> and <code>j-k-l</code>. The directions of these planes, and the resulting sign of the dihedral, depend on how they are defined; however, it is currently unclear what standard to follow. While both directions yield the same result for symmetric torsions where the phase is 0 or pi, the choice of direction is important for asymmetric torsions.</p>
+<p>In addition, a SMIRKS pattern that can match a particular 
+bonded quartet in either <code>i-j-k-l</code> or <code>l-k-j-i</code> order is 
+ambiguous, and the SMIRNOFF specification does not 
+guarantee that the match will be performed in any predetermined or deterministic order. As this may
+potentially lead to undesired results, this proposal
+adds a note highlighting this fact.</p>
+<p>Finally, the effect of the <code>idivf="auto"</code> parameter on the ProperTorsion potential is outlined in words that can be interpreted ambiguously.</p>
+<p>All of these ambiguities may cause confusion to anybody implementing the SMIRNOFF spec.</p>
+<h2 id="usage-and-impact">Usage and Impact</h2>
+<p>This change defines the <code>idivf</code> parameter in line with the philosophy used in AMBER force fields. The OpenFF implementation has not hitherto used or implemented <code>idivf="auto"</code> in its ProperTorsion parameters. As such there should be no practical impact on existing workflows and simulations. Other force fields and software that have implemented and interpreted the <code>idivf="auto"</code> parameter in ways that do not align with our definition will need to be updated accordingly.</p>
+<p>The proposed clarification of input vector order and symmetric SMIRKS matching reflects existing implementations and simulations in OpenFF and OpenMM. Software that converts systems out into other formats may need to adjust the input order to ensure the correct sign of the torsion.</p>
+<h2 id="backward-compatibility">Backward compatibility</h2>
+<p>This proposal does not change behaviour, but rather explicitly defines what is currently implicit in the
+specification and the implementation in OpenFF infrastructure.
+Therefore, there should be no backwards compatibility issues.</p>
+<h2 id="detailed-description">Detailed description</h2>
+<p>This proposal adds the following section (bolded) clarifying <code>idivf</code> to the <code>ProperTorsion</code> spec:</p>
+<blockquote>
+<p>For convenience, an optional attribute specifies a torsion multiplicity by which the barrier height (<code>k#</code>) should be divided (<code>idivf#</code>). <strong>The final barrier height is calculated as <code>k#/idivf#</code>. <code>idivf</code> can be assigned an integer value (such as <code>"1"</code>), or <code>"auto"</code>. If <code>idivf="auto"</code>, the following equation is used to determine the <code>idivf</code> value for a torsion applying to four atoms <code>i-j-k-l</code>, where <code>n_j</code> refers to the degree (i.e. number of bonds) of atom <code>j</code>:</strong></p>
+<p><strong><code>**
+**idivf = (n_j - 1) * (n_k - 1)**
+**</code></strong></p>
+<p>The default behavior of this <code>idivf</code> can be controlled by the top-level attribute <code>default_idivf</code> (default: <code>"auto"</code>) for <code>&lt;ProperTorsions&gt;</code>.</p>
+</blockquote>
+<p>It also adds a section explaining the computation of <code>theta</code> to the <code>ProperTorsion</code> spec:</p>
+<blockquote>
+<p>In the potential function, the angle <code>theta</code> is calculated using input vectors
+defined by the four atoms of the torsion <code>i-j-k-l</code>.</p>
+<p><img alt="Dihedral angle figure" src="figures/dihedral-angle-summary.png" /></p>
+<p>Where the vector <code>r_ij</code> is defined as the vector from atom <code>j</code> to atom <code>i</code>:
+<code>r_ij = x_i - x_j</code>
+the angle <code>theta</code> should be calculated using the input vectors <code>r_ij</code>, <code>r_kj</code>, and <code>r_kl</code>. These define the planes <code>u_ijk</code> and <code>u_jkl</code> (see figure below, &gt; section A).</p>
+<p><img alt="Dihedral angle process" src="figures/dihedral-angle-process.png" /></p>
+<p>The sign of the angle is determined by comparing the <code>r_ji</code> vector to the <code>u_jkl</code> plane (see figure above, section B). If the <code>r_ji</code> vector has an acute angle to the <code>u_jkl</code> vector, the sign is positive; if the angle is obtuse, the sign is negative (section C in figure above).</p>
+<p>Pseudocode of the expected implementation is provided below.</p>
+<p>```
+u_ijk = r_ji x r_jk
+u_jkl = r_jk x r_lk
+angle = acos(u_ijk • u_jkl)  # returns in domain [0, pi]</p>
+<p>rij_to_ujkl = r_ji • u_jkl
+if rij_to_ujkl &lt; 0:
+    sign = -1
+else:
+    sign = 1
+theta = sign * angle
+```</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Angle values close to 0 and π may be susceptible to precision errors in implementations.</p>
+</div>
+<p>The sign of the <code>theta</code> angle is important in cases where the torsion profile is &gt; asymmetric,
+i.e. where the <code>phase</code> is neither 0 nor pi, for example in the case below.</p>
+<p><img alt="Dihedral angle torsion profile" src="figures/dihedral-torsion-profile.png" /></p>
+</blockquote>
+<p>And finally adds a note on how ProperTorsion SMIRKS are applied:</p>
+<blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A SMIRKS pattern that can match a particular bonded 
+quartet in either <code>i-j-k-l</code> or <code>l-k-j-i</code> order is 
+ambiguous, and the specification cannot guarantee the 
+match will be performed in any predetermined or 
+deterministic order, potentially leading to undesired 
+and undefined results.</p>
+</div>
+</blockquote>
+<h2 id="alternatives">Alternatives</h2>
+<h3 id="alternative-1-the-idivf-parameter-could-be-removed">Alternative 1: the <code>idivf</code> parameter could be removed</h3>
+<p>In this alternative scenario, <code>idivf</code> would be implicitly set to <code>1</code>, as has been the case
+in current SMIRNOFF force fields. Torsion parameters would be explicitly enumerated
+to only apply to one specific multiplicity, and the <code>k</code> barrier would be appropriately fit
+to the required scale.</p>
+<p>The approach of keeping and implementing <code>idivf="auto"</code> was chosen to enable scientific
+experiments to investigate whether torsion multiplicity could be accounted for using <code>idivf</code>,
+reducing the number of necessary parameters to fit.</p>
+<h3 id="alternative-2-disallow-asymmetric-torsions">Alternative 2: disallow asymmetric torsions</h3>
+<p>In this alternative scenario, proper torsion parameters with asymmetric profiles
+(e.g. with phases outside 0 or pi) would be explicitly disallowed in the SMIRNOFF spec
+and OpenFF infrastructure. An error would be raised on reading these. This would render concerns about dihedral sign and the impact of atom order superfluous.</p>
+<p>The approach of keeping asymmetric torsions was chosen to:
+    * enable reading our existing Sage 2.0 force field, which was published with asymmetric torsions
+    * allow asymmetric torsions for future research</p>
+<h2 id="discussion">Discussion</h2>
+<ul>
+<li><a href="https://github.com/openforcefield/standards/issues/60">Description of default_idivf="auto" not in accordance with community understanding</a></li>
+<li>Suggestion to <a href="https://github.com/openforcefield/standards/issues/59">Remove use of idivf</a></li>
+<li><a href="https://openforcefieldgroup.slack.com/archives/C4VHEFXS5/p1707080215101849">Slack thread clarifying dihedral computation in OpenMM</a></li>
+<li>This proposal was discussed at a <a href="https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2730000385/02-06-24+SMIRNOFF+Committee+Meeting">SMIRNOFF committee meeting</a> with the following points:<ul>
+<li>The history of the <code>idivf</code> parameter stems from AMBER</li>
+<li><code>idivf</code> is not currently used in SMIRNOFF force fields with values other than 1</li>
+<li><code>idivf="auto"</code> is not currently implemented in OpenFF infrastructure</li>
+<li>An implementation of <code>idivf</code> could simply take into account molecular topology</li>
+<li><code>idivf="auto"</code> can be defined using the degree of the atoms in the central bond</li>
+<li>Sage 2.0 did contain asymmetric torsions, where the sign of the dihedral affects the potential</li>
+<li>Measuring a dihedral angle from i-j-k-l <em>should</em> always give the same result as l-k-j-i </li>
+</ul>
+</li>
+</ul>
+<h2 id="copyright">Copyright</h2>
+<p><em>This template is based upon the <a href="https://github.com/numpy/numpy/blob/master/doc/neps/nep-template.rst"><code>numpy</code> NEP template</a> and the
+<a href="https://github.com/conda-forge/cfep/blob/master/cfep-00.md"><code>conda-forge</code> CFEP template.</a></em></p>
+<p><em>All OFF-EPs are explicitly <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

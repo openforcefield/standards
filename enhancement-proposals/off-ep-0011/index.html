@@ -1,0 +1,837 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>OFF-EP 11 — Add NAGLCharges section to spec - OpenFF Standards</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#off-ep-11-add-naglcharges-section-to-spec" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="OpenFF Standards" class="md-header__button md-logo" aria-label="OpenFF Standards" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenFF Standards
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OFF-EP 11 — Add NAGLCharges section to spec
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="OpenFF Standards" class="md-nav__button md-logo" aria-label="OpenFF Standards" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OpenFF Standards
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Standards
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Standards
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/smirnoff/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SMIRNOFF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../standards/qc-data-submission/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    QC Data Submission
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enhancement Proposals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Enhancement Proposals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0000/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 0 - Purpose and Process
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP X - Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0001/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 1 - Clarify that constraint distances override equilibrium bond distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0005/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 5 - Resolve ambiguity over PME electrostatics for nonperiodic systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0006/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 6 - Define virtual site exclusion policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0008/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 8 - Specifying different vdW methods for periodic and non-periodic systems and allow "no-cutoff" vdW interactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0009/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 9 - Add LJPME
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../off-ep-0010/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OFF-EP 10 - Clarify ProperTorsion implementation of idivf and dihedral calculation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#abstract" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#motivation-and-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Motivation and Scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#backward-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backward compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detailed-description" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detailed description
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detailed description">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#naglcharges-use-a-specified-nagl-model-file-for-charge-assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        &lt;NAGLCharges&gt;: Use a specified NAGL model file for charge assignment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#discussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Discussion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#copyright" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copyright
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="off-ep-11-add-naglcharges-section-to-spec">OFF-EP 11 — Add NAGLCharges section to spec</h1>
+<p><strong>Status:</strong> Draft</p>
+<p><strong>Authors:</strong> Lily Wang, Matt Thompson, Jeff Wagner</p>
+<p><strong>Acceptance criteria:</strong> Unanimity (4 approving reviews) or partial support (2 approvals and 2 week period with no reviews requesting changes)[https://openforcefield.atlassian.net/wiki/spaces/MEET/pages/2638774273/09-05-23+SMIRNOFF+Committee+Meeting]</p>
+<p><strong>Created:</strong> 2025-04-01</p>
+<p><strong>Discussion:</strong> <a href="https://github.com/openforcefield/standards/pull/71">PR #71</a></p>
+<p><strong>Implementation:</strong> https://github.com/openforcefield/openff-interchange/pull/1206 https://github.com/openforcefield/openff-toolkit/pull/2048</p>
+<h2 id="abstract">Abstract</h2>
+<p>This change adds a <code>&lt;NAGLCharges&gt;</code> section which calls for a specific NAGL model to be used to assign atomic partial charges.</p>
+<h2 id="motivation-and-scope">Motivation and Scope</h2>
+<p><strong>Motivation:</strong> OpenFF NAGL has built on existing work and trained a graph-convolutional neural network (GNN) that reproduces AM1-BCC ELF10 partial charges for a substantial set of chemistries. Currently, there is not a canonical method by which these GNN-provided charges can be requested in a SMIRNOFF force field. At the moment, a user can generate partial charges from a GNN and pass them to <code>create_interchange</code> or <code>create_openmm_system</code> alongside a SMIRNOFF force field as prespecified charges. To use GNNs in a flagship force field, this approach is not sufficient, and the SMIRNOFF specification must be updated to include enough information that an external developer could get the same charges themselves. </p>
+<p><strong>Who this EP would affect:</strong> The changes described in this proposal affect any consumer of SMIRNOFF force fields that include <code>&lt;NAGLCharges&gt;</code>, which is likely to be the case for <code>openff-2.3.0</code> and beyond. Since it is not a required section, force field developers who choose to use other partial charge methods would not be affected. SMIRNOFF implementations must implement <code>&lt;NAGLCharges&gt;</code>, by definition, to use force fields that include this section. Existing force fields do not use this section, so they are not affected.</p>
+<p><strong>Interaction with other sections:</strong> This proposal does not include changes or interactions with sections that do not modify partial charges, such as <code>&lt;vdW&gt;</code>, <code>&lt;Constraints&gt;</code>, <code>&lt;Bonds&gt;</code>, <code>&lt;Angles&gt;</code>, etc.</p>
+<p><code>NAGLCharges</code> fits into the current charge hierarchy as follows (with methods high in the list taking priority over those lower):</p>
+<ul>
+<li>Pre-specified charges (charge_from_molecules)</li>
+<li>Library charges</li>
+<li>NAGL charges</li>
+<li>ChargeIncrementModel charges</li>
+<li>ToolkitAM1BCC charges</li>
+</ul>
+<p>The initial <code>0.3</code> version of the <code>NAGLCharges</code> section does have special interactions with virtual sites, though future versions of this section may include direct assignment of partial charges to virtual sites. But for the 0.3 version of this section proposed by this EP, the behavior will be that, if the <code>NAGLCharges</code> section is present in a force field with virtual sites, NAGL is used to assign initial charges to the molecule, and then virtual sites apply their charge increments on top of those initial charges. </p>
+<p><strong>Changes needed:</strong> The contents of this proposal derive from the current structure of OpenFF NAGL and the model(s) it implements. If this proposal is accepted, OpenFF NAGL may need minor updates to properly check its GNN implementation against the details encoded in a SMIRNOFF force field, but we expect these changes will be minor because the proposed changes derive directly from this software. The OpenFF Toolkit and Interchange will need minor updates to properly support this section and some edge cases that arise from using this section in combination with other section(s) and tools (such as prespecified charges and virtual site parameters which modify charges). Similar tools which also implement the encoded GNN and/or the SMIRNOFF specification more broadly will need similar updates.</p>
+<h2 id="backward-compatibility">Backward compatibility</h2>
+<p>This proposal adds a new section which does not affect backwards compatibility. While in practice the first version of the NAGLCharges section is very likely to be trained on AM1BCC ELF10 charges, we do not propose that existing force fields with the ToolkitAM1BCC section be assumed to be compatible with/automatically upgrade-able to NAGLCharges sections.</p>
+<h2 id="detailed-description">Detailed description</h2>
+<p>This proposal adds a section named <code>&lt;NAGLCharges</code>&gt;. The proposed initial version of this section (0.3) is as follows, and will be added verbatim to the specification if this EP is approved:</p>
+<h3 id="naglcharges-use-a-specified-nagl-model-file-for-charge-assignment"><code>&lt;NAGLCharges&gt;</code>: Use a specified NAGL model file for charge assignment</h3>
+<p>The <code>NAGLCharges</code> section-level element specifies that the force field should use a specific model file in conjunction with the <code>openff-nagl</code> software to assign partial charges. It contains the following attributes:</p>
+<ul>
+<li><code>version</code></li>
+<li><code>model_file</code></li>
+<li><code>model_file_hash</code> (optional)</li>
+<li><code>digital_object_identifier</code> (optional)</li>
+</ul>
+<p>The attribute <code>model_file</code> is a string identifying a file that includes model weights and other information. This by convention is a PyTorch <code>.pt</code> file, extended to contain additional information about the model that is read by the <code>openff-nagl</code> software. By their nature, GNNs use many more weights than can reasonably be encoded into an XML file, so pointing to an external file is a necessary and unavoidable layer of complexity.</p>
+<p>Because the NAGLCharges section requires loading information from a source outside the SMIRNOFF force field, two optional attributes are provided for ease and reproducibility of use. 
+- The optional attribute <code>model_file_hash</code> is a string that contains a SHA-256 file checksum, which will be checked against the loaded file.  If no <code>model_file_hash</code> is provided, then no hash comparison will be performed. 
+- The optional attribute <code>digital_object_identifier</code> is a string that contains a <a href="https://zenodo.org/">Zenodo</a> <a href="https://www.doi.org/">Digital Object Identifier</a> that can be accessed to fetch the model file. If the file can not be found locally, it may be fetched from this Zenodo entry. The Zenodo entry must have an attached file with a name matching the <code>model_file</code> string to be fetched. This field is not used for validating the model file contents, so if a model publisher wants to ensure that a user's local model file matches that at the DOI, they should use the <code>model_file_hash</code> field.</p>
+<p>Below is an example <code>&lt;NAGLCharges&gt;</code> section:</p>
+<pre><code class="language-xml">&lt;NAGLCharges model_file=&quot;openff-gnn-am1bcc-0.1.0-rc.3.pt&quot; model_file_hash=&quot;144ed56e46c5b3ad80157b342c8c0f8f7340e4d382a678e30dd300c811646bd0&quot; digital_object_identifier=&quot;10.5072/zenodo.203601&quot; version=&quot;0.3&quot;&gt;&lt;/NAGLCharges&gt;
+</code></pre>
+<p>This section only specifies a model file name, not a version of the NAGL software. The NAGL software is responsible for only accepting model files which it can correctly interpret.</p>
+<p>Note that atoms for which prespecified or <code>&lt;LibraryCharges&gt;</code> charges have already been applied are excluded from charging via <code>&lt;NAGLCharges&gt;</code>.</p>
+<h2 id="discussion">Discussion</h2>
+<ul>
+<li><a href="https://github.com/openforcefield/standards/pull/71">Original SMIRNOFF EP</a></li>
+</ul>
+<h2 id="copyright">Copyright</h2>
+<p><em>This template is based upon the <a href="https://github.com/numpy/numpy/blob/master/doc/neps/nep-template.rst"><code>numpy</code> NEP template</a> and the
+<a href="https://github.com/conda-forge/cfep/blob/master/cfep-00.md"><code>conda-forge</code> CFEP template.</a></em></p>
+<p><em>All OFF-EPs are explicitly <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal</a>.</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>
